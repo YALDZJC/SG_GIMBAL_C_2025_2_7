@@ -2,6 +2,12 @@
 
 #include "../BSP/BSP_Motor.hpp"
 
+// 数量
+#define _Motor2006_SIZE 1
+#define _Motor3508_SIZE 4
+#define _Motor6020_SIZE 4
+#define _PowerMeter_SIZE 1
+
 class Dji_Motor_Data
 {
 public:

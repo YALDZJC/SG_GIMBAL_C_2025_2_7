@@ -1,4 +1,5 @@
 #include "../BSP/stdxxx.hpp"
+#include "../BSP/StaticTime.hpp"
 
 #include "usart.h"
 
@@ -10,13 +11,16 @@ namespace IMU
     class HI12
     {
     public:
-        void ParseData();
+        bool ParseData();
         void Parse(UART_HandleTypeDef *huart, int Size);
         void Init();
+        bool ISDir();
 
     private:
         uint8_t buffer[HI12MAXLEN] = {0}; // 初始化
+        RM_StaticTime dirTime;            // 运行时间
 
+        void ClearORE(UART_HandleTypeDef *huart, uint8_t *pData, int Size);
 
         struct __attribute__((packed)) Frame_format // 底盘模式
         {

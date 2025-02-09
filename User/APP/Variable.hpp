@@ -25,11 +25,7 @@
 
 #define Get_InitID_3508(x) (x + 0x201)
 #define Get_InitID_6020(x) (x + 0x205)
-//数量
-#define _Motor2006_SIZE 1
-#define _Motor3508_SIZE 4
-#define _Motor6020_SIZE 4
-#define _PowerMeter_SIZE 1
+
 
 // ID号
 #define L_Forward_6020_ID   0x205
