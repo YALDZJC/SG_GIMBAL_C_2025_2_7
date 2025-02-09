@@ -117,8 +117,6 @@ extern FeedTar feed_6020_4;
 
 extern RM_Clicker dr16;
 
-
-extern Tools_t Tools;
 extern Chassis_Data_t Chassis_Data;
 
 

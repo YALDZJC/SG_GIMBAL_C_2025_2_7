@@ -737,6 +737,11 @@
               <FileType>8</FileType>
               <FilePath>..\User\BSP\Init.cpp</FilePath>
             </File>
+            <File>
+              <FileName>HI12H3_IMU.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>..\User\BSP\HI12H3_IMU.cpp</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>

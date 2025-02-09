@@ -77,8 +77,7 @@ FeedTar feed_6020_4(50, 5);
 
 
 
-// 创建工具实例
-Tools_t Tools;
+
 
 // 创建底盘变量实例
 Chassis_Data_t Chassis_Data;

@@ -1,6 +1,7 @@
 #include "../Task/CallBack.hpp"
 #include "../HAL/My_HAL.hpp"
 #include "../APP/Variable.hpp"
+#include "../BSP/HI12H3_IMU.hpp"
 
 //can_filo0中断接收
 CAN_RxHeaderTypeDef RxHeader;	//can接收数据
@@ -20,7 +21,11 @@ void HAL_CAN_RxFifo0MsgPendingCallback(CAN_HandleTypeDef *hcan)
 	}
 }
 
+uint8_t pData1[82];
 void HAL_UARTEx_RxEventCallback(UART_HandleTypeDef *huart, uint16_t Size)
 {
 	dr16.Parse(huart, Size);
+	IMU::imu.Parse(huart, Size);
 }
+
+

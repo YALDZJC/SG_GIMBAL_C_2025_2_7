@@ -21,3 +21,5 @@ public:
     double GetMachinePower(double T, double Vel);
     float clamp(float value, float maxValue);
 };
+// 创建工具实例
+extern Tools_t Tools;
