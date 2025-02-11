@@ -2,9 +2,11 @@
 #include "tim.h"
 #include "cmsis_os2.h"
 
-void LED::Update(void)
+bool LED::Update(void)
 {
     Normal_State();
+	
+	return 0;
 }
 
 void LED::ColorChange(uint16_t index)

@@ -338,7 +338,7 @@
         <Ww>
           <count>36</count>
           <WinNumber>1</WinNumber>
-          <ItemText>imu,0x10</ItemText>
+          <ItemText>imu,0x0A</ItemText>
         </Ww>
         <Ww>
           <count>37</count>
@@ -354,6 +354,16 @@
           <count>39</count>
           <WinNumber>1</WinNumber>
           <ItemText>abuffer</ItemText>
+        </Ww>
+        <Ww>
+          <count>40</count>
+          <WinNumber>1</WinNumber>
+          <ItemText>Dir_Event</ItemText>
+        </Ww>
+        <Ww>
+          <count>41</count>
+          <WinNumber>1</WinNumber>
+          <ItemText>Dir_Event</ItemText>
         </Ww>
       </WatchWindow1>
       <WatchWindow2>

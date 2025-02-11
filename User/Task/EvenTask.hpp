@@ -12,7 +12,7 @@ struct Dir_Data_t
     bool MeterPower;
     bool String[4];
     bool Wheel[4];
-
+    bool Imu;
     bool InitFlag;
 };
 
@@ -44,7 +44,7 @@ public:
     }
 
     // 每个观察者的更新方法
-    virtual void Update() = 0;
+    virtual bool Update() = 0;
     virtual ~IObserver() = default;
 };
 
@@ -88,9 +88,10 @@ public:
 
 private:
     bool Dir_String();
-    bool Dir_Wheel();
+    bool Dir_Gimbal();
     bool Dir_Remote();
     bool Init_Flag();
+    bool Dir_IMU();
 
 public:
     void UpEvent();

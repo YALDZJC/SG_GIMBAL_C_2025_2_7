@@ -2,6 +2,19 @@
 #include "cmsis_os2.h"
 #include "../Task/CommunicationTask.hpp"
 
+void GimbalTask(void *argument)
+{
+    osDelay(500);
+
+    taskManager.addTask<Gimbal_Task>();
+
+    for (;;)
+    {
+        taskManager.updateAll();
+        osDelay(1);
+    }
+}
+
 //=== 状态处理器实现 ===//
 class Gimbal_Task::UniversalHandler : public StateHandler
 {
@@ -21,7 +34,6 @@ class Gimbal_Task::FollowHandler : public StateHandler
 public:
 	Gimbal_Task &m_task;
 
-	/* 类似UniversalHandler的实现 */
 	explicit FollowHandler(Gimbal_Task &task) : m_task(task) {}
 
 	void handle() override
@@ -39,7 +51,7 @@ public:
 
 	void handle() override
 	{
-		// 可访问m_task的私有成员进行底盘操作
+		
 	}
 };
 
@@ -109,15 +121,3 @@ void Gimbal_Task::updateState()
 	}
 }
 
-void GimbalTask(void *argument)
-{
-	osDelay(500);
-	
-	taskManager.addTask<Gimbal_Task>();
-
-	for (;;)
-	{
-		taskManager.updateAll();
-		osDelay(1);
-	}
-}

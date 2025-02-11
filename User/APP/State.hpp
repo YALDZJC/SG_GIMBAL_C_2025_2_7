@@ -1,6 +1,7 @@
 #pragma once
 #include <vector>
 #include <memory>
+
 /**
  * @brief 状态处理器抽象基类
  * @detail 定义状态处理接口，所有具体状态需实现该接口

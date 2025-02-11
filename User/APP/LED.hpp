@@ -21,7 +21,7 @@ public:
     {
     }
 
-    void Update();
+    bool Update();
 
     void ColorChange(uint16_t inxex);
     void Normal_State();

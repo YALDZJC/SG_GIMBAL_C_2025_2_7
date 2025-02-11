@@ -26,10 +26,8 @@ void Buzzer::buzzer_off(void)
     __HAL_TIM_SetCompare(&htim4, TIM_CHANNEL_3, 0);
 }
 
-void Buzzer::Update()
+bool Buzzer::Update()
 {
-    buzzer_time++;
-
     Dir *dir = static_cast<Dir *>(sub);
 
     dir_t[0] = dir->GetDir_Remote();
@@ -44,8 +42,25 @@ void Buzzer::Update()
         buzzerInit = true;
     }
 
-    buzzer_off();
+    uint8_t String = dir->GetDir_String();
+    uint8_t Wheel = dir->GetDir_Wheel();
+
+    if (String)
+    {
+        Buzzer::B(String);
+        osDelay(1000);
+        return false;
+    }
+    if (Wheel)
+    {
+        Buzzer::B(Wheel);
+        osDelay(1000);
+        return false;
+    }
+    // buzzer_off();
     osDelay(10);
+
+    return true;
 }
 
 void Buzzer::STOP()

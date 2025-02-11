@@ -24,7 +24,7 @@
 #define Follow (L_MODE2 && R_MODE1) || (L_MODE2 && R_MODE3)								 // （2）底盘跟随
 #define Rotating (L_MODE3 && R_MODE1) || (L_MODE3 && R_MODE2)							 // （3）小陀螺
 #define KeyBoard (L_MODE2 && R_MODE2)													 // （4键鼠模式）
-#define Stop (L_MODE3 && R_MODE3)							 // （5停止模式）
+#define Stop (L_MODE3 && R_MODE3)														 // （5停止模式）
 
 // 期望值切换
 #define TAR_LX RC_LX
@@ -51,11 +51,12 @@ namespace Communicat
 {
 	class Gimbal_to_Chassis
 	{
+
 	public:
 		void Data_send();
 
 	private:
-		uint8_t head = 0xA5;//帧头
+		uint8_t head = 0xA5; // 帧头
 
 		struct __attribute__((packed)) Direction // 方向结构体
 		{
@@ -80,12 +81,12 @@ namespace Communicat
 			uint8_t CM : 1;
 			uint8_t BP : 1;
 		};
-		
+
 		Direction direction;
 		ChassisMode chassis_mode;
 		UiList ui_list;
 	};
-	
+
 	inline uint8_t getSendRc(uint16_t RcData)
 	{
 		return (RcData / 6) - 110;
