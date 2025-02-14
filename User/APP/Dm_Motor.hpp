@@ -64,21 +64,21 @@ public:
 
     DM_Motor(int16_t address, uint8_t MotorSize, DM_Motor_Data *MotorAddress, uint8_t *idxs, uint8_t *Send_ID);
     // 数据解析
-    void Parse(RM_FDorCAN_RxHeaderTypeDef RxHeader, uint8_t RxHeaderData[]);
+    void Parse(CAN_RxHeaderTypeDef RxHeader, uint8_t RxHeaderData[]);
 
     uint8_t ISDir();
 
     // 设置电机数据，力矩控制
     // MIT模式
-    void ctrl_Motor(RM_FDorCAN_HandleTypeDef *hcan, float _vel, float _pos, float _KP, float _KD, float _torq);
+    void ctrl_Motor(CAN_HandleTypeDef *hcan, float _vel, float _pos, float _KP, float _KD, float _torq);
     // 位置速度模式
-    void ctrl_Motor(RM_FDorCAN_HandleTypeDef *hcan, float _vel, float _pos);
+    void ctrl_Motor(CAN_HandleTypeDef *hcan, float _vel, float _pos);
     // 速度模式
-    void ctrl_Motor(RM_FDorCAN_HandleTypeDef *hcan, float _vel);                                                
+    void ctrl_Motor(CAN_HandleTypeDef *hcan, float _vel);                                                
 
-    void ON(RM_FDorCAN_HandleTypeDef *hcan);
-    void OFF(RM_FDorCAN_HandleTypeDef *hcan);
-    void clear_err(RM_FDorCAN_HandleTypeDef *hcan);
+    void ON(CAN_HandleTypeDef *hcan);
+    void OFF(CAN_HandleTypeDef *hcan);
+    void clear_err(CAN_HandleTypeDef *hcan);
 
     float GetEquipData(int16_t address, DM_Data DataType)
     {
@@ -93,19 +93,19 @@ public:
 
 void setMSD(Motor_send_data_t *msd, int16_t data, int id);
 
-inline void DM_Motor::ON(RM_FDorCAN_HandleTypeDef *hcan)
+inline void DM_Motor::ON(CAN_HandleTypeDef *hcan)
 {
     *(uint64_t *)(&this->send_data[0]) = 0xFCFFFFFFFFFFFFFF;
     RM_FDorCAN_Send(hcan, this->motorData[this->Date_IDX].Send_ID, this->send_data, CAN_TX_MAILBOX1); // 发送
 }
 
-inline void DM_Motor::OFF(RM_FDorCAN_HandleTypeDef *hcan)
+inline void DM_Motor::OFF(CAN_HandleTypeDef *hcan)
 {
     *(uint64_t *)(&this->send_data[0]) = 0xFDFFFFFFFFFFFFFF;
     RM_FDorCAN_Send(hcan, this->motorData[this->Date_IDX].Send_ID, this->send_data, CAN_TX_MAILBOX1); // 发送
 }
 
-inline void DM_Motor::clear_err(RM_FDorCAN_HandleTypeDef *hcan)
+inline void DM_Motor::clear_err(CAN_HandleTypeDef *hcan)
 {
     *(uint64_t *)(&this->send_data[0]) = 0xFBFFFFFFFFFFFFFF;
     RM_FDorCAN_Send(hcan, this->motorData[this->Date_IDX].Send_ID, this->send_data, CAN_TX_MAILBOX1); // 发送

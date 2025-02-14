@@ -4,6 +4,7 @@
 #include "../APP/LED.hpp"
 #include "../BSP/Init.hpp"
 #include "../BSP/HI12H3_IMU.hpp"
+#include "../BSP/Dbus.hpp"
 
 #include "cmsis_os2.h"
 #include "tim.h"
@@ -19,14 +20,14 @@ void EventTask(void *argument)
 
     for (;;)
     {
-
-        Dir_Event.UpEvent();
+//        Dir_Event.UpEvent();
         osDelay(1);
     }
 }
+
 bool Dir::Dir_Remote()
 {
-    bool Dir = dr16.ISDir();
+    bool Dir = Remote::dr16.ISDir();
 
     DirData.Dr16 = Dir;
 

@@ -42,7 +42,7 @@ Dji_Motor::Dji_Motor(int16_t address, uint8_t MotorSize, Dji_Motor_Data *MotorAd
  * @param RxHeader
  * @param RxHeaderData
  */
-void Dji_Motor::Parse(RM_FDorCAN_RxHeaderTypeDef RxHeader, uint8_t RxHeaderData[])
+void Dji_Motor::Parse(CAN_RxHeaderTypeDef RxHeader, uint8_t RxHeaderData[])
 {
 	if (!(FDorCAN_ID(RxHeader) >= this->init_address && FDorCAN_ID(RxHeader) <= this->init_address + 10) || this->MotorSize == 0)
 		return;

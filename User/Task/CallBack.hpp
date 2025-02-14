@@ -2,8 +2,6 @@
 #include "can.h"
 #include "usart.h"
 
-extern uint8_t pData1[82];
-
 
 #ifdef __cplusplus
 extern "C" {

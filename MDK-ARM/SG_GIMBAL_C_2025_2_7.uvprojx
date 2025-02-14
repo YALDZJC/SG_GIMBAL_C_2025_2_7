@@ -742,6 +742,11 @@
               <FileType>8</FileType>
               <FilePath>..\User\BSP\HI12H3_IMU.cpp</FilePath>
             </File>
+            <File>
+              <FileName>Dbus.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>..\User\BSP\Dbus.cpp</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
@@ -788,6 +793,11 @@
               <FilePath>..\User\Task\CallBack.cpp</FilePath>
             </File>
             <File>
+              <FileName>GimbalTask.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>..\User\Task\GimbalTask.cpp</FilePath>
+            </File>
+            <File>
               <FileName>CommunicationTask.cpp</FileName>
               <FileType>8</FileType>
               <FilePath>..\User\Task\CommunicationTask.cpp</FilePath>
@@ -801,11 +811,6 @@
               <FileName>ShootTask.cpp</FileName>
               <FileType>8</FileType>
               <FilePath>..\User\Task\ShootTask.cpp</FilePath>
-            </File>
-            <File>
-              <FileName>GimbalTask.cpp</FileName>
-              <FileType>8</FileType>
-              <FilePath>..\User\Task\GimbalTask.cpp</FilePath>
             </File>
           </Files>
         </Group>

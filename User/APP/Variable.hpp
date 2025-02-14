@@ -1,7 +1,6 @@
 #pragma once
 
 #include "../APP/Dji_Motor.hpp"
-#include "../BSP/dr16.hpp"
 #include "../Algorithm/PID.hpp"
 #include "../APP/Dm_Motor.hpp"
 #include "../APP/Tools.hpp"
@@ -111,7 +110,6 @@ extern FeedTar feed_6020_2;
 extern FeedTar feed_6020_3;
 extern FeedTar feed_6020_4;
 
-extern RM_Clicker dr16;
 
 extern Chassis_Data_t Chassis_Data;
 

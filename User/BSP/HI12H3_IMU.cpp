@@ -10,8 +10,6 @@ void HI12::Init()
     HAL_UARTEx_ReceiveToIdle_DMA(&IMUHuart, buffer, sizeof(buffer));
 }
 
-
-
 bool HI12::ParseData()
 {
     if (buffer[0] != 0x5A || buffer[1] != 0xA5) // 帧头错误
@@ -43,7 +41,7 @@ void HI12::Parse(UART_HandleTypeDef *huart, int Size)
 {
     if (huart == &IMUHuart && Size == sizeof(buffer))
     {
-        ParseData(); 
+        ParseData();
         dirTime.UpLastTime();
     }
 }

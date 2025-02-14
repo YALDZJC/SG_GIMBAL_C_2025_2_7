@@ -35,7 +35,7 @@ DM_Motor::DM_Motor(int16_t address, uint8_t MotorSize, DM_Motor_Data *MotorAddre
 }
 
 // 初始数据解算
-void DM_Motor::Parse(RM_FDorCAN_RxHeaderTypeDef RxHeader, uint8_t RxHeaderData[])
+void DM_Motor::Parse(CAN_RxHeaderTypeDef RxHeader, uint8_t RxHeaderData[])
 {
     if (!(FDorCAN_ID(RxHeader) >= this->init_address && FDorCAN_ID(RxHeader) <= this->init_address + 10) || this->MotorSize == 0)
         return;
@@ -100,7 +100,7 @@ void DM_Motor::Parse(RM_FDorCAN_RxHeaderTypeDef RxHeader, uint8_t RxHeaderData[]
  * @param _KD
  * @param _torq
  */
-void DM_Motor::ctrl_Motor(RM_FDorCAN_HandleTypeDef *hcan, float _pos, float _vel, float _KP, float _KD, float _torq)
+void DM_Motor::ctrl_Motor(CAN_HandleTypeDef *hcan, float _pos, float _vel, float _KP, float _KD, float _torq)
 {
     uint16_t pos_tmp, vel_tmp, kp_tmp, kd_tmp, tor_tmp;
     pos_tmp = float_to_uint(_pos, P_MIN, P_MAX, 16);
@@ -121,7 +121,7 @@ void DM_Motor::ctrl_Motor(RM_FDorCAN_HandleTypeDef *hcan, float _pos, float _vel
     RM_FDorCAN_Send(hcan, this->motorData[this->Date_IDX].Send_ID, this->send_data, CAN_TX_MAILBOX1); // 发送
 }
 
-void DM_Motor::ctrl_Motor(RM_FDorCAN_HandleTypeDef *hcan, float _vel, float _pos)
+void DM_Motor::ctrl_Motor(CAN_HandleTypeDef *hcan, float _vel, float _pos)
 {
     uint8_t *pbuf, *vbuf;
     pbuf = (uint8_t *)&_pos;
@@ -137,7 +137,7 @@ void DM_Motor::ctrl_Motor(RM_FDorCAN_HandleTypeDef *hcan, float _vel, float _pos
 
     RM_FDorCAN_Send(hcan, this->motorData[this->Date_IDX].Send_ID, this->send_data, CAN_TX_MAILBOX1); // 发送
 }
-void DM_Motor::ctrl_Motor(RM_FDorCAN_HandleTypeDef *hcan, float _vel)
+void DM_Motor::ctrl_Motor(CAN_HandleTypeDef *hcan, float _vel)
 {
     uint8_t *vbuf;
     vbuf = (uint8_t *)&_vel;

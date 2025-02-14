@@ -1,12 +1,11 @@
 #include "../Task/CommunicationTask.hpp"
-#include "../BSP/dr16.hpp"
+#include "../APP/Mode.hpp"
+#include "../BSP/Dbus.hpp"
 
 #include "usart.h"
-// // #include "../APP/Variable.hpp"
-// #include "../APP/State.hpp"
-
 #include "cmsis_os2.h"
 #include "tim.h"
+
 
 #define SIZE 8
 uint8_t format[12];
@@ -33,17 +32,23 @@ namespace Communicat
 
 void Gimbal_to_Chassis::Data_send()
 {
-    auto channel_to_uint8 = [](uint16_t value) { return (static_cast<uint8_t>(value / 6) + 110); };
+    using namespace Remote;
+
+    auto switch_right = Remote::dr16.switchRight();
+    auto switch_left = Remote::dr16.switchLeft();
+
+    auto channel_to_uint8 = [](uint16_t value) { return (static_cast<uint8_t>(value * 110) + 110); };
 
     // 初始化结构体数据
-    direction.LX = channel_to_uint8(RC_LX);
-    direction.LY = channel_to_uint8(RC_LY);
-    direction.Rotating_vel = channel_to_uint8(RC_RX);
+    direction.LX = channel_to_uint8(Remote::dr16.remoteLeft().x);
+    direction.LY = channel_to_uint8(Remote::dr16.remoteLeft().y);
+    direction.Rotating_vel = channel_to_uint8(Remote::dr16.remoteLeft().x);
 
-    chassis_mode.Universal_mode = Universal;
-    chassis_mode.Follow_mode = Follow;
-    chassis_mode.Rotating_mode = Rotating;
-    chassis_mode.stop = Stop;
+    chassis_mode.Universal_mode = Mode::Chassis::Universal(switch_left, switch_right);
+    chassis_mode.Follow_mode = Mode::Chassis::Follow(switch_left, switch_right);
+    chassis_mode.Rotating_mode = Mode::Chassis::Rotating(switch_left, switch_right);
+    chassis_mode.KeyBoard_mode = Mode::Chassis::KeyBoard(switch_left, switch_right);
+    chassis_mode.stop = Mode::Chassis::Stop(switch_left, switch_right);
 
     ui_list.BP = Flag;
     ui_list.CM = Flag;
@@ -53,7 +58,7 @@ void Gimbal_to_Chassis::Data_send()
     const uint8_t len = sizeof(direction) + sizeof(chassis_mode) + sizeof(ui_list) + 1; //+1帧头
 
     // 动态分配内存
-    auto buffer = std::make_unique<uint8_t[]>(len); // 自动内存管理[[5,9]]
+    auto buffer = std::make_unique<uint8_t[]>(len); // 自动内存管理
 
     // 使用临时指针将数据拷贝到缓冲区
     auto temp_ptr = buffer.get();
@@ -69,15 +74,6 @@ void Gimbal_to_Chassis::Data_send()
     memcpy_safe(direction);    // 序列化方向数据
     memcpy_safe(chassis_mode); // 序列化模式数据
     memcpy_safe(ui_list);      // 序列化UI状态
-
-    // std::memcpy(temp_ptr, &direction, sizeof(direction));
-    // temp_ptr += sizeof(direction); // 更新临时指针位置
-
-    // std::memcpy(temp_ptr, &chassis_mode, sizeof(chassis_mode));
-    // temp_ptr += sizeof(chassis_mode); // 更新临时指针位置
-
-    // std::memcpy(temp_ptr, &ui_list, sizeof(ui_list));
-    // temp_ptr += sizeof(ui_list); // 更新临时指针位置
 
     // 发送数据
     HAL_UART_Transmit_DMA(&huart1, buffer.get(), len);

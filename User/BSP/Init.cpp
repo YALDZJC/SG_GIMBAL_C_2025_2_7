@@ -1,15 +1,17 @@
 #include "../Task/CallBack.hpp"
 #include "../BSP/Init.hpp"
 #include "../HAL/My_HAL.hpp"
-#include "../BSP/dr16.hpp"
 #include "../BSP/HI12H3_IMU.hpp"
+#include "../BSP/Dbus.hpp"
 
 #include "tim.h"
 
 bool InitFlag = false;
 void Init()
 {
-     dr16.Init();
+     // 初始化
+     Remote::dr16.Init();
+
      Can_Init();
      IMU::imu.Init();
      
@@ -24,7 +26,5 @@ void Init()
      HAL_TIM_PWM_Start(&htim5, TIM_CHANNEL_2);
      HAL_TIM_PWM_Start(&htim5, TIM_CHANNEL_3);
 	
-		HAL_UARTEx_ReceiveToIdle_IT(&huart1, pData1, sizeof(pData1));
-
 		InitFlag = true;
 }

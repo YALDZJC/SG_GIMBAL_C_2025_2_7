@@ -29,12 +29,12 @@
 
 /*ʵ��fdcan��can�޷��л�*/
 #if (RM_IS_HAL_FDorCAN == RM_IS_HAL_CAN)
-#define RM_FDorCAN_HandleTypeDef CAN_HandleTypeDef
-#define RM_FDorCAN_RxHeaderTypeDef CAN_RxHeaderTypeDef
-#define RM_FDorCAN_TxHeaderTypeDef CAN_TxHeaderTypeDef
+// #define RM_FDorCAN_HandleTypeDef CAN_HandleTypeDef
+// #define RM_FDorCAN_RxHeaderTypeDef CAN_RxHeaderTypeDef
+// #define RM_FDorCAN_TxHeaderTypeDef CAN_TxHeaderTypeDef
 #define FDorCAN_ID(x) (x.StdId)
-#define RM_FDorCAN_Filter_Init RM_CAN_Filter_Init()
-#define RM_FDorCAN_Init(x) RM_Can_Init()
+// #define RM_FDorCAN_Filter_Init RM_CAN_Filter_Init()
+// #define RM_FDorCAN_Init(x) RM_Can_Init()
 #define RM_FDorCAN_Send(x, ID, s_data, pTxMailbox) Can_Send(x, ID, s_data, pTxMailbox)
 #elif (RM_IS_HAL_FDorCAN == RM_IS_HAL_FDCAN)
 #define RM_FDorCAN_HandleTypeDef FDCAN_HandleTypeDef
