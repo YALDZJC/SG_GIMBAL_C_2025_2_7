@@ -42,6 +42,7 @@ public:
     bool is_stop;
     Buzzer(ISubject *sub) : IObserver(sub)
     {
+        
     }
 
     bool Update();

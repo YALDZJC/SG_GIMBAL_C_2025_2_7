@@ -22,7 +22,9 @@ namespace IMU
 
         void ClearORE(UART_HandleTypeDef *huart, uint8_t *pData, int Size);
 
-        struct __attribute__((packed)) Frame_format // 底盘模式
+        void SlidingWindowRecovery();
+
+        struct __attribute__((packed)) Frame_format
         {
             uint8_t header_1; // 帧头
             uint8_t header_2; // 双帧头

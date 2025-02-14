@@ -30,11 +30,6 @@ bool Buzzer::Update()
 {
     Dir *dir = static_cast<Dir *>(sub);
 
-    dir_t[0] = dir->GetDir_Remote();
-    dir_t[1] = dir->GetDir_MeterPower();
-    dir_t[2] = dir->GetDir_String();
-    dir_t[3] = dir->GetDir_Wheel();
-
     if (dir->Ger_Init_Flag() && buzzerInit == false)
     {
         SYSTEM_START();
