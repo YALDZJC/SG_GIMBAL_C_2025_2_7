@@ -6,6 +6,8 @@
 #include "../BSP/HI12H3_IMU.hpp"
 #include "../BSP/Dbus.hpp"
 
+#include "../BSP/DjiMotor.hpp"
+
 #include "cmsis_os2.h"
 #include "tim.h"
 // using namespace Event;
@@ -36,11 +38,11 @@ bool Dir::Dir_Remote()
 
 bool Dir::Dir_String()
 {
-    bool Dir = Motor6020.ISDir();
+    bool Dir = CAN::Motor::Dji::Motor6020.ISDir();
 
     for (int i = 0; i < 4; i++)
     {
-        DirData.String[i] = Motor6020.GetDir(Get_InitID_6020(i));
+        DirData.String[i] = CAN::Motor::Dji::Motor6020.GetDir(i);
     }
 
     return Dir;
@@ -48,11 +50,11 @@ bool Dir::Dir_String()
 
 bool Dir::Dir_Gimbal()
 {
-    bool Dir = Motor3508.ISDir();
+    bool Dir = CAN::Motor::Dji::Motor3508.ISDir();
 
     for (int i = 0; i < 4; i++)
     {
-        DirData.Wheel[i] = Motor3508.GetDir(Get_InitID_3508(i));
+        DirData.Wheel[i] = CAN::Motor::Dji::Motor3508.GetDir(i);
     }
 
     return Dir;
@@ -66,7 +68,7 @@ bool Dir::Init_Flag()
 
 bool Dir::Dir_IMU()
 {
-    bool Dir = IMU::imu.ISDir();
+    bool Dir = BSP::IMU::imu.ISDir();
 
     DirData.Imu = Dir;
 

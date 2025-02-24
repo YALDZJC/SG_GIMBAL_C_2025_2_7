@@ -2,9 +2,7 @@
 #include "../HAL/My_HAL.hpp"
 uint32_t Send_ms;
 
-// 存储发送的数据
-Motor_send_data_t msd_6020;
-Motor_send_data_t msd_3508_2006;
+
 
 // PID角度环设置
 Kpid_t Kpid_6020_angle(0.4, 0, 0);

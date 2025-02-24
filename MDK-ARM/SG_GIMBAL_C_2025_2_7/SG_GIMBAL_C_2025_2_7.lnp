@@ -43,7 +43,6 @@
 "sg_gimbal_c_2025_2_7\my_hal.o"
 "sg_gimbal_c_2025_2_7\bsp_can.o"
 "sg_gimbal_c_2025_2_7\bsp_motor.o"
-"sg_gimbal_c_2025_2_7\dr16.o"
 "sg_gimbal_c_2025_2_7\init.o"
 "sg_gimbal_c_2025_2_7\hi12h3_imu.o"
 "sg_gimbal_c_2025_2_7\dbus.o"

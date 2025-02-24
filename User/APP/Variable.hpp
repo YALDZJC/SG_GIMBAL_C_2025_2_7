@@ -61,14 +61,6 @@ typedef struct
 
 extern uint32_t Send_ms;
 
-extern Motor_send_data_t msd_6020;
-extern Motor_send_data_t msd_3508_2006;
-
-extern Dji_Motor Motor2006;
-extern Dji_Motor Motor3508;
-extern Dji_Motor Motor6020;
-extern DM_Motor  Motor4310;
-
 // PID角度环设置
 extern Kpid_t Kpid_6020_angle;
 extern PID pid_angle_String[4];

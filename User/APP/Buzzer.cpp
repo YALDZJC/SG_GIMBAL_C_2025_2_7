@@ -1,7 +1,6 @@
 
 #include "../App/Buzzer.hpp"
 #include "cmsis_os2.h"
-#include "../HAL/HAL.hpp"
 #include "tim.h"
 
 /**

@@ -728,11 +728,6 @@
               <FilePath>..\User\BSP\BSP_Motor.cpp</FilePath>
             </File>
             <File>
-              <FileName>dr16.cpp</FileName>
-              <FileType>8</FileType>
-              <FilePath>..\User\BSP\dr16.cpp</FilePath>
-            </File>
-            <File>
               <FileName>Init.cpp</FileName>
               <FileType>8</FileType>
               <FilePath>..\User\BSP\Init.cpp</FilePath>
