@@ -4,7 +4,6 @@
 
 namespace BSP
 {
-
 namespace IMU
 {
 HI12 imu;

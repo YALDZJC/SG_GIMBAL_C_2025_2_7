@@ -1,7 +1,7 @@
 #include "../Task/GimbalTask.hpp"
+#include "../APP/Mode.hpp"
 #include "../BSP/Dbus.hpp"
 #include "../Task/CommunicationTask.hpp"
-#include "../APP/Mode.hpp"
 
 #include "cmsis_os2.h"
 
@@ -33,7 +33,7 @@ class Gimbal_Task::NormalHandler : public StateHandler
     void handle() override
     {
         // 可访问m_task的私有成员进行底盘操作
-			state_num = 1;
+        state_num = 1;
     }
 };
 
@@ -49,8 +49,7 @@ class Gimbal_Task::LaunchHandler : public StateHandler
     void handle() override
     {
         // 可访问m_task的私有成员进行底盘操作
-						state_num = 2;
-
+        state_num = 2;
     }
 };
 
@@ -65,8 +64,7 @@ class Gimbal_Task::KeyBoardHandler : public StateHandler
 
     void handle() override
     {
-						state_num = 3;
-
+        state_num = 3;
     }
 };
 
@@ -82,8 +80,7 @@ class Gimbal_Task::StopHandler : public StateHandler
     void handle() override
     {
         // 执行急停相关操作
-						state_num = 4;
-
+        state_num = 4;
     }
 };
 
@@ -109,23 +106,23 @@ void Gimbal_Task::updateState()
     auto switch_right = Remote::dr16.switchRight();
     auto switch_left = Remote::dr16.switchLeft();
 
-    if (Mode::Gimbal::Normal(switch_left, switch_right))
+    if (Mode::Gimbal::Normal())
     {
         m_currentState = State::NormalState;
     }
-    if (Mode::Gimbal::Launch(switch_left, switch_right))
+    if (Mode::Gimbal::Launch())
     {
         m_currentState = State::LaunchState;
     }
-    if (Mode::Gimbal::KeyBoard(switch_left, switch_right))
+    if (Mode::Gimbal::KeyBoard())
     {
         m_currentState = State::KeyBoardState;
     }
-    if(Mode::Gimbal::Stop(switch_left, switch_right))
+    if (Mode::Gimbal::Stop())
     {
         m_currentState = State::StopState;
     }
-	
+
     // 更新状态处理器
     switch (m_currentState)
     {

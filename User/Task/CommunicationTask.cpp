@@ -2,10 +2,9 @@
 #include "../APP/Mode.hpp"
 #include "../BSP/Dbus.hpp"
 
-#include "usart.h"
 #include "cmsis_os2.h"
 #include "tim.h"
-
+#include "usart.h"
 
 #define SIZE 8
 uint8_t format[12];
@@ -34,9 +33,6 @@ void Gimbal_to_Chassis::Data_send()
 {
     using namespace Remote;
 
-    auto switch_right = Remote::dr16.switchRight();
-    auto switch_left = Remote::dr16.switchLeft();
-
     auto channel_to_uint8 = [](uint16_t value) { return (static_cast<uint8_t>(value * 110) + 110); };
 
     // 初始化结构体数据
@@ -44,11 +40,11 @@ void Gimbal_to_Chassis::Data_send()
     direction.LY = channel_to_uint8(Remote::dr16.remoteLeft().y);
     direction.Rotating_vel = channel_to_uint8(Remote::dr16.remoteLeft().x);
 
-    chassis_mode.Universal_mode = Mode::Chassis::Universal(switch_left, switch_right);
-    chassis_mode.Follow_mode = Mode::Chassis::Follow(switch_left, switch_right);
-    chassis_mode.Rotating_mode = Mode::Chassis::Rotating(switch_left, switch_right);
-    chassis_mode.KeyBoard_mode = Mode::Chassis::KeyBoard(switch_left, switch_right);
-    chassis_mode.stop = Mode::Chassis::Stop(switch_left, switch_right);
+    chassis_mode.Universal_mode = Mode::Chassis::Universal();
+    chassis_mode.Follow_mode = Mode::Chassis::Follow();
+    chassis_mode.Rotating_mode = Mode::Chassis::Rotating();
+    chassis_mode.KeyBoard_mode = Mode::Chassis::KeyBoard();
+    chassis_mode.stop = Mode::Chassis::Stop();
 
     ui_list.BP = Flag;
     ui_list.CM = Flag;
