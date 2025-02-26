@@ -30,7 +30,7 @@ namespace Communicat
 
 void Gimbal_to_Chassis::Data_send()
 {
-    using namespace Remote;
+    using namespace BSP;
 
     auto channel_to_uint8 = [](uint16_t value) { return (static_cast<uint8_t>(value * 110) + 110); };
 

@@ -4,7 +4,7 @@
 #include "../BSP/IMU/HI12H3_IMU.hpp"
 #include "../BSP/Remote/Dbus.hpp"
 #include "../BSP/Motor/DM/DmMotor.hpp"
-
+#include "../BSP/Motor/Dji/DjiMotor.hpp"
 //can_filo0中断接收
 CAN_RxHeaderTypeDef RxHeader;	//can接收数据
 uint8_t RxHeaderData[8] = { 0 };
@@ -17,7 +17,8 @@ void HAL_CAN_RxFifo0MsgPendingCallback(CAN_HandleTypeDef *hcan)
 	{
 		// Motor3508.Parse(RxHeader,RxHeaderData);
 		// Motor6020.Parse(RxHeader,RxHeaderData);		
-		BSP::Motor::DM::Motor4310.Parse(RxHeader,RxHeaderData);
+		// BSP::Motor::DM::Motor4310.Parse(RxHeader,RxHeaderData);
+		BSP::Motor::Dji::Motor6020.Parse(RxHeader,RxHeaderData);
 	}
 	if(hcan == &hcan2)
 	{
@@ -27,7 +28,7 @@ void HAL_CAN_RxFifo0MsgPendingCallback(CAN_HandleTypeDef *hcan)
 
 void HAL_UARTEx_RxEventCallback(UART_HandleTypeDef *huart, uint16_t Size)
 {
-	Remote::dr16.Parse(huart, Size);
+	BSP::Remote::dr16.Parse(huart, Size);
 	BSP::IMU::imu.Parse(huart, Size);
 }
 

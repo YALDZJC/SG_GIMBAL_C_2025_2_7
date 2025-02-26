@@ -2,7 +2,7 @@
 #include "../Task/EvenTask.hpp"
 namespace Mode
 {
-using namespace Remote;
+using namespace BSP::Remote;
 
 namespace Gimbal
 {

@@ -1,9 +1,10 @@
 #include "../Task/GimbalTask.hpp"
 #include "../APP/Mode.hpp"
+#include "../Algorithm/PID.hpp"
+#include "../BSP/IMU/HI12H3_IMU.hpp"
+#include "../BSP/Motor/DM/DmMotor.hpp"
 #include "../BSP/Remote/Dbus.hpp"
 #include "../Task/CommunicationTask.hpp"
-#include "../BSP/Motor/DM/DmMotor.hpp"
-
 #include "cmsis_os2.h"
 
 void GimbalTask(void *argument)
@@ -28,6 +29,25 @@ class Gimbal_Task::NormalHandler : public StateHandler
 
   public:
     explicit NormalHandler(Gimbal_Task &task) : m_task(task)
+    {
+    }
+
+    void handle() override
+    {
+        // 可访问m_task的私有成员进行底盘操作
+        state_num = 0;
+        m_task.TargetUpdata();
+        m_task.YawUpdata();
+    }
+};
+
+//=== 状态处理器实现 ===//
+class Gimbal_Task::VisionHandler : public StateHandler
+{
+    Gimbal_Task &m_task;
+
+  public:
+    explicit VisionHandler(Gimbal_Task &task) : m_task(task)
     {
     }
 
@@ -82,22 +102,7 @@ class Gimbal_Task::StopHandler : public StateHandler
 
     void handle() override
     {
-        // 执行急停相关操作
-        if(is_on == 1)
-        {
-            BSP::Motor::DM::Motor4310.On(&hcan1, 1);
-            is_on = 0;
-            osDelay(10);
-        }
-        // 执行急停相关操作
-        if (is_on == 2)
-        {
-            BSP::Motor::DM::Motor4310.Off(&hcan1, 1);
-            is_on = 0;
-            osDelay(10);
-        }
-
-        BSP::Motor::DM::Motor4310.ctrl_Motor(&hcan1, 1, 0, 0, 0, 0, vel);
+        state_num = 4;
     }
 };
 
@@ -118,7 +123,7 @@ void Gimbal_Task::executeState()
 
 void Gimbal_Task::updateState()
 {
-    using namespace Remote;
+    using namespace BSP;
 
     auto switch_right = Remote::dr16.switchRight();
     auto switch_left = Remote::dr16.switchLeft();
@@ -126,6 +131,10 @@ void Gimbal_Task::updateState()
     if (Mode::Gimbal::Normal())
     {
         m_currentState = State::NormalState;
+    }
+    if (Mode::Gimbal::Vision())
+    {
+        m_currentState = State::VisionState;
     }
     if (Mode::Gimbal::Launch())
     {
@@ -146,6 +155,9 @@ void Gimbal_Task::updateState()
     case State::NormalState:
         m_stateHandler = std::make_unique<NormalHandler>(*this);
         break;
+    case State::VisionState:
+        m_stateHandler = std::make_unique<VisionHandler>(*this);
+        break;
     case State::LaunchState:
         m_stateHandler = std::make_unique<LaunchHandler>(*this);
         break;
@@ -156,4 +168,21 @@ void Gimbal_Task::updateState()
         m_stateHandler = std::make_unique<StopHandler>(*this);
         break;
     }
+}
+/**
+ * @brief
+ *
+ */
+TD tar_pitch(30);
+TD tar_yaw(30);
+
+void Gimbal_Task::TargetUpdata()
+{
+    tar_pitch.Calc(BSP::Remote::dr16.remoteRight().y);
+    tar_yaw.Calc(BSP::Remote::dr16.remoteRight().x);
+}
+float yaw_angle;
+void Gimbal_Task::YawUpdata()
+{
+    yaw_angle = BSP::IMU::imu.getYaw();
 }

@@ -407,7 +407,7 @@
             "output-debug-info": "enable"
           },
           "c/cpp-compiler": {
-            "optimization": "level-3",
+            "optimization": "level-0",
             "language-c": "c99",
             "language-cpp": "c++17",
             "warnings": "ac5-like-warnings"

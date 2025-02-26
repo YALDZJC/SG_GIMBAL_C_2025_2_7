@@ -7,7 +7,7 @@
 #define ClickerHuart huart3
 #define REMOTE_MAX_LEN 18
 
-namespace Remote
+namespace BSP ::Remote
 {
 class Dr16
 {
@@ -208,12 +208,10 @@ class Dr16
     {
         return keyboard_;
     }
-
-    
 };
 
 extern Dr16 dr16;
-} // namespace Remote
+} // namespace BSP::Remote
 #ifdef __cplusplus
 extern "C"
 {

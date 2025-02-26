@@ -8,7 +8,7 @@ bool InitFlag = false;
 void Init()
 {
     // 初始化
-    Remote::dr16.Init();
+    BSP::Remote::dr16.Init();
 
     CAN::BSP::Can_Init();
     BSP::IMU::imu.Init();

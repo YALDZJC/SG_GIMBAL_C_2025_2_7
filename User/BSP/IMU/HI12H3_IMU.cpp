@@ -16,7 +16,6 @@ bool HI12::ParseData()
     if (buffer[0] != 0x5A || buffer[1] != 0xA5) // 帧头错误
     {
         SlidingWindowRecovery();
-        return false;
     }
 
     uint8_t *pData = buffer; // 定义数组指针，指向缓冲区的起始地址
