@@ -1,9 +1,7 @@
 #pragma once
 #include "can.h"
 
-namespace CAN
-{
-namespace BSP
+namespace CAN::BSP
 {
 // 获取Canid
 inline uint32_t CAN_ID(const CAN_RxHeaderTypeDef &rx_header)
@@ -63,5 +61,5 @@ inline void Can_Send(CAN_HandleTypeDef *han, uint32_t StdId, uint8_t *s_data, ui
         HAL_CAN_AddTxMessage(han, &TxHeader, s_data, &pTxMailbox);
     }
 }
-} // namespace BSP
-} // namespace CAN
+
+} // namespace CAN::BSP

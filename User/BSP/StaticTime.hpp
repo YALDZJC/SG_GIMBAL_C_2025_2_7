@@ -1,7 +1,7 @@
 #pragma once
 #include "stm32f4xx_hal.h"
-#include "stdxxx.hpp"
-#include "Key.hpp"
+#include "../BSP/stdxxx.hpp"
+#include "../BSP/Remote/Key.hpp"
 
 class RM_StaticTime
 {

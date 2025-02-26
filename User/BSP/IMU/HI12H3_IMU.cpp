@@ -1,6 +1,4 @@
-#include "../BSP/HI12H3_IMU.hpp"
-#include "../App/Tools.hpp"
-#include "../HAL/IUart.hpp"
+#include "HI12H3_IMU.hpp"
 
 namespace BSP
 {

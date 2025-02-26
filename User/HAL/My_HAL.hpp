@@ -1,5 +1,5 @@
 #pragma once
-#include "../BSP/Bsp_Can.hpp"
+#include "../BSP/CAN/Bsp_Can.hpp"
 
 #define IS_F4 (0x00) // ʹ��can
 #define IS_H7 (0x01) // ʹ��fdcan

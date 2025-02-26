@@ -1,7 +1,8 @@
 #include "../Task/GimbalTask.hpp"
 #include "../APP/Mode.hpp"
-#include "../BSP/Dbus.hpp"
+#include "../BSP/Remote/Dbus.hpp"
 #include "../Task/CommunicationTask.hpp"
+#include "../BSP/Motor/DM/DmMotor.hpp"
 
 #include "cmsis_os2.h"
 
@@ -68,6 +69,8 @@ class Gimbal_Task::KeyBoardHandler : public StateHandler
     }
 };
 
+uint8_t is_on;
+float vel;
 class Gimbal_Task::StopHandler : public StateHandler
 {
     Gimbal_Task &m_task;
@@ -80,7 +83,21 @@ class Gimbal_Task::StopHandler : public StateHandler
     void handle() override
     {
         // 执行急停相关操作
-        state_num = 4;
+        if(is_on == 1)
+        {
+            BSP::Motor::DM::Motor4310.On(&hcan1, 1);
+            is_on = 0;
+            osDelay(10);
+        }
+        // 执行急停相关操作
+        if (is_on == 2)
+        {
+            BSP::Motor::DM::Motor4310.Off(&hcan1, 1);
+            is_on = 0;
+            osDelay(10);
+        }
+
+        BSP::Motor::DM::Motor4310.ctrl_Motor(&hcan1, 1, 0, 0, 0, 0, vel);
     }
 };
 

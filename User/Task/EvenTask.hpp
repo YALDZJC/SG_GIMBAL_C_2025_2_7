@@ -4,7 +4,7 @@
 
 class IObserver;
 
-//观测数据
+// 观测数据
 struct Dir_Data_t
 {
     /* data */
@@ -19,10 +19,10 @@ struct Dir_Data_t
 // 观察对象类
 class ISubject
 {
-protected:
+  protected:
     std::list<IObserver *> ObserverList;
 
-public:
+  public:
     // 添加观察者
     virtual void Attach(IObserver *observer) = 0;
     // 删除观察者
@@ -34,7 +34,7 @@ public:
 // 观察者类
 class IObserver
 {
-public:
+  public:
     ISubject *sub;
 
     // 初始化时就绑定观察者
@@ -50,10 +50,11 @@ public:
 
 class Dir : public ISubject
 {
-public:
+  public:
     // 观察数据
     Dir_Data_t DirData;
 
+  private:
     /**
      * @brief 添加观察者
      *
@@ -86,14 +87,14 @@ public:
         }
     }
 
-private:
+  private:
     bool Dir_String();
     bool Dir_Gimbal();
     bool Dir_Remote();
     bool Init_Flag();
     bool Dir_IMU();
 
-public:
+  public:
     void UpEvent();
 
     uint8_t GetDir_Wheel();
@@ -102,8 +103,6 @@ public:
     bool GetDir_MeterPower();
     bool Ger_Init_Flag();
 };
-
-
 
 /**
  * @brief 获取遥控器断联状态
@@ -165,7 +164,6 @@ inline bool Dir::Ger_Init_Flag()
 {
     return DirData.InitFlag;
 }
-
 
 extern Dir Dir_Event;
 

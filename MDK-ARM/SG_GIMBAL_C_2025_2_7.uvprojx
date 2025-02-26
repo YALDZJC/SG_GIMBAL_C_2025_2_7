@@ -330,7 +330,7 @@
             <uGnu>0</uGnu>
             <useXO>0</useXO>
             <v6Lang>3</v6Lang>
-            <v6LangP>6</v6LangP>
+            <v6LangP>8</v6LangP>
             <vShortEn>1</vShortEn>
             <vShortWch>1</vShortWch>
             <v6Lto>0</v6Lto>
@@ -718,29 +718,24 @@
           <GroupName>BSP</GroupName>
           <Files>
             <File>
-              <FileName>Bsp_Can.cpp</FileName>
+              <FileName>HI12H3_IMU.cpp</FileName>
               <FileType>8</FileType>
-              <FilePath>..\User\BSP\Bsp_Can.cpp</FilePath>
+              <FilePath>..\User\BSP\IMU\HI12H3_IMU.cpp</FilePath>
             </File>
             <File>
-              <FileName>BSP_Motor.cpp</FileName>
+              <FileName>Dbus.cpp</FileName>
               <FileType>8</FileType>
-              <FilePath>..\User\BSP\BSP_Motor.cpp</FilePath>
+              <FilePath>..\User\BSP\Remote\Dbus.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>Bsp_Can.hpp</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\User\BSP\CAN\Bsp_Can.hpp</FilePath>
             </File>
             <File>
               <FileName>Init.cpp</FileName>
               <FileType>8</FileType>
               <FilePath>..\User\BSP\Init.cpp</FilePath>
-            </File>
-            <File>
-              <FileName>HI12H3_IMU.cpp</FileName>
-              <FileType>8</FileType>
-              <FilePath>..\User\BSP\HI12H3_IMU.cpp</FilePath>
-            </File>
-            <File>
-              <FileName>Dbus.cpp</FileName>
-              <FileType>8</FileType>
-              <FilePath>..\User\BSP\Dbus.cpp</FilePath>
             </File>
           </Files>
         </Group>

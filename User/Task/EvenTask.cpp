@@ -2,14 +2,16 @@
 #include "../APP/Variable.hpp"
 #include "../APP/Buzzer.hpp"
 #include "../APP/LED.hpp"
-#include "../BSP/Init.hpp"
-#include "../BSP/HI12H3_IMU.hpp"
-#include "../BSP/Dbus.hpp"
+#include "../BSP/IMU/HI12H3_IMU.hpp"
+#include "../BSP/Remote/Dbus.hpp"
 
-#include "../BSP/DjiMotor.hpp"
+#include "../BSP/Motor/Dji/DjiMotor.hpp"
 
 #include "cmsis_os2.h"
 #include "tim.h"
+#include "../BSP/CAN/Bsp_Can.hpp"
+#include "../BSP/Init.hpp"
+
 // using namespace Event;
 Dir Dir_Event;
 
@@ -38,11 +40,11 @@ bool Dir::Dir_Remote()
 
 bool Dir::Dir_String()
 {
-    bool Dir = CAN::Motor::Dji::Motor6020.ISDir();
+    bool Dir = BSP::Motor::Dji::Motor6020.ISDir();
 
     for (int i = 0; i < 4; i++)
     {
-        DirData.String[i] = CAN::Motor::Dji::Motor6020.GetDir(i);
+        DirData.String[i] = BSP::Motor::Dji::Motor6020.GetDir(i);
     }
 
     return Dir;
@@ -50,11 +52,11 @@ bool Dir::Dir_String()
 
 bool Dir::Dir_Gimbal()
 {
-    bool Dir = CAN::Motor::Dji::Motor3508.ISDir();
+    bool Dir = BSP::Motor::Dji::Motor3508.ISDir();
 
     for (int i = 0; i < 4; i++)
     {
-        DirData.Wheel[i] = CAN::Motor::Dji::Motor3508.GetDir(i);
+        DirData.Wheel[i] = BSP::Motor::Dji::Motor3508.GetDir(i);
     }
 
     return Dir;

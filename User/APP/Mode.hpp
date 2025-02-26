@@ -1,5 +1,5 @@
-#include "../BSP/Dbus.hpp"
-
+#include "../BSP/Remote/Dbus.hpp"
+#include "../Task/EvenTask.hpp"
 namespace Mode
 {
 using namespace Remote;
@@ -71,7 +71,7 @@ inline bool KeyBoard()
  */
 inline bool Stop()
 {
-    return (dr16.switchLeft() == Dr16::Switch::DOWN) && (dr16.switchRight() == Dr16::Switch::DOWN);
+    return (dr16.switchLeft() == Dr16::Switch::DOWN) && (dr16.switchRight() == Dr16::Switch::DOWN) && (Dir_Event.GetDir_Remote() == false);
 }
 
 } // namespace Gimbal

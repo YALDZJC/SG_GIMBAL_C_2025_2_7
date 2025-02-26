@@ -1,8 +1,9 @@
 #include "../Task/CallBack.hpp"
 #include "../HAL/My_HAL.hpp"
 #include "../APP/Variable.hpp"
-#include "../BSP/HI12H3_IMU.hpp"
-#include "../BSP/Dbus.hpp"
+#include "../BSP/IMU/HI12H3_IMU.hpp"
+#include "../BSP/Remote/Dbus.hpp"
+#include "../BSP/Motor/DM/DmMotor.hpp"
 
 //can_filo0中断接收
 CAN_RxHeaderTypeDef RxHeader;	//can接收数据
@@ -16,6 +17,7 @@ void HAL_CAN_RxFifo0MsgPendingCallback(CAN_HandleTypeDef *hcan)
 	{
 		// Motor3508.Parse(RxHeader,RxHeaderData);
 		// Motor6020.Parse(RxHeader,RxHeaderData);		
+		BSP::Motor::DM::Motor4310.Parse(RxHeader,RxHeaderData);
 	}
 	if(hcan == &hcan2)
 	{

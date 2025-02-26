@@ -1,5 +1,5 @@
 #pragma once
-#include "../BSP/StaticTime.hpp"
+#include "../StaticTime.hpp"
 
 #include "stdint.h"
 #include "usart.h"

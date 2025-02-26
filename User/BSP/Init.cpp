@@ -1,9 +1,7 @@
-#include "../BSP/Init.hpp"
-#include "../BSP/Dbus.hpp"
-#include "../BSP/HI12H3_IMU.hpp"
-#include "../HAL/My_HAL.hpp"
-#include "../Task/CallBack.hpp"
-
+#include "Init.hpp"
+#include "../BSP/Remote/Dbus.hpp"
+#include "../BSP/IMU/HI12H3_IMU.hpp"
+#include "../BSP/CAN/Bsp_Can.hpp"
 #include "tim.h"
 
 bool InitFlag = false;
