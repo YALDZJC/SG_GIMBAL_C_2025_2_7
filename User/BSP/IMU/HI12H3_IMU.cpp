@@ -32,6 +32,7 @@ bool HI12::ParseData()
     memcpy_safe(euler);
     memcpy_safe(quat);
 
+    AddCaclu(addYaw, euler.Euler_yaw);
     HAL_UARTEx_ReceiveToIdle_DMA(&IMUHuart, buffer, sizeof(buffer));
 
     return true;
@@ -84,6 +85,21 @@ void HI12::SlidingWindowRecovery()
     }
     // 重新启动DMA接收
     HAL_UARTEx_ReceiveToIdle_DMA(&IMUHuart, buffer, sizeof(buffer));
+}
+
+void HI12::AddCaclu(AddData &addData, float angle)
+{
+    double lastData = addData.last_angle;
+    double Data = angle;
+
+    if (Data - lastData < -180) // 正转
+        addData.add_angle += (360 - lastData + Data);
+    else if (Data - lastData > 180) // 反转
+        addData.add_angle += -(360 - Data + lastData);
+    else
+        addData.add_angle += (Data - lastData);
+
+    addData.last_angle = Data;
 }
 } // namespace IMU
 } // namespace BSP

@@ -19,7 +19,7 @@ public:
     double MinPosHelm(float expectations, float feedback, float *speed, float maxspeed, float maxpos);
 
     double GetMachinePower(double T, double Vel);
-    float clamp(float value, float maxValue);
+    float clamp(float value, float maxValue, float minValue);
 };
 // 创建工具实例
 extern Tools_t Tools;

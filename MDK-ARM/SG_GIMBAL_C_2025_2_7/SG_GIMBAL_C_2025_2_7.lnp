@@ -38,7 +38,6 @@
 "sg_gimbal_c_2025_2_7\cmsis_os2.o"
 "sg_gimbal_c_2025_2_7\heap_4.o"
 "sg_gimbal_c_2025_2_7\port.o"
-"..\Middlewares\ST\ARM\DSP\Lib\arm_cortexM4lf_math.lib"
 "sg_gimbal_c_2025_2_7\hal.o"
 "sg_gimbal_c_2025_2_7\my_hal.o"
 "sg_gimbal_c_2025_2_7\hi12h3_imu.o"
@@ -56,6 +55,7 @@
 "sg_gimbal_c_2025_2_7\eventask.o"
 "sg_gimbal_c_2025_2_7\shoottask.o"
 "sg_gimbal_c_2025_2_7\pid.o"
+"..\Middlewares\ST\ARM\DSP\Lib\arm_cortexM4lf_math.lib"
 --strict --scatter "SG_GIMBAL_C_2025_2_7\SG_GIMBAL_C_2025_2_7.sct"
 --summary_stderr --info summarysizes --map --load_addr_map_info --xref --callgraph --symbols
 --info sizes --info totals --info unused --info veneers

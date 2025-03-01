@@ -2,6 +2,20 @@
 
 namespace BSP::Motor::DM
 {
+
+enum class DmRun
+{
+    NONE = 0,
+    RUN_ON = 1,
+    RUN_OFF = 2
+};
+
+enum class DmState
+{
+    ON,
+    OFF
+};
+
 // 参数结构体定义
 struct Parameters
 {
@@ -23,7 +37,7 @@ struct Parameters
     static constexpr uint32_t VelMode = 0x200;
     static constexpr uint32_t PosVelMode = 0x100;
 
-    static constexpr double rad_to_deg = 0.017453292519611;
+    static constexpr double rad_to_deg = 1 / 0.017453292519611;
 
     // 构造函数带参数计算
     /**
@@ -134,7 +148,7 @@ template <uint8_t N> class DMMotorBase : public MotorBase<N>
     {
         const auto &params = GetParameters();
 
-        this->unit_data_[i].angle_Deg = feedback_[i].angle * params_.rad_to_deg;
+        this->unit_data_[i].angle_Deg = this->unit_data_[i].angle_Rad * params_.rad_to_deg;
 
         this->unit_data_[i].angle_Rad = uint_to_float(feedback_[i].angle, params.P_MIN, params.P_MAX, 16);
 
@@ -222,7 +236,7 @@ template <uint8_t N> class DMMotorBase : public MotorBase<N>
         this->send_data[6] = ((kd_tmp & 0xF) << 4) | (tor_tmp >> 8);
         this->send_data[7] = tor_tmp;
 
-        CAN::BSP::Can_Send(hcan, init_address + send_idxs_[motor_index - 1], send_data, CAN_TX_MAILBOX2);
+        CAN::BSP::Can_Send(hcan, init_address + send_idxs_[motor_index - 1], send_data, CAN_TX_MAILBOX1);
     }
 
     /**
@@ -357,6 +371,6 @@ template <uint8_t N> class J4310 : public DMMotorBase<N>
  * 第二个是电机接收ID列表
  * 第三个是电机发送ID列表
  */
-inline J4310<1> Motor4310(0x00, {4}, {8});
+inline J4310<1> Motor4310(0x00, {2}, {1});
 
-} // namespace CAN::Motor::DM
+} // namespace BSP::Motor::DM

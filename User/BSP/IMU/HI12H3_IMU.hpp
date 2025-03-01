@@ -127,6 +127,12 @@ class HI12
         float Quat_w;
     };
 
+    struct AddData
+    {
+        float last_angle;
+        float add_angle;
+    };
+
     // IMU数据数据实例
     Frame_format frame;
     System_telemetry system_telemetry;
@@ -135,6 +141,10 @@ class HI12
     Mag mag;
     Euler euler;
     Quat quat;
+    AddData addYaw;
+
+  private:
+    void AddCaclu(AddData &addData, float angle);
 
   public:
     /**
@@ -199,6 +209,13 @@ class HI12
      * @return float
      */
     float getAccZ();
+
+    /**
+     * @brief 获取增量角度
+     * 
+     * @return float 
+     */
+    float getAddYaw();
 };
 
 inline float HI12::getYaw()
@@ -244,6 +261,10 @@ inline float HI12::getAccY()
 inline float HI12::getAccZ()
 {
     return acc.Acc_z;
+}
+inline float HI12::getAddYaw()
+{
+    return addYaw.add_angle;
 }
 
 // 全局实例

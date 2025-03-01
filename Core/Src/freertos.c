@@ -58,7 +58,7 @@ const osThreadAttr_t defaultTask_attributes = {
 osThreadId_t gimbalTaskHandle;
 const osThreadAttr_t gimbalTask_attributes = {
   .name = "gimbalTask",
-  .stack_size = 1024 * 4,
+  .stack_size = 2048 * 4,
   .priority = (osPriority_t) osPriorityNormal,
 };
 /* Definitions for communicationTa */

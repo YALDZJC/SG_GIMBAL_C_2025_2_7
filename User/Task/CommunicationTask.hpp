@@ -11,7 +11,13 @@ class Gimbal_to_Chassis
     void Data_send();
 
   private:
+    float CalcuGimbalToChassisAngle();
+
     uint8_t head = 0xA5; // 帧头
+
+    int16_t Init_Angle = 310.0f;
+    // 初始化反转标志
+    bool is_v_reverse = false;
 
     struct __attribute__((packed)) Direction // 方向结构体
     {
@@ -19,7 +25,8 @@ class Gimbal_to_Chassis
         uint8_t LY;
 
         uint8_t Rotating_vel;
-        uint16_t Yaw_encoder_angle_err;
+        float Yaw_encoder_angle_err;
+        bool is_v_reverse = false;
     };
 
     struct __attribute__((packed)) ChassisMode // 底盘模式
@@ -41,6 +48,7 @@ class Gimbal_to_Chassis
     Direction direction;
     ChassisMode chassis_mode;
     UiList ui_list;
+
 };
 
 inline uint8_t getSendRc(uint16_t RcData)

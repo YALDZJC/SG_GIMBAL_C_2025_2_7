@@ -137,12 +137,14 @@ double Tools_t::GetMachinePower(double T, double Vel)
     return Pm;
 }
 
-float Tools_t::clamp(float value, float maxValue)
+float Tools_t::clamp(float value, float maxValue, float minValue)
 {
-    if (value < -maxValue)
-        return -maxValue;
+    if (value < minValue)
+        return minValue;
     else if (value > maxValue)
         return maxValue;
 
     return value;
 }
+
+
