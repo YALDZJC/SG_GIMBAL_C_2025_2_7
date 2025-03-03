@@ -249,7 +249,7 @@ void Gimbal_Task::TargetUpdata()
     tar_pitch.Calc(gimbal_data.tar_pitch);
 
     // yaw期望值计算
-    gimbal_data.tar_yaw -= BSP::Remote::dr16.remoteRight().x * 0.2;
+    gimbal_data.tar_yaw -= BSP::Remote::dr16.remoteRight().x * 0.4;
     tar_yaw.Calc(gimbal_data.tar_yaw);
 
     gimbal_data.send_ms++;
@@ -282,8 +282,8 @@ void Gimbal_Task::CanSend()
     // if (gimbal_data.send_ms == 0)
     BSP::Motor::Dji::Motor6020.sendCAN(&hcan1, 0);
 
-    Tools.vofaSend(pid_yaw_angle.getCin(), pid_yaw_angle.getFeedback(), gimbal_data.tar_pitch,
-                   BSP::Motor::DM::Motor4310.getAngleDeg(1), gimbal_data.DM_Kd, 0);
+//    Tools.vofaSend(pid_yaw_angle.getCin(), pid_yaw_angle.getFeedback(), gimbal_data.tar_pitch,
+//                   BSP::Motor::DM::Motor4310.getAngleDeg(1), gimbal_data.DM_Kd, 0);
 }
 
 void Gimbal_Task::Stop()

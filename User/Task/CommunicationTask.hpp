@@ -26,7 +26,7 @@ class Gimbal_to_Chassis
 
         uint8_t Rotating_vel;
         float Yaw_encoder_angle_err;
-        bool is_v_reverse = false;
+			uint8_t is_v_reverse : 1;
     };
 
     struct __attribute__((packed)) ChassisMode // 底盘模式
@@ -45,6 +45,9 @@ class Gimbal_to_Chassis
         uint8_t BP : 1;
     };
 
+		uint8_t buffer[11];
+
+		
     Direction direction;
     ChassisMode chassis_mode;
     UiList ui_list;

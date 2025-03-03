@@ -340,6 +340,16 @@
           <WinNumber>1</WinNumber>
           <ItemText>Gimbal_to_Chassis_Data,0x0A</ItemText>
         </Ww>
+        <Ww>
+          <count>37</count>
+          <WinNumber>1</WinNumber>
+          <ItemText>len,0x0A</ItemText>
+        </Ww>
+        <Ww>
+          <count>38</count>
+          <WinNumber>1</WinNumber>
+          <ItemText>buffer</ItemText>
+        </Ww>
       </WatchWindow1>
       <WatchWindow2>
         <Ww>

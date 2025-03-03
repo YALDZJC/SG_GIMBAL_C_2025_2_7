@@ -48,12 +48,8 @@ class PID
 {
   private:
     /* data */
-    Pid_t pid;
-
-    // 清除增量
-    void PidRstDelta();
-
   public:
+    Pid_t pid;
     PID(double Ierror = 0, double MixI = 0)
     {
         this->pid.Break_I = Ierror;
@@ -61,31 +57,25 @@ class PID
 
         this->pid.td_e.r = 100;
     }
-
     // 位置式pid获取
     double GetPidPos(Kpid_t kpid, double cin, double feedback, double max);
-
     // 清除pid
     void clearPID();
+    // 清除增量
+    void PidRstDelta();
+
+    inline float GetErr()
+    {
+        return this->pid.now_e;
+    }
 
     inline float getOut()
     {
         return this->pid.cout;
     }
-
-    inline float getErr()
-    {
-        return this->pid.last_e;
-    }
-
-    inline float getCin()
+    inline float GetCin()
     {
         return this->pid.cin;
-    }
-
-	inline float getFeedback()
-    {
-        return this->pid.feedback;
     }
 };
 

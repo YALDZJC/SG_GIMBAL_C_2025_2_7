@@ -8,7 +8,7 @@
 #include "../APP/Tools.hpp"
 
 #define SIZE 8
-uint8_t format[12];
+uint8_t format[15];
 
 uint64_t i;
 
@@ -21,12 +21,13 @@ void CommunicationTask(void *argument)
     {
         Gimbal_to_Chassis_Data.Data_send();
         i++;
-        osDelay(1);
+        osDelay(10);
     }
 }
 
 namespace Communicat
 {
+	
 void Gimbal_to_Chassis::Data_send()
 {
     using namespace BSP;
@@ -53,11 +54,9 @@ void Gimbal_to_Chassis::Data_send()
     // 计算总数据长度
     const uint8_t len = sizeof(direction) + sizeof(chassis_mode) + sizeof(ui_list) + 1; //+1帧头
 
-    // 动态分配内存
-    auto buffer = std::make_unique<uint8_t[]>(len); // 自动内存管理
 
     // 使用临时指针将数据拷贝到缓冲区
-    auto temp_ptr = buffer.get();
+    auto temp_ptr = buffer;
 
     *temp_ptr = head;
     temp_ptr++;
@@ -72,17 +71,15 @@ void Gimbal_to_Chassis::Data_send()
     memcpy_safe(ui_list);      // 序列化UI状态
 
     // 发送数据
-    HAL_UART_Transmit_DMA(&huart1, buffer.get(), len);
+    HAL_UART_Transmit_DMA(&huart6, buffer, len);
 }
 
 float Gimbal_to_Chassis::CalcuGimbalToChassisAngle()
 {
-    is_v_reverse = false;
-    uint16_t initial_angle = Init_Angle;
 
     float encoder_angle = BSP::Motor::Dji::Motor6020.getAngleDeg(1) + 360;
 
-    if (Mode::Chassis::Follow())
+	if (Mode::Chassis::Follow() || Mode::Chassis::Rotating())
     {
 
         // 方向优化计算 ------------------------------------------------------
@@ -91,28 +88,32 @@ float Gimbal_to_Chassis::CalcuGimbalToChassisAngle()
          * 方案2：转向初始角度+180°（反转）
          * 选择需要转动角度更小的方案
          */
-        const float direct_error = Tools.Zero_crossing_processing(initial_angle, encoder_angle, 360.0f) - encoder_angle;
+        const float direct_error = Tools.Zero_crossing_processing(Init_Angle, encoder_angle, 360.0f) - encoder_angle;
 
         const float reverse_error =
-            Tools.Zero_crossing_processing(initial_angle + 180.0f, encoder_angle, 360.0f) - encoder_angle;
+            Tools.Zero_crossing_processing(Init_Angle + 180.0f, encoder_angle, 360.0f) - encoder_angle;
 
         if (fabs(direct_error) <= fabs(reverse_error))
         {
             // 保持原始方向
-            is_v_reverse = false;
+            direction.is_v_reverse = false;
         }
         else
         {
             // 采用反转方向
-            initial_angle += 180.0f;
-            is_v_reverse = true;
+//						Init_Angle += 180.0f;
+
+
+            direction.is_v_reverse = true;
         }
 
 
     }
 
     // 计算最终角度误差 --------------------------------------------------
-    return Tools.Zero_crossing_processing(initial_angle, encoder_angle, 360.0f) - encoder_angle;
+    return Tools.Zero_crossing_processing(Init_Angle, encoder_angle, 360.0f) - encoder_angle;
+		
+		
 }
 
 }; // namespace Communicat
