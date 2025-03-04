@@ -29,29 +29,25 @@ bool Buzzer::Update()
 {
     Dir *dir = static_cast<Dir *>(sub);
 
-    if (dir->Ger_Init_Flag() && buzzerInit == false)
+    if (dir->get_Init_Flag() && buzzerInit == false)
     {
         SYSTEM_START();
 
         buzzerInit = true;
     }
 
-    uint8_t String = dir->GetDir_String();
-    uint8_t Wheel = dir->GetDir_Wheel();
+    if (dir->getDir_Yaw())
+    {
+        Buzzer::B_();
+        return false;
+    }
 
-    if (String)
+    if(dir->getDir_IMU())
     {
-        Buzzer::B(String);
-        osDelay(1000);
+        Buzzer::B_();
         return false;
     }
-    if (Wheel)
-    {
-        Buzzer::B(Wheel);
-        osDelay(1000);
-        return false;
-    }
-    // buzzer_off();
+
     osDelay(10);
 
     return true;
@@ -107,8 +103,9 @@ void Buzzer::B_()
     STOP();
     is_busy = true;
     buzzer_on(1, 10000);
-    osDelay(70);
+    osDelay(50);
     buzzer_off();
+    osDelay(950);
     is_busy = false;
 }
 

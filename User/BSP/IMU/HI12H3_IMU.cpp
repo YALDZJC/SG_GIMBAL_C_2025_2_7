@@ -58,15 +58,14 @@ void HI12::ClearORE(UART_HandleTypeDef *huart, uint8_t *pData, int Size)
 
 bool HI12::ISDir()
 {
-    bool Dir = false;
-    Dir = dirTime.ISDir(10);
+    is_dir = dirTime.ISDir(10);
 
-    if (Dir)
+    if (is_dir)
     {
         ClearORE(&IMUHuart, buffer, sizeof(buffer));
     }
 
-    return Dir;
+    return is_dir;
 }
 
 void HI12::SlidingWindowRecovery()

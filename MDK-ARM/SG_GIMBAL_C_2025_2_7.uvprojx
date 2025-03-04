@@ -655,16 +655,6 @@
               <FilePath>..\User\APP\LED.cpp</FilePath>
             </File>
             <File>
-              <FileName>Dji_Motor.cpp</FileName>
-              <FileType>8</FileType>
-              <FilePath>..\User\APP\Dji_Motor.cpp</FilePath>
-            </File>
-            <File>
-              <FileName>Dm_Motor.cpp</FileName>
-              <FileType>8</FileType>
-              <FilePath>..\User\APP\Dm_Motor.cpp</FilePath>
-            </File>
-            <File>
               <FileName>Tools.cpp</FileName>
               <FileType>8</FileType>
               <FilePath>..\User\APP\Tools.cpp</FilePath>

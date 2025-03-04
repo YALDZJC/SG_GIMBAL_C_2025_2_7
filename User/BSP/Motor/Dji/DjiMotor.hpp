@@ -2,6 +2,7 @@
 #pragma once
 // 基础DJI电机实现
 #include "../MotorBase.hpp"
+
 #include "can.h"
 #include <cstdint>
 #include <cstring> // 添加头文件
@@ -86,7 +87,8 @@ template <uint8_t N> class DjiMotorBase : public MotorBase<N>
                 feedback_[i].current = __builtin_bswap16(feedback_[i].current);
 
                 Configure(i);
-                break;
+
+                this->runTime_[i].dirTime.UpLastTime();
             }
         }
     }
@@ -193,6 +195,7 @@ template <uint8_t N> class DjiMotorBase : public MotorBase<N>
         for(uint8_t i = 0; i < N; i++)
         {
             is_dir |= this->runTime_[i].Dir_Flag = this->runTime_[i].dirTime.ISDir(100);
+            this->runTime_[i].Dir_Flag = is_dir;
         }
 
         return is_dir;
@@ -238,7 +241,7 @@ template <uint8_t N> class GM3508 : public DjiMotorBase<N>
     // 定义参数生成方法
     Parameters GetParameters() override
     {
-        return DjiMotorBase<N>::CreateParams(19.0, 0.3 * 1.0 / 19.0, 16384, 20, 8192);
+        return DjiMotorBase<N>::CreateParams(1, 0.3 * 1.0 / 19.0, 16384, 20, 8192);
     }
 
   public:
@@ -289,8 +292,8 @@ template <uint8_t N> class GM6020 : public DjiMotorBase<N>
  * 构造函数的第一个参数为初始ID，第二个参数为电机ID列表,第三个参数是发送的ID
  *
  */
-inline GM2006<2> Motor2006(0x200, {1, 2}, 0x200);
-inline GM3508<2> Motor3508(0x200, {1, 2}, 0x200);
+inline GM2006<1> Motor2006(0x200, {1}, 0x200);
+inline GM3508<3> Motor3508(0x200, {1, 2, 3}, 0x200);
 inline GM6020<1> Motor6020(0x204, {2}, 0x1FE);
 
 } // namespace BSP::Motor::Dji

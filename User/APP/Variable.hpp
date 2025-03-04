@@ -1,10 +1,8 @@
 #pragma once
 
-#include "../APP/Dji_Motor.hpp"
 #include "../Algorithm/PID.hpp"
-#include "../APP/Dm_Motor.hpp"
 #include "../APP/Tools.hpp"
-#include "../Task/EvenTask.hpp"
+#include "../Task/EvenTask.hpp" 
 
 // 发送id
 #define SEND_MOTOR_ID_2006 (0x200)

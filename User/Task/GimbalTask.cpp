@@ -59,6 +59,11 @@ class Gimbal_Task::VisionHandler : public StateHandler
     {
         // 可访问m_task的私有成员进行底盘操作
         state_num = 1;
+
+        m_task.TargetUpdata();
+        m_task.YawUpdata();
+        m_task.PitchUpdata();
+        m_task.CanSend();
     }
 };
 
@@ -75,6 +80,11 @@ class Gimbal_Task::LaunchHandler : public StateHandler
     {
         // 可访问m_task的私有成员进行底盘操作
         state_num = 2;
+
+        m_task.TargetUpdata();
+        m_task.YawUpdata();
+        m_task.PitchUpdata();
+        m_task.CanSend();
     }
 };
 
@@ -90,6 +100,11 @@ class Gimbal_Task::KeyBoardHandler : public StateHandler
     void handle() override
     {
         state_num = 3;
+
+        m_task.TargetUpdata();
+        m_task.YawUpdata();
+        m_task.PitchUpdata();
+        m_task.CanSend();
     }
 };
 
@@ -194,6 +209,9 @@ class GimbalData
     float DM_Kp;
     float DM_Kd;
 
+    float yaw_pos;
+    float yaw_vel;
+
     uint32_t send_ms;
 
     BSP::Motor::DM::DmRun DM_Run;
@@ -288,6 +306,12 @@ void Gimbal_Task::CanSend()
 
 void Gimbal_Task::Stop()
 {
+    //达妙失能
     gimbal_data.DMStateUpdata();
     gimbal_data.setDmState(BSP::Motor::DM::DmRun::RUN_OFF);
+
+    gimbal_data.tar_yaw = BSP::IMU::imu.getAddYaw();
+
+    pid_yaw_angle.clearPID();
+    pid_yaw_vel.clearPID();
 }

@@ -71,7 +71,8 @@ inline bool KeyBoard()
  */
 inline bool Stop()
 {
-    return (dr16.switchLeft() == Dr16::Switch::DOWN) && (dr16.switchRight() == Dr16::Switch::DOWN) && (Dir_Event.GetDir_Remote() == false);
+    return (dr16.switchLeft() == Dr16::Switch::DOWN) && (dr16.switchRight() == Dr16::Switch::DOWN) ||
+           (Dir_Event.getDir_Remote() == true);
 }
 
 } // namespace Gimbal
@@ -145,7 +146,8 @@ inline bool KeyBoard()
  */
 inline bool Stop()
 {
-    return (dr16.switchLeft() == Dr16::Switch::DOWN) && (dr16.switchRight() == Dr16::Switch::DOWN);
+    return (dr16.switchLeft() == Dr16::Switch::DOWN) && (dr16.switchRight() == Dr16::Switch::DOWN) ||
+           (Dir_Event.getDir_Remote() == true);
 }
 } // namespace Chassis
 

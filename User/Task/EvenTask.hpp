@@ -10,8 +10,8 @@ struct Dir_Data_t
     /* data */
     bool Dr16;
     bool MeterPower;
-    bool String[4];
-    bool Wheel[4];
+    bool Yaw;
+    bool Pitch;
     bool Imu;
     bool InitFlag;
 };
@@ -88,8 +88,8 @@ class Dir : public ISubject
     }
 
   private:
-    bool Dir_String();
-    bool Dir_Gimbal();
+    bool Dir_Pitch();
+    bool Dir_Yaw();
     bool Dir_Remote();
     bool Init_Flag();
     bool Dir_IMU();
@@ -97,11 +97,12 @@ class Dir : public ISubject
   public:
     void UpEvent();
 
-    uint8_t GetDir_Wheel();
-    uint8_t GetDir_String();
-    bool GetDir_Remote();
-    bool GetDir_MeterPower();
-    bool Ger_Init_Flag();
+    uint8_t getDir_Pitch();
+    uint8_t getDir_Yaw();
+    bool getDir_Remote();
+    bool getDir_MeterPower();
+    bool get_Init_Flag();
+    bool getDir_IMU();
 };
 
 /**
@@ -110,7 +111,7 @@ class Dir : public ISubject
  * @return true 断联
  * @return false 通信正常
  */
-inline bool Dir::GetDir_Remote()
+inline bool Dir::getDir_Remote()
 {
     return DirData.Dr16;
 }
@@ -121,7 +122,7 @@ inline bool Dir::GetDir_Remote()
  * @return true 断联
  * @return false 通信正常
  */
-inline bool Dir::GetDir_MeterPower()
+inline bool Dir::getDir_MeterPower()
 {
     return DirData.MeterPower;
 }
@@ -131,12 +132,12 @@ inline bool Dir::GetDir_MeterPower()
  *
  * @return uint8_t 几号轮掉线返回数子几
  */
-inline uint8_t Dir::GetDir_String()
+inline uint8_t Dir::getDir_Yaw()
 {
     uint8_t Dir;
     for (int i = 0; i < 4; i++)
     {
-        if (DirData.String[i] == 1)
+        if (DirData.Yaw == 1)
             return i + 1;
     }
 
@@ -148,21 +149,19 @@ inline uint8_t Dir::GetDir_String()
  *
  * @return uint8_t 几号轮掉线返回数子几
  */
-inline uint8_t Dir::GetDir_Wheel()
+inline uint8_t Dir::getDir_Pitch()
 {
-    uint8_t Dir;
-    for (int i = 0; i < 4; i++)
-    {
-        if (DirData.Wheel[i] == 1)
-            return i + 1;
-    }
-
-    return 0;
+    return DirData.Pitch;
 }
 
-inline bool Dir::Ger_Init_Flag()
+inline bool Dir::get_Init_Flag()
 {
     return DirData.InitFlag;
+}
+
+inline bool Dir::getDir_IMU()
+{
+    return DirData.Imu;
 }
 
 extern Dir Dir_Event;

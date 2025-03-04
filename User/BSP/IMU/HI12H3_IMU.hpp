@@ -133,7 +133,7 @@ class HI12
         float add_angle;
     };
 
-    // IMU数据数据实例
+    bool is_dir;
     Frame_format frame;
     System_telemetry system_telemetry;
     Acc acc;
