@@ -1,6 +1,7 @@
 #pragma once
 #include "../APP/State.hpp"
 
+
 class Gimbal_Task : public Task
 {
   public:
@@ -43,9 +44,17 @@ class Gimbal_Task : public Task
     void PitchUpdata();
     void Stop();
     void CanSend();
+    void ShootUpdate();
+    void DialUpdata();
+    void FilterUpdata();
+
+    void setSendChassis();
+
+  public:
+    void Gimbal();
+    void Launch();
+    void LaunchState(bool is_Launch);
 };
-
-
 
 
 // 将RTOS任务引至.c文件

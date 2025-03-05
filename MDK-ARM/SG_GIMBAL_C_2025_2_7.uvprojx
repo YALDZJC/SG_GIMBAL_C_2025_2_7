@@ -664,6 +664,11 @@
               <FileType>8</FileType>
               <FilePath>..\User\APP\Variable.cpp</FilePath>
             </File>
+            <File>
+              <FileName>KeyBroad.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>..\User\APP\KeyBroad.cpp</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>

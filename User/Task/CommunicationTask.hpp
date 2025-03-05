@@ -41,8 +41,9 @@ class Gimbal_to_Chassis
     struct __attribute__((packed)) UiList // 底盘模式
     {
         uint8_t MCL : 1;
-        uint8_t CM : 1;
         uint8_t BP : 1;
+        uint8_t UI_F5 : 1;
+        uint8_t Shift : 1; 
     };
 
 		uint8_t buffer[11];
@@ -52,13 +53,54 @@ class Gimbal_to_Chassis
     ChassisMode chassis_mode;
     UiList ui_list;
 
+public:
+    void set_LX(uint8_t LX);
+    void set_LY(uint8_t LY);
+    void set_Rotating_vel(uint8_t Rotating_vel);
+    void set_UIF5(bool F5);
+    void set_Shift(bool Shift);
+    void set_MCL(bool MCL);
+    void set_BP(bool BP);
 };
 
-inline uint8_t getSendRc(uint16_t RcData)
+inline void Gimbal_to_Chassis::set_LX(uint8_t LX)
 {
-    return (RcData / 6) - 110;
+    direction.LX = LX;
 }
+
+inline void Gimbal_to_Chassis::set_LY(uint8_t LY)
+{
+    direction.LY = LY;
+}
+
+inline void Gimbal_to_Chassis::set_Rotating_vel(uint8_t Rotating_vel)
+{
+    direction.Rotating_vel = Rotating_vel;
+}
+
+inline void Gimbal_to_Chassis::set_UIF5(bool F5)
+{
+    ui_list.UI_F5 = F5;
+}
+
+inline void Gimbal_to_Chassis::set_Shift(bool Shift)
+{
+    ui_list.Shift = Shift;
+}
+
+inline void Gimbal_to_Chassis::set_MCL(bool MCL)
+{
+    ui_list.MCL = MCL;
+}
+
+inline void Gimbal_to_Chassis::set_BP(bool BP)
+{
+    ui_list.BP = BP;
+}
+
 } // namespace Communicat
+
+extern Communicat::Gimbal_to_Chassis Gimbal_to_Chassis_Data;
 
 // 将RTOS任务引至.c文件
 #ifdef __cplusplus

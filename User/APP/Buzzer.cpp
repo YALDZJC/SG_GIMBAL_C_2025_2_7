@@ -48,8 +48,6 @@ bool Buzzer::Update()
         return false;
     }
 
-    osDelay(10);
-
     return true;
 }
 

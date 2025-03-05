@@ -47,6 +47,7 @@
 "sg_gimbal_c_2025_2_7\led.o"
 "sg_gimbal_c_2025_2_7\tools.o"
 "sg_gimbal_c_2025_2_7\variable.o"
+"sg_gimbal_c_2025_2_7\keybroad.o"
 "sg_gimbal_c_2025_2_7\callback.o"
 "sg_gimbal_c_2025_2_7\gimbaltask.o"
 "sg_gimbal_c_2025_2_7\communicationtask.o"

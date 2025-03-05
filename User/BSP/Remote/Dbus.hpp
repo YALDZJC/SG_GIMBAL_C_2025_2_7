@@ -102,7 +102,7 @@ class Dr16
     struct __attribute__((packed)) Dr16DataPart3
     {
         Keyboard keyboard;
-        uint16_t unused;
+        uint16_t sw;
     };
 
     struct __attribute__((packed)) Mouse
@@ -124,6 +124,8 @@ class Dr16
     uint64_t data_part1_;
     uint64_t data_part2_;
     uint64_t data_part3_;
+
+    double sw_;
 
     // 调用zero初始化
     Vector joystick_right_ = Vector::zero();
@@ -207,6 +209,11 @@ class Dr16
     Keyboard keyBoard()
     {
         return keyboard_;
+    }
+
+    inline double sw()
+    {
+        return sw_;
     }
 };
 

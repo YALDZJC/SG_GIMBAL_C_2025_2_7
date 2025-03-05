@@ -79,11 +79,10 @@ class PID
     }
 };
 
-class FeedForward
-{
-  protected:
-    // 输出
-    float k;
+// 前馈控制器抽象基类
+class FeedForward {
+protected:
+    float k;          // 前馈系数
     // 输出限幅
     float max_cout;
 

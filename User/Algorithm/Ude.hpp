@@ -16,28 +16,35 @@ public:
     {
         rpm_ = rpm2av(rpm);
         if (abs(err) < break_I)
-            u0_ += u * toque_const_6020 * B_;
+					u0_ += u * B_ * 0.001;
         else
-            u0_ = 0;
+          u0_ = 0;
 
         // 积分限幅
         if (u0_ > u_max) u0_ = u_max;
         if (u0_ < -u_max) u0_ = -u_max;
 
         cout_ = (k_ * (rpm_ - u0_))/B_;
-				xxx = 16384*toque_const_6020;
+
         return cout_;
     }
 
-    float GetCout()
+    float getCout()
     {
         return cout_;
     }
 
-    float GetU0()
+    float getU0()
     {
         return u0_;
     }
+
+    inline void clear()
+    {
+        u0_ = 0;
+        cout_ = 0;
+    }
+    
     float rpm_;
 
 private:
@@ -47,5 +54,6 @@ private:
     float u_max;
     float break_I;
     float u0_;
+    float u_;
     float k_;
 };

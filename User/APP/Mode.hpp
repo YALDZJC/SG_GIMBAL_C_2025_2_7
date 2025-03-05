@@ -1,5 +1,7 @@
 #include "../BSP/Remote/Dbus.hpp"
 #include "../Task/EvenTask.hpp"
+#include "../Task/CommunicationTask.hpp"
+
 namespace Mode
 {
 using namespace BSP::Remote;
@@ -27,7 +29,7 @@ namespace Gimbal
  */
 inline bool Normal()
 {
-    return (dr16.switchRight() == Dr16::Switch::UP);
+    return (dr16.switchRight() == Dr16::Switch::DOWN);
 }
 
 /**
@@ -49,7 +51,7 @@ inline bool Vision()
  */
 inline bool Launch()
 {
-    return (dr16.switchRight() == Dr16::Switch::DOWN);
+    return (dr16.switchRight() == Dr16::Switch::UP);
 }
 
 /**
@@ -124,7 +126,7 @@ inline bool Follow()
  */
 inline bool Rotating()
 {
-    return (dr16.switchLeft() == Dr16::Switch::DOWN);
+    return (dr16.switchLeft() == Dr16::Switch::DOWN) && (dr16.switchRight() != Dr16::Switch::DOWN);
 }
 
 /**
@@ -149,6 +151,19 @@ inline bool Stop()
     return (dr16.switchLeft() == Dr16::Switch::DOWN) && (dr16.switchRight() == Dr16::Switch::DOWN) ||
            (Dir_Event.getDir_Remote() == true);
 }
+
+inline void SendRemote()
+{
+    auto L = dr16.remoteLeft();
+    if (Mode::Gimbal::KeyBoard() == false)
+    {
+        Gimbal_to_Chassis_Data.set_LX(L.x);
+        Gimbal_to_Chassis_Data.set_LY(L.y);
+    }
+}
+
 } // namespace Chassis
+
+
 
 } // namespace Mode

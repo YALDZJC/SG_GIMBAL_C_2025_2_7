@@ -6,7 +6,6 @@ bool LED::Update(void)
 {
     Dir *dir = static_cast<Dir *>(sub);
 
-    Normal_State();
 	
     if(dir->getDir_Yaw())
     {
@@ -22,6 +21,9 @@ bool LED::Update(void)
         return false;
     }
 
+		Normal_State();
+
+		
 	return 0;
 }
 

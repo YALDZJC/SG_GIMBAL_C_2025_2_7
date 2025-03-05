@@ -111,7 +111,7 @@ template <uint8_t N> class MotorBase
      */
     float getVelocityRpm(uint8_t id)
     {
-        return this->feedback_[id - 1].velocity;
+        return this->unit_data_[id - 1].velocity_Rpm;
     }
 
     /**

@@ -63,7 +63,6 @@ void PID::clearPID()
     this->pid.i = 0;
     this->pid.d = 0;
 
-    this->pid.cin = 0;
     this->pid.cout = 0;
 }
 double FeedTar::UpData(float feedback)

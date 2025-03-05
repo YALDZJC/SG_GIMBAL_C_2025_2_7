@@ -137,8 +137,8 @@ template <uint8_t N> class DMMotorBase : public MotorBase<N>
         return swapped & 0x0FFF;
     }
 
-    // 定义参数生成方法的虚函数
-    virtual Parameters GetParameters() = 0; // 纯虚函数要求子类必须实现
+    // // 定义参数生成方法的虚函数
+    // virtual Parameters GetParameters() = 0; // 纯虚函数要求子类必须实现
     /**
      * @brief 将反馈数据转换为国际单位
      *
@@ -146,7 +146,7 @@ template <uint8_t N> class DMMotorBase : public MotorBase<N>
      */
     void Configure(size_t i)
     {
-        const auto &params = GetParameters();
+        const auto &params = params_;
 
         this->unit_data_[i].angle_Deg = this->unit_data_[i].angle_Rad * params_.rad_to_deg;
 
@@ -345,11 +345,11 @@ template <uint8_t N> class DMMotorBase : public MotorBase<N>
 template <uint8_t N> class J4310 : public DMMotorBase<N>
 {
   private:
-    // 定义参数生成方法
-    Parameters GetParameters() override
-    {
-        return DMMotorBase<N>::CreateParams(-12.56, 12.56, -30, 30, -10, 10, 0.0, 500, 0.0, 5.0);
-    }
+    // // 定义参数生成方法
+    // Parameters GetParameters() override
+    // {
+    //     return DMMotorBase<N>::CreateParams(-12.56, 12.56, -30, 30, -10, 10, 0.0, 500, 0.0, 5.0);
+    // }
 
   public:
     // 子类构造时传递参数
@@ -360,7 +360,7 @@ template <uint8_t N> class J4310 : public DMMotorBase<N>
      * @param ids 电机ID列表
      */
     J4310(uint16_t Init_id, const uint8_t (&ids)[N], const uint32_t (&send_idxs_)[N])
-        : DMMotorBase<N>(Init_id, ids, send_idxs_, GetParameters())
+        : DMMotorBase<N>(Init_id, ids, send_idxs_, Parameters(-12.56, 12.56, -30, 30, -10, 10, 0.0, 500, 0.0, 5.0))
     {
     }
 };

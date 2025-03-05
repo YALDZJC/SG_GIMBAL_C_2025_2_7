@@ -60,6 +60,7 @@ void Dr16::UpdateStatus()
 
     auto &part3 alignas(uint64_t) = *reinterpret_cast<Dr16DataPart3 *>(&data_part3_);
     keyboard_ = part3.keyboard;
+    sw_ = channel_to_double(static_cast<uint16_t>(part3.sw));
 }
 
 /**
