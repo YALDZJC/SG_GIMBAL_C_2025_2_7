@@ -194,7 +194,7 @@ class Gimbal_Task::KeyBoardHandler : public StateHandler
         gimbal_data.tar_yaw -= mouse_vel.x * 30;
 
         if (mouse_key.left &&gimbal_data.is_Launch == true)
-            gimbal_data.tar_dail_vel = 4500;
+            gimbal_data.tar_dail_vel = -4500;
         else
             gimbal_data.tar_dail_vel = 0;
 

@@ -160,6 +160,8 @@ inline void SendRemote()
         Gimbal_to_Chassis_Data.set_LX(L.x);
         Gimbal_to_Chassis_Data.set_LY(L.y);
     }
+
+    
 }
 
 } // namespace Chassis

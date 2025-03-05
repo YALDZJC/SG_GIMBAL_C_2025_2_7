@@ -1,11 +1,11 @@
 #include "../Task/CommunicationTask.hpp"
 #include "../APP/Mode.hpp"
+#include "../APP/Tools.hpp"
+#include "../BSP/Motor/Dji/DjiMotor.hpp"
 #include "../BSP/Remote/Dbus.hpp"
 #include "cmsis_os2.h"
 #include "tim.h"
 #include "usart.h"
-#include "../BSP/Motor/Dji/DjiMotor.hpp"
-#include "../APP/Tools.hpp"
 
 #define SIZE 8
 uint8_t format[15];
@@ -27,7 +27,7 @@ void CommunicationTask(void *argument)
 
 namespace Communicat
 {
-	
+
 void Gimbal_to_Chassis::Data_send()
 {
     using namespace BSP;
@@ -37,10 +37,17 @@ void Gimbal_to_Chassis::Data_send()
     // 初始化结构体数据
     Mode::Chassis::SendRemote();
 
-    direction.LX = channel_to_uint8(direction.LX);
-    direction.LY = channel_to_uint8(direction.LY);
-    direction.Rotating_vel = channel_to_uint8(direction.Rotating_vel);
-    
+    if (Mode::Chassis::KeyBoard() == true)
+    {
+        direction.LX = channel_to_uint8(direction.LX);
+        direction.LY = channel_to_uint8(direction.LY);
+    }
+    else
+    {
+        direction.LX = channel_to_uint8(BSP::Remote::dr16.remoteLeft().x);
+        direction.LY = channel_to_uint8(BSP::Remote::dr16.remoteLeft().y);
+    }
+
     direction.Yaw_encoder_angle_err = CalcuGimbalToChassisAngle();
 
     chassis_mode.Universal_mode = Mode::Chassis::Universal();
@@ -79,6 +86,5 @@ float Gimbal_to_Chassis::CalcuGimbalToChassisAngle()
     // 计算最终角度误差 --------------------------------------------------
     return Tools.Zero_crossing_processing(Init_Angle, encoder_angle, 360.0f) - encoder_angle;
 }
-
 
 }; // namespace Communicat

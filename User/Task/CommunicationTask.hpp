@@ -26,7 +26,7 @@ class Gimbal_to_Chassis
 
         uint8_t Rotating_vel;
         float Yaw_encoder_angle_err;
-			uint8_t is_v_reverse : 1;
+        uint8_t is_v_reverse : 1;
     };
 
     struct __attribute__((packed)) ChassisMode // 底盘模式
@@ -43,19 +43,18 @@ class Gimbal_to_Chassis
         uint8_t MCL : 1;
         uint8_t BP : 1;
         uint8_t UI_F5 : 1;
-        uint8_t Shift : 1; 
+        uint8_t Shift : 1;
     };
 
-		uint8_t buffer[11];
+    uint8_t buffer[11];
 
-		
     Direction direction;
     ChassisMode chassis_mode;
     UiList ui_list;
 
-public:
-    void set_LX(uint8_t LX);
-    void set_LY(uint8_t LY);
+  public:
+    void set_LX(double LX);
+    void set_LY(double LY);
     void set_Rotating_vel(uint8_t Rotating_vel);
     void set_UIF5(bool F5);
     void set_Shift(bool Shift);
@@ -63,12 +62,12 @@ public:
     void set_BP(bool BP);
 };
 
-inline void Gimbal_to_Chassis::set_LX(uint8_t LX)
+inline void Gimbal_to_Chassis::set_LX(double LX)
 {
     direction.LX = LX;
 }
 
-inline void Gimbal_to_Chassis::set_LY(uint8_t LY)
+inline void Gimbal_to_Chassis::set_LY(double LY)
 {
     direction.LY = LY;
 }

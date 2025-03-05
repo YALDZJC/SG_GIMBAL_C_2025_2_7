@@ -93,15 +93,15 @@ void KeyBroad::UpData()
 
     // 长按向前方向
     if (kb.a)
-        Gimbal_to_Chassis_Data.set_LX(1);
-    else if (kb.d)
         Gimbal_to_Chassis_Data.set_LX(-1);
+    else if (kb.d)
+        Gimbal_to_Chassis_Data.set_LX(1);
     else
         Gimbal_to_Chassis_Data.set_LX(0);
 
     // 长按小陀螺
     if (kb.q)
-        Gimbal_to_Chassis_Data.set_Rotating_vel(1);
+        Gimbal_to_Chassis_Data.set_Rotating_vel(220);
     else
         Gimbal_to_Chassis_Data.set_Rotating_vel(0);
 
