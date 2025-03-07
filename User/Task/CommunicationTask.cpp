@@ -1,11 +1,13 @@
 #include "../Task/CommunicationTask.hpp"
 #include "../APP/Mode.hpp"
 #include "../APP/Tools.hpp"
+#include "../BSP/Motor/DM/DmMotor.hpp"
 #include "../BSP/Motor/Dji/DjiMotor.hpp"
 #include "../BSP/Remote/Dbus.hpp"
 #include "cmsis_os2.h"
 #include "tim.h"
 #include "usart.h"
+#include "usbd_cdc_if.h"
 
 #define SIZE 8
 uint8_t format[15];
@@ -19,8 +21,8 @@ void CommunicationTask(void *argument)
 
     for (;;)
     {
+        Communicat::Vision_Data.Data_send();
         Gimbal_to_Chassis_Data.Data_send();
-        i++;
         osDelay(10);
     }
 }
@@ -85,6 +87,32 @@ float Gimbal_to_Chassis::CalcuGimbalToChassisAngle()
 
     // 计算最终角度误差 --------------------------------------------------
     return Tools.Zero_crossing_processing(Init_Angle, encoder_angle, 360.0f) - encoder_angle;
+}
+
+void Vision::Data_send()
+{
+
+    frame.head_one = 0x39;
+    frame.head_two = 0x39;
+
+    tx_gimbal.yaw_angle = BSP::Motor::Dji::Motor6020.getAngleDeg(1);
+    tx_gimbal.pitch_angle = BSP::Motor::DM::Motor4310.getAngleDeg(1);
+
+    tx_other.bullet_rate = 26;
+    tx_other.enemy_color = 0x42; // 0x42红   0X52蓝色
+    tx_other.forget = 0;
+    tx_other.forget_two = 0xFF;
+    auto temp_ptr = pData;
+    const auto memcpy_safe = [&](const auto &data) {
+        std::memcpy(temp_ptr, &data, sizeof(data));
+        temp_ptr += sizeof(data);
+    };
+
+    memcpy_safe(frame); // 序列化方向数据
+    memcpy_safe(tx_gimbal); // 序列化方向数据
+    memcpy_safe(tx_other); // 序列化方向数据
+
+    CDC_Transmit_FS(pData, 14);
 }
 
 }; // namespace Communicat

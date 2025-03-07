@@ -45,7 +45,7 @@ class GimbalData
     float tar_shoot;
     float tar_dail_vel;
 
-    float DM_Kp = 120;
+    float DM_Kp = 50;
     float DM_Kd = 1;
 
     float yaw_pos;

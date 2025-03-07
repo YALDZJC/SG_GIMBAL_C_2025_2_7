@@ -366,7 +366,13 @@
           "../Drivers/CMSIS/Include",
           "../Middlewares/ST/ARM/DSP/Inc",
           ".cmsis/include",
-          "RTE/_SG_GIMBAL_C_2025_2_7"
+          "RTE/_SG_GIMBAL_C_2025_2_7",
+          "../USB_DEVICE",
+          "../USB_DEVICE/App",
+          "../Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Inc",
+          "../Middlewares/ST/STM32_USB_Device_Library",
+          "../Middlewares/ST/STM32_USB_Device_Library/Core/Inc",
+          "../USB_DEVICE/Target"
         ],
         "libList": [],
         "defineList": [

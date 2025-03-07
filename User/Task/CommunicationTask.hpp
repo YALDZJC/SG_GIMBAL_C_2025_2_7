@@ -62,6 +62,45 @@ class Gimbal_to_Chassis
     void set_BP(bool BP);
 };
 
+class Vision
+{
+  private:
+    /* data */
+    struct Frame
+    {
+        uint8_t head_one;
+        uint8_t head_two;
+    };
+
+    struct Tx_Gimbal
+    {
+        float pitch_angle;
+        float yaw_angle;
+    };
+
+    struct Tx_Other
+    {
+        uint8_t bullet_rate;
+        uint8_t enemy_color;
+        uint8_t forget;
+        uint8_t forget_two;
+    };
+
+    float pitch_angle_;
+    float yaw_angle_;
+
+    Frame frame;
+    Tx_Gimbal tx_gimbal;
+    Tx_Other tx_other;
+
+    uint8_t pData[14];
+
+  public:
+    void Data_send();
+    void set_pitch_angle(float pitch_angle);
+    void set_yaw_angle(float yaw_angle);
+};
+
 inline void Gimbal_to_Chassis::set_LX(double LX)
 {
     direction.LX = LX;
@@ -96,6 +135,8 @@ inline void Gimbal_to_Chassis::set_BP(bool BP)
 {
     ui_list.BP = BP;
 }
+
+inline Vision Vision_Data;
 
 } // namespace Communicat
 
