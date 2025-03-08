@@ -141,7 +141,6 @@ class Gimbal_Task::VisionHandler : public StateHandler
     {
     }
 
-	
     void handle() override
     {
         // 可访问m_task的私有成员进行底盘操作
@@ -188,28 +187,27 @@ class Gimbal_Task::KeyBoardHandler : public StateHandler
         auto mouse_key = BSP::Remote::dr16.mouse();
         auto key = BSP::Remote::dr16.keyBoard();
 
-        gimbal_data.tar_pitch += mouse_vel.y * 20;
+        mouse_vel.x = Tools.clamp(mouse_vel.x, 50, -50);
 
+        gimbal_data.tar_pitch += mouse_vel.y * 20;
+        // yaw期望值计算
+        gimbal_data.tar_yaw -= mouse_vel.x * 30;
         // pitch限幅
         gimbal_data.tar_pitch = Tools.clamp(gimbal_data.tar_pitch, 23, -14);
 
-        // yaw期望值计算
-        gimbal_data.tar_yaw -= mouse_vel.x * 30;
+        if (mouse_key.right)
+        {
+            //			auto Vision = Communicat::Vision_Data;
+            gimbal_data.tar_pitch =
+                Communicat::Vision_Data.rx_target.pitch_angle + BSP::Motor::DM::Motor4310.getAngleDeg(1);
+            gimbal_data.tar_yaw = Communicat::Vision_Data.rx_target.yaw_angle + BSP::IMU::imu.getAddYaw();
+        }
 
-		if(mouse_key.right)
-		{
-//			auto Vision = Communicat::Vision_Data;
-			gimbal_data.tar_pitch=Communicat::Vision_Data.rx_target.pitch_angle + BSP::Motor::DM::Motor4310.getAngleDeg(1);
-			gimbal_data.tar_yaw=Communicat::Vision_Data.rx_target.yaw_angle + BSP::Motor::Dji::Motor6020.getAngleDeg(1);
-		}
-		
-        if (mouse_key.left &&gimbal_data.is_Launch == true)
+        if (mouse_key.left && gimbal_data.is_Launch == true)
             gimbal_data.tar_dail_vel = -4500;
         else
             gimbal_data.tar_dail_vel = 0;
 
-		
-		
         APP::Key::keyBroad.UpKey(APP::Key::keyBroad.G, key.g);
         if (APP::Key::keyBroad.getKeepClick(APP::Key::keyBroad.G))
         {
@@ -223,14 +221,13 @@ class Gimbal_Task::KeyBoardHandler : public StateHandler
             gimbal_data.is_Launch = false;
             Gimbal_to_Chassis_Data.set_MCL(false);
         }
-					auto Vision = Communicat::Vision_Data;
+        auto Vision = Communicat::Vision_Data;
 
-			pitch=Vision.rx_target.pitch_angle + BSP::Motor::DM::Motor4310.getAngleDeg(1);
-//			pitch=BSP::Motor::DM::Motor4310.getAngleDeg(1);
+        pitch = Vision.rx_target.pitch_angle + BSP::Motor::DM::Motor4310.getAngleDeg(1);
+        //			pitch=BSP::Motor::DM::Motor4310.getAngleDeg(1);
 
-			yaw=Vision.rx_target.yaw_angle + BSP::Motor::Dji::Motor6020.getAngleDeg(1);
-//					yaw=BSP::Motor::Dji::Motor6020.getAngleDeg(1);
-
+        yaw = Vision.rx_target.yaw_angle + BSP::Motor::Dji::Motor6020.getAngleDeg(1);
+        //					yaw=BSP::Motor::Dji::Motor6020.getAngleDeg(1);
     }
 
     void handle() override
@@ -332,8 +329,8 @@ void Gimbal_Task::updateState()
     }
 }
 
-TD tar_pitch(30);
-TD tar_yaw(50);
+TD tar_pitch(80);
+TD tar_yaw(30);
 
 TD tar_shoot(30);
 
@@ -443,7 +440,7 @@ void Gimbal_Task::CanSend()
     BSP::Motor::Dji::Motor2006.sendCAN(&hcan1, 0);
     BSP::Motor::Dji::Motor3508.sendCAN(&hcan1, 1);
 
-    //    Tools.vofaSend(tar_yaw.x1, yaw_ude.getU0(), BSP::IMU::imu.getAddYaw(), 0, 0, 0);
+    // Tools.vofaSend(BSP::Remote::dr16.mouseVel().x, BSP::IMU::imu.getAddYaw(), BSP::IMU::imu.getAddYaw(), 0, 0, 0);
 }
 
 void Gimbal_Task::Stop()
