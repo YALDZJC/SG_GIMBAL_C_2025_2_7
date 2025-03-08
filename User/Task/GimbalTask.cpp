@@ -141,6 +141,7 @@ class Gimbal_Task::VisionHandler : public StateHandler
     {
     }
 
+	
     void handle() override
     {
         // 可访问m_task的私有成员进行底盘操作
@@ -169,6 +170,8 @@ class Gimbal_Task::LaunchHandler : public StateHandler
     }
 };
 
+float pitch;
+float yaw;
 class Gimbal_Task::KeyBoardHandler : public StateHandler
 {
   public:
@@ -193,11 +196,20 @@ class Gimbal_Task::KeyBoardHandler : public StateHandler
         // yaw期望值计算
         gimbal_data.tar_yaw -= mouse_vel.x * 30;
 
+		if(mouse_key.right)
+		{
+//			auto Vision = Communicat::Vision_Data;
+			gimbal_data.tar_pitch=Communicat::Vision_Data.rx_target.pitch_angle + BSP::Motor::DM::Motor4310.getAngleDeg(1);
+			gimbal_data.tar_yaw=Communicat::Vision_Data.rx_target.yaw_angle + BSP::Motor::Dji::Motor6020.getAngleDeg(1);
+		}
+		
         if (mouse_key.left &&gimbal_data.is_Launch == true)
             gimbal_data.tar_dail_vel = -4500;
         else
             gimbal_data.tar_dail_vel = 0;
 
+		
+		
         APP::Key::keyBroad.UpKey(APP::Key::keyBroad.G, key.g);
         if (APP::Key::keyBroad.getKeepClick(APP::Key::keyBroad.G))
         {
@@ -211,6 +223,14 @@ class Gimbal_Task::KeyBoardHandler : public StateHandler
             gimbal_data.is_Launch = false;
             Gimbal_to_Chassis_Data.set_MCL(false);
         }
+					auto Vision = Communicat::Vision_Data;
+
+			pitch=Vision.rx_target.pitch_angle + BSP::Motor::DM::Motor4310.getAngleDeg(1);
+//			pitch=BSP::Motor::DM::Motor4310.getAngleDeg(1);
+
+			yaw=Vision.rx_target.yaw_angle + BSP::Motor::Dji::Motor6020.getAngleDeg(1);
+//					yaw=BSP::Motor::Dji::Motor6020.getAngleDeg(1);
+
     }
 
     void handle() override

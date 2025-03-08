@@ -23,13 +23,15 @@
 #include "dma.h"
 #include "tim.h"
 #include "usart.h"
-//#include "usbd_cdc.h"
+#include "usb_device.h"
 #include "gpio.h"
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 void Init();
 void DirUpdata();
+void send();
+
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -196,7 +198,9 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
     HAL_IncTick();
   }
   /* USER CODE BEGIN Callback 1 */
-
+  if (htim->Instance == TIM7) {
+		send();
+  }
   /* USER CODE END Callback 1 */
 }
 

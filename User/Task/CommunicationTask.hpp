@@ -64,7 +64,7 @@ class Gimbal_to_Chassis
 
 class Vision
 {
-  private:
+  public:
     /* data */
     struct Frame
     {
@@ -86,6 +86,25 @@ class Vision
         uint8_t forget_two;
     };
 
+    struct Rx_Frame
+    {
+        uint8_t head_one;
+        uint8_t head_two;
+    };
+    
+    struct Rx_Target
+    {
+        float pitch_angle;
+        float yaw_angle;
+    };
+
+    struct Rx_Other
+    {
+        uint8_t vision_ready;
+        uint8_t fire;
+        uint8_t tail;
+    };
+
     float pitch_angle_;
     float yaw_angle_;
 
@@ -93,10 +112,16 @@ class Vision
     Tx_Gimbal tx_gimbal;
     Tx_Other tx_other;
 
-    uint8_t pData[14];
+    Rx_Frame rx_frame;
+    Rx_Target rx_target;
+    Rx_Other rx_other;
+
+    uint8_t Tx_pData[14];
+    uint8_t Rx_pData[13];
 
   public:
     void Data_send();
+    void dataReceive();
     void set_pitch_angle(float pitch_angle);
     void set_yaw_angle(float yaw_angle);
 };
@@ -149,6 +174,7 @@ extern "C"
 #endif
 
     void CommunicationTask(void *argument);
+void send();
 
 #ifdef __cplusplus
 }

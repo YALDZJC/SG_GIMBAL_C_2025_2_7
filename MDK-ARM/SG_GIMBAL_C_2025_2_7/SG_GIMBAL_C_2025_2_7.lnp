@@ -10,6 +10,8 @@
 "sg_gimbal_c_2025_2_7\stm32f4xx_it.o"
 "sg_gimbal_c_2025_2_7\stm32f4xx_hal_msp.o"
 "sg_gimbal_c_2025_2_7\stm32f4xx_hal_timebase_tim.o"
+"sg_gimbal_c_2025_2_7\stm32f4xx_hal_tim.o"
+"sg_gimbal_c_2025_2_7\stm32f4xx_hal_tim_ex.o"
 "sg_gimbal_c_2025_2_7\stm32f4xx_hal_pcd.o"
 "sg_gimbal_c_2025_2_7\stm32f4xx_hal_pcd_ex.o"
 "sg_gimbal_c_2025_2_7\stm32f4xx_ll_usb.o"
@@ -27,8 +29,6 @@
 "sg_gimbal_c_2025_2_7\stm32f4xx_hal.o"
 "sg_gimbal_c_2025_2_7\stm32f4xx_hal_exti.o"
 "sg_gimbal_c_2025_2_7\stm32f4xx_hal_can.o"
-"sg_gimbal_c_2025_2_7\stm32f4xx_hal_tim.o"
-"sg_gimbal_c_2025_2_7\stm32f4xx_hal_tim_ex.o"
 "sg_gimbal_c_2025_2_7\stm32f4xx_hal_uart.o"
 "sg_gimbal_c_2025_2_7\system_stm32f4xx.o"
 "sg_gimbal_c_2025_2_7\croutine.o"
@@ -65,7 +65,7 @@
 "sg_gimbal_c_2025_2_7\usbd_ctlreq.o"
 "sg_gimbal_c_2025_2_7\usbd_ioreq.o"
 "sg_gimbal_c_2025_2_7\usbd_cdc.o"
-"..\Middlewares\ST\ARM\DSP\Lib\arm_cortexM4lf_math.lib"
+"../Middlewares/ST/ARM/DSP/Lib/arm_cortexM4lf_math.lib"
 --strict --scatter "SG_GIMBAL_C_2025_2_7\SG_GIMBAL_C_2025_2_7.sct"
 --summary_stderr --info summarysizes --map --load_addr_map_info --xref --callgraph --symbols
 --info sizes --info totals --info unused --info veneers
