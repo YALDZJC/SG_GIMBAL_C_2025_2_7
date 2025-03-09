@@ -74,8 +74,9 @@ class Vision
 
     struct Tx_Gimbal
     {
-        float pitch_angle;
-        float yaw_angle;
+        int32_t pitch_angle;
+        int32_t yaw_angle;
+        uint32_t time;
     };
 
     struct Tx_Other
@@ -96,6 +97,7 @@ class Vision
     {
         float pitch_angle;
         float yaw_angle;
+        float time;
     };
 
     struct Rx_Other
@@ -116,14 +118,24 @@ class Vision
     Rx_Target rx_target;
     Rx_Other rx_other;
 
-    uint8_t Tx_pData[14];
-    uint8_t Rx_pData[13];
+    uint8_t Tx_pData[18];
+    uint8_t Rx_pData[17];
 
   public:
     void Data_send();
     void dataReceive();
     void set_pitch_angle(float pitch_angle);
     void set_yaw_angle(float yaw_angle);
+    void time_demo();
+
+    float get_vision_yaw()
+    {
+        return yaw_angle_ = rx_target.yaw_angle;
+    }
+    float get_vision_pitch()
+    {
+        return pitch_angle_ = rx_target.pitch_angle;
+    }
 };
 
 inline void Gimbal_to_Chassis::set_LX(double LX)

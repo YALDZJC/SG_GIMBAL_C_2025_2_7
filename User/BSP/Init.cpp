@@ -13,7 +13,7 @@ void Init()
     CAN::BSP::Can_Init();
     BSP::IMU::imu.Init();
 
-    HAL_TIM_Base_Start_IT(&htim7);
+//    HAL_TIM_Base_Start_IT(&htim7);
 
     // ?????
     HAL_TIM_Base_Start(&htim4);

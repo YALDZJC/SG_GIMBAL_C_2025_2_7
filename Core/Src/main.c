@@ -102,7 +102,6 @@ int main(void)
   MX_USART1_UART_Init();
   MX_USART3_UART_Init();
   MX_USART6_UART_Init();
-  MX_TIM7_Init();
   MX_TIM4_Init();
   MX_TIM5_Init();
   /* USER CODE BEGIN 2 */
@@ -198,9 +197,9 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
     HAL_IncTick();
   }
   /* USER CODE BEGIN Callback 1 */
-  if (htim->Instance == TIM7) {
-		send();
-  }
+//  if (htim->Instance == TIM7) {
+//		send();
+//  }
   /* USER CODE END Callback 1 */
 }
 

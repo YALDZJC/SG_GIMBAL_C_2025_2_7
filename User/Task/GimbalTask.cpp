@@ -14,7 +14,7 @@
 #include "../BSP/Motor/Dji/DjiMotor.hpp"
 #include "cmsis_os2.h"
 
-#include "arm_math.h"
+// #include "arm_math.h"
 
 void GimbalTask(void *argument)
 {
@@ -58,7 +58,7 @@ class GimbalData
     float sin_value;
 
     float ff_value;
-    float ff_k = 0.5;
+    float ff_k = 0;
     float Yaw_final_out;
     float Pitch_final_out;
 
@@ -199,7 +199,7 @@ class Gimbal_Task::KeyBoardHandler : public StateHandler
         {
             //			auto Vision = Communicat::Vision_Data;
             gimbal_data.tar_pitch =
-                Communicat::Vision_Data.rx_target.pitch_angle + BSP::Motor::DM::Motor4310.getAngleDeg(1);
+                (Communicat::Vision_Data.rx_target.pitch_angle + BSP::Motor::DM::Motor4310.getAngleDeg(1)) * 0.01744444;
             gimbal_data.tar_yaw = Communicat::Vision_Data.rx_target.yaw_angle + BSP::IMU::imu.getAddYaw();
         }
 
@@ -226,7 +226,7 @@ class Gimbal_Task::KeyBoardHandler : public StateHandler
         pitch = Vision.rx_target.pitch_angle + BSP::Motor::DM::Motor4310.getAngleDeg(1);
         //			pitch=BSP::Motor::DM::Motor4310.getAngleDeg(1);
 
-        yaw = Vision.rx_target.yaw_angle + BSP::Motor::Dji::Motor6020.getAngleDeg(1);
+        yaw = Vision.rx_target.yaw_angle + BSP::IMU::imu.getAddYaw();
         //					yaw=BSP::Motor::Dji::Motor6020.getAngleDeg(1);
     }
 
@@ -330,15 +330,15 @@ void Gimbal_Task::updateState()
 }
 
 TD tar_pitch(80);
-TD tar_yaw(30);
+TD tar_yaw(80);
 
 TD tar_shoot(30);
 
 TD shoot_vel_Left(100);
 TD shoot_vel_Right(100);
 
-Kpid_t Kpid_yaw_angle(10, 0, 0.0);
-Kpid_t Kpid_yaw_vel(150, 0.0, 0.0);
+Kpid_t Kpid_yaw_angle(8, 0, 0.0);
+Kpid_t Kpid_yaw_vel(350, 0.0, 0.0);
 
 PID pid_yaw_angle(4, 20);
 PID pid_yaw_vel(0.0, 0.0);
@@ -440,7 +440,7 @@ void Gimbal_Task::CanSend()
     BSP::Motor::Dji::Motor2006.sendCAN(&hcan1, 0);
     BSP::Motor::Dji::Motor3508.sendCAN(&hcan1, 1);
 
-    // Tools.vofaSend(BSP::Remote::dr16.mouseVel().x, BSP::IMU::imu.getAddYaw(), BSP::IMU::imu.getAddYaw(), 0, 0, 0);
+    // Tools.vofaSend(Communicat::Vision_Data, BSP::IMU::imu.getAddYaw(), Communicat::Vision_Data.get_vision_yaw() + BSP::IMU::imu.getAddYaw(), 0, 0, 0);
 }
 
 void Gimbal_Task::Stop()
