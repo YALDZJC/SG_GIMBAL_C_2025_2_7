@@ -20,11 +20,12 @@ struct Parameters
     double encoder_resolution;   // 编码器分辨率
 
     // 自动计算的参数
-    double encoder_to_deg;                  // 编码器值转角度系数
+    double encoder_to_deg; // 编码器值转角度系数
     double encoder_to_rpm;
     double rpm_to_radps;                    // RPM转角速度系数
     double current_to_torque_coefficient;   // 电流转扭矩系数
     double feedback_to_current_coefficient; // 反馈电流转电流系数
+    double deg_to_real;                     // 角度转实际角度系数
 
     static constexpr double deg_to_rad = 0.017453292519611;
     static constexpr double rad_to_deg = 1 / 0.017453292519611;
@@ -39,6 +40,7 @@ struct Parameters
         encoder_to_rpm = 1 / reduction_ratio;
         current_to_torque_coefficient = reduction_ratio * torque_constant / feedback_current_max * current_max;
         feedback_to_current_coefficient = current_max / feedback_current_max;
+        deg_to_real = 1 / reduction_ratio;
     }
 };
 
@@ -178,11 +180,11 @@ template <uint8_t N> class DjiMotorBase : public MotorBase<N>
         double Data = this->unit_data_[i].angle_Deg;
 
         if (Data - lastData < -180) // 正转
-            this->unit_data_[i].add_angle += (360 - lastData + Data);
+            this->unit_data_[i].add_angle += (360 - lastData + Data) * params.deg_to_real;
         else if (Data - lastData > 180) // 反转
-            this->unit_data_[i].add_angle += -(360 - Data + lastData);
+            this->unit_data_[i].add_angle += -(360 - Data + lastData) * params.deg_to_real;
         else
-            this->unit_data_[i].add_angle += (Data - lastData);
+            this->unit_data_[i].add_angle += (Data - lastData) * params.deg_to_real;
 
         this->unit_data_[i].last_angle = Data;
         // 角度计算逻辑...

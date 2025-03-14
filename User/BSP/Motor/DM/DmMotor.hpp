@@ -124,19 +124,6 @@ template <uint8_t N> class DMMotorBase : public MotorBase<N>
         return (int)((x - offset) * ((float)((1 << bits) - 1)) / span);
     }
 
-    uint16_t __builtin_bswap12(uint16_t value)
-    {
-        // 步骤 1: 提取原始字节中的位
-        uint8_t high_byte = (value >> 8) & 0x0F; // 高 4 位（原低端的高 4 位）
-        uint8_t low_byte = value & 0xFF;         // 低 8 位（原低端的低 8 位）
-
-        // 步骤 2: 重新组合字节（交换高低位）
-        uint16_t swapped = (low_byte << 4) | high_byte;
-
-        // 步骤 3: 确保结果在 12-bit 范围内
-        return swapped & 0x0FFF;
-    }
-
     // // 定义参数生成方法的虚函数
     // virtual Parameters GetParameters() = 0; // 纯虚函数要求子类必须实现
     /**

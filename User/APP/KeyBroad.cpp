@@ -39,7 +39,7 @@ void KeyBroad::UpKey(KeyID id, bool key)
     {
         state.eventType = KEY_LONG_PRESS;
     }
-    
+
     // 更新边沿状态
     state.RisingEdge = (state.NowKey && !state.lastKey);
     state.FallingEdge = (!state.NowKey && state.lastKey);
@@ -82,8 +82,8 @@ void KeyBroad::UpData()
 
     auto kb = BSP::Remote::dr16.keyBoard();
 
-    //设置底盘发送值
-    // 长按向前方向
+    // 设置底盘发送值
+    //  长按向前方向
     if (kb.w)
         Gimbal_to_Chassis_Data.set_LY(1);
     else if (kb.s)
@@ -99,13 +99,29 @@ void KeyBroad::UpData()
     else
         Gimbal_to_Chassis_Data.set_LX(0);
 
-    // 长按小陀螺
-    if (kb.q)
-        Gimbal_to_Chassis_Data.set_Rotating_vel(220);
+    // 点击小陀螺
+    UpKey(Q, kb.q);
+    if (getKeepClick(Q))
+        Gimbal_to_Chassis_Data.set_Rotating_vel(110);
     else
         Gimbal_to_Chassis_Data.set_Rotating_vel(0);
 
+    // 点击加速
+    UpKey(Shift, kb.shift);
+    Gimbal_to_Chassis_Data.set_Shift(getKeepClick(Shift));
 
+    UpKey(E, kb.e);
+
+	if (getKeepClick(E))
+    {
+		Gimbal_to_Chassis_Data.set_Init_angle(45);
+	}
+	else
+	{
+		Gimbal_to_Chassis_Data.set_Init_angle(0);
+	}
+
+    UpKey(X, kb.x);
 }
 
 bool KeyBroad::getRisingKey(KeyID id)

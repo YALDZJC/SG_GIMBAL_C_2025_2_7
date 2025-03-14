@@ -56,7 +56,7 @@ template <uint8_t N> class MotorBase
      */
     float getAngleRad(uint8_t id)
     {
-        return this->unit_data_[id - 1].angle_Deg * this->params_.deg_to_rad;
+        return this->unit_data_[id - 1].angle_Rad;
     }
 
     /**
@@ -89,7 +89,7 @@ template <uint8_t N> class MotorBase
      */
     float getAddAngleRad(uint8_t id)
     {
-        return this->unit_data_[id - 1].add_angle * this->params_.deg_to_rad;
+        return this->unit_data_[id - 1].add_angle;
     }
 
     /**
@@ -149,7 +149,7 @@ template <uint8_t N> class MotorBase
 
     /**
      * @brief 获取在线状态
-     * 
+     *
      * @param id CAN od
      * @return true 断联
      * @return false 在线

@@ -44,6 +44,7 @@ class GimbalData
 
     float tar_shoot;
     float tar_dail_vel;
+    int32_t tar_Dail_angle;
 
     float DM_Kp = 50;
     float DM_Kd = 1;
@@ -60,10 +61,16 @@ class GimbalData
     float ff_value;
     float ff_k = 0;
     float Yaw_final_out;
+
+    float pitch_gravity_ff = -0.8; // pitch重力前馈
     float Pitch_final_out;
+
+    uint32_t shoot_time_ms;
+    uint32_t shoot_time;
 
     uint32_t send_ms;
 
+    bool fire_flag;
     BSP::Motor::DM::DmRun DM_Run;
     BSP::Motor::DM::DmState DM_State = BSP::Motor::DM::DmState::OFF;
 
@@ -193,7 +200,12 @@ class Gimbal_Task::KeyBoardHandler : public StateHandler
         // yaw期望值计算
         gimbal_data.tar_yaw -= mouse_vel.x * 30;
         // pitch限幅
-        gimbal_data.tar_pitch = Tools.clamp(gimbal_data.tar_pitch, 23, -14);
+        gimbal_data.tar_pitch = Tools.clamp(gimbal_data.tar_pitch, 23, -5);
+
+        if (APP::Key::keyBroad.getFallingKey(APP::Key::keyBroad.X))
+        {
+            gimbal_data.tar_yaw -= 180.0f;
+        }
 
         if (mouse_key.right)
         {
@@ -201,26 +213,40 @@ class Gimbal_Task::KeyBoardHandler : public StateHandler
             gimbal_data.tar_pitch =
                 (Communicat::Vision_Data.rx_target.pitch_angle + BSP::Motor::DM::Motor4310.getAngleDeg(1)) * 0.01744444;
             gimbal_data.tar_yaw = Communicat::Vision_Data.rx_target.yaw_angle + BSP::IMU::imu.getAddYaw();
+
+            Communicat::Vision_Data.get_fire_num(&gimbal_data.tar_Dail_angle);
+        }
+        if (mouse_key.left && gimbal_data.is_Launch == true)
+        {
+            //            gimbal_data.tar_dail_vel = -4500;
+            gimbal_data.shoot_time = 100;
+        }
+        else
+        {
+            gimbal_data.tar_dail_vel = 0;
+            gimbal_data.shoot_time = 100000;
         }
 
-        if (mouse_key.left && gimbal_data.is_Launch == true)
-            gimbal_data.tar_dail_vel = -4500;
-        else
-            gimbal_data.tar_dail_vel = 0;
+
+
 
         APP::Key::keyBroad.UpKey(APP::Key::keyBroad.G, key.g);
         if (APP::Key::keyBroad.getKeepClick(APP::Key::keyBroad.G))
         {
-            gimbal_data.tar_shoot = 6000;
+            m_task.LaunchState(true);
+
+            //            gimbal_data.tar_shoot = 6000;
             gimbal_data.is_Launch = true;
             Gimbal_to_Chassis_Data.set_MCL(true);
         }
         else
         {
+            m_task.LaunchState(false);
             gimbal_data.tar_shoot = 0;
             gimbal_data.is_Launch = false;
             Gimbal_to_Chassis_Data.set_MCL(false);
         }
+
         auto Vision = Communicat::Vision_Data;
 
         pitch = Vision.rx_target.pitch_angle + BSP::Motor::DM::Motor4310.getAngleDeg(1);
@@ -228,12 +254,14 @@ class Gimbal_Task::KeyBoardHandler : public StateHandler
 
         yaw = Vision.rx_target.yaw_angle + BSP::IMU::imu.getAddYaw();
         //					yaw=BSP::Motor::Dji::Motor6020.getAngleDeg(1);
+
+        //        Tools.vofaSend(gimbal_data.tar_Dail_angle, Communicat::Vision_Data.fire_num,
+        //                       Communicat::Vision_Data.rx_other.fire + BSP::IMU::imu.getAddYaw(), 0, 0, 0);
     }
 
     void handle() override
     {
         state_num = 3;
-        m_task.LaunchState(false);
         APP::Key::keyBroad.UpData();
 
         KeyBoardTar();
@@ -354,7 +382,7 @@ void Gimbal_Task::TargetUpdata()
 
     // pitch期望值计算
     gimbal_data.tar_pitch -= BSP::Remote::dr16.remoteRight().y * 0.1;
-    gimbal_data.tar_pitch = Tools.clamp(gimbal_data.tar_pitch, 23, -14);
+    gimbal_data.tar_pitch = Tools.clamp(gimbal_data.tar_pitch, 23, -5);
 
     // yaw期望值计算
     if (gimbal_data.is_sin == 0)
@@ -367,6 +395,8 @@ void Gimbal_Task::TargetUpdata()
     }
 
     gimbal_data.send_ms++;
+
+    //    Tools.vofaSend(gimbal_data.tar_Dail_angle, 0, 0, 0, 0, 0);
 }
 
 void Gimbal_Task::FilterUpdata()
@@ -383,7 +413,6 @@ void Gimbal_Task::FilterUpdata()
 
 void Gimbal_Task::YawUpdata()
 {
-
     auto yaw_angle = BSP::IMU::imu.getAddYaw();
     auto yaw_angle_vel = BSP::IMU::imu.getGyroZ();
 
@@ -399,10 +428,13 @@ void Gimbal_Task::PitchUpdata()
 {
     using namespace BSP::Motor;
 
-    BSP::Motor::DM::Motor4310.ctrl_Motor(&hcan2, 1, tar_pitch.x1 * 0.017, 0, gimbal_data.DM_Kp, gimbal_data.DM_Kd, 0);
+    gimbal_data.Pitch_final_out = gimbal_data.pitch_gravity_ff;
+    BSP::Motor::DM::Motor4310.ctrl_Motor(&hcan2, 1, tar_pitch.x1 * 0.017, 0, gimbal_data.DM_Kp, gimbal_data.DM_Kd,
+                                         gimbal_data.Pitch_final_out);
 
     gimbal_data.DMStateUpdata();
     gimbal_data.setDmState(BSP::Motor::DM::DmRun::RUN_ON);
+    Gimbal_to_Chassis_Data.set_pitch_pos(DM::Motor4310.getAngleDeg(1));
 }
 
 Kpid_t Kpid_shoot_vel(5, 0.05, 0.003);
@@ -411,6 +443,12 @@ Kpid_t Kpid_Dial_vel(3, 0.0, 0);
 PID pid_shoot_Left_vel(1000, 1000);
 PID pid_shoot_Right_vel(1000, 1000);
 PID pid_Dial_vel(0.0, 0.0);
+
+Kpid_t Kpid_Dial_pos(3, 0, 0);
+Kpid_t Kpid_Dial_pos_vel(200, 0, 0);
+
+PID pid_Dial_pos_vel(0, 0);
+PID pid_Dial_pos(0, 0);
 
 uint16_t tar_shoot_vel = 0;
 
@@ -422,8 +460,33 @@ void Gimbal_Task::ShootUpdate()
 
 void Gimbal_Task::DialUpdata()
 {
-    pid_Dial_vel.GetPidPos(Kpid_Dial_vel, gimbal_data.tar_dail_vel, BSP::Motor::Dji::Motor2006.getVelocityRpm(1),
+    auto mouse_key = BSP::Remote::dr16.mouse();
+
+    // if (mouse_key.right)
+    // {
+    //     pid_Dial_pos.GetPidPos(Kpid_Dial_pos, gimbal_data.tar_Dail_angle,
+    //     BSP::Motor::Dji::Motor2006.getAddAngleRad(1),
+    //                            16384);
+    //     pid_Dial_vel.GetPidPos(Kpid_Dial_pos_vel, pid_Dial_pos.getOut(),
+    //     BSP::Motor::Dji::Motor2006.getVelocityRpm(1),
+    //                            16384.0f);
+    // }
+    // else
+    // {
+    // pid_Dial_vel.GetPidPos(Kpid_Dial_vel, gimbal_data.tar_dail_vel, BSP::Motor::Dji::Motor2006.getVelocityRpm(1),
+    //                        16384.0f);
+
+    // 防止卡弹后继续增加累计值
+    if (pid_Dial_pos.GetErr() > 80)
+    {
+        gimbal_data.tar_Dail_angle = BSP::Motor::Dji::Motor2006.getAddAngleDeg(1);
+    }
+
+    pid_Dial_pos.GetPidPos(Kpid_Dial_pos, gimbal_data.tar_Dail_angle, BSP::Motor::Dji::Motor2006.getAddAngleDeg(1),
                            16384.0f);
+    pid_Dial_pos_vel.GetPidPos(Kpid_Dial_pos_vel, pid_Dial_pos.getOut(), BSP::Motor::Dji::Motor2006.getVelocityRpm(1),
+                               16384.0f);
+    // }
 }
 
 void Gimbal_Task::CanSend()
@@ -434,13 +497,11 @@ void Gimbal_Task::CanSend()
     BSP::Motor::Dji::Motor3508.setCAN(pid_shoot_Left_vel.getOut(), 2);
     BSP::Motor::Dji::Motor3508.setCAN(pid_shoot_Right_vel.getOut(), 3);
 
-    BSP::Motor::Dji::Motor2006.setCAN(pid_Dial_vel.getOut(), 1);
+    BSP::Motor::Dji::Motor2006.setCAN(pid_Dial_pos_vel.getOut(), 1);
 
     BSP::Motor::Dji::Motor6020.sendCAN(&hcan1, 0);
     BSP::Motor::Dji::Motor2006.sendCAN(&hcan1, 0);
     BSP::Motor::Dji::Motor3508.sendCAN(&hcan1, 1);
-
-    // Tools.vofaSend(Communicat::Vision_Data, BSP::IMU::imu.getAddYaw(), Communicat::Vision_Data.get_vision_yaw() + BSP::IMU::imu.getAddYaw(), 0, 0, 0);
 }
 
 void Gimbal_Task::Stop()
@@ -453,11 +514,14 @@ void Gimbal_Task::Stop()
     gimbal_data.setDmState(BSP::Motor::DM::DmRun::RUN_OFF);
 
     gimbal_data.tar_yaw = BSP::IMU::imu.getAddYaw();
+    gimbal_data.tar_pitch = BSP::Motor::DM::Motor4310.getAngleDeg(1);
 
     YawUpdata();
+    //	PitchUpdata();
 
     pid_yaw_angle.clearPID();
     pid_yaw_vel.clearPID();
+    pid_Dial_pos_vel.clearPID();
     yaw_ude.clear();
     Launch();
 
@@ -485,11 +549,43 @@ void Gimbal_Task::LaunchState(bool is_Launch)
 {
     if (is_Launch == true)
     {
-        gimbal_data.tar_dail_vel = BSP::Remote::dr16.sw() * 4800;
+        int32_t shoot_time_tick = HAL_GetTick();
+        auto sw = BSP::Remote::dr16.sw();
+        auto mouse_key = BSP::Remote::dr16.mouse();
+
+        //        // 弹速控制
+        if (sw >= 1)
+        {
+            gimbal_data.shoot_time = 50;
+            gimbal_data.fire_flag = true;
+        }
+        else if (sw >= 0.6 || mouse_key.left == 1)
+        {
+            gimbal_data.shoot_time = 100;
+            gimbal_data.fire_flag = true;
+        }
+        else if (sw >= 0.3)
+        {
+            gimbal_data.shoot_time = 200;
+            gimbal_data.fire_flag = true;
+        }
+        else
+        {
+            gimbal_data.fire_flag = false;
+        }
+
+        if (gimbal_data.fire_flag == true && shoot_time_tick - gimbal_data.shoot_time_ms >= gimbal_data.shoot_time)
+        {
+            gimbal_data.tar_Dail_angle -= 40; // 8191 * 减速比(36) / 弹舱载弹数
+            gimbal_data.shoot_time_ms = shoot_time_tick;
+        }
+
+        //        gimbal_data.tar_dail_vel = BSP::Remote::dr16.sw() * 3000;
         gimbal_data.tar_shoot = 6000;
     }
     else if (is_Launch == false)
     {
+        gimbal_data.tar_Dail_angle = BSP::Motor::Dji::Motor2006.getAddAngleDeg(1);
         gimbal_data.tar_dail_vel = 0;
         gimbal_data.tar_shoot = 0;
     }

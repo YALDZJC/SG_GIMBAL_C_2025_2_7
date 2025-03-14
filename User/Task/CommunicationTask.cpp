@@ -19,63 +19,18 @@ uint64_t i;
 
 Communicat::Gimbal_to_Chassis Gimbal_to_Chassis_Data;
 
-void send()
-{
-    Communicat::Vision_Data.Data_send();
-}
-
-static uint32_t CPU_FREQ_Hz, CPU_FREQ_Hz_ms, CPU_FREQ_Hz_us;
-static uint32_t CYCCNT_RountCount;
-static uint32_t CYCCNT_LAST;
-uint64_t CYCCNT64;
 
 // delay PID测试
-float time_kp = 0.025, time_out, int_time = 5;
+float time_kp = 2.0, time_out, int_time = 5;
 uint32_t demo_time; // 测试时间戳
 
-static void DWT_CNT_Update(void)
-{
-    volatile uint32_t cnt_now = DWT->CYCCNT;
-
-    if (cnt_now < CYCCNT_LAST)
-        CYCCNT_RountCount++; // 溢出
-
-    CYCCNT_LAST = cnt_now;
-}
-
-float DWT_GetDeltaT(uint32_t *cnt_last)
-{
-    volatile uint32_t cnt_now = DWT->CYCCNT;
-    float dt = ((uint32_t)(cnt_now - *cnt_last)) / ((float)(CPU_FREQ_Hz));
-    *cnt_last = cnt_now;
-
-    DWT_CNT_Update();
-
-    return dt;
-}
-
-float send_hz;
 void CommunicationTask(void *argument)
 {
-    /* 使能DWT外设 */
-    CoreDebug->DEMCR |= CoreDebug_DEMCR_TRCENA_Msk;
-
-    /* DWT CYCCNT寄存器计数清0 */
-    DWT->CYCCNT = (uint32_t)0u;
-
-    /* 使能Cortex-M DWT CYCCNT寄存器 */
-    DWT->CTRL |= DWT_CTRL_CYCCNTENA_Msk;
-
-    CPU_FREQ_Hz = 168 * 1000000;
-    CPU_FREQ_Hz_ms = CPU_FREQ_Hz / 1000;
-    CPU_FREQ_Hz_us = CPU_FREQ_Hz / 1000000;
-    CYCCNT_RountCount = 0;
     for (;;)
     {
         Communicat::Vision_Data.Data_send();
         Communicat::Vision_Data.dataReceive();
-        //	Gimbal_to_Chassis_Data.Data_send();
-        send_hz += 1 * 0.005;
+        Gimbal_to_Chassis_Data.Data_send();
 
         osDelay(int_time);
     }
@@ -120,8 +75,8 @@ void Gimbal_to_Chassis::Data_send()
     {
         direction.LX = channel_to_uint8(BSP::Remote::dr16.remoteLeft().x);
         direction.LY = channel_to_uint8(BSP::Remote::dr16.remoteLeft().y);
+		direction.Rotating_vel = channel_to_uint8(BSP::Remote::dr16.sw());
     }
-
     direction.Yaw_encoder_angle_err = CalcuGimbalToChassisAngle();
 
     chassis_mode.Universal_mode = Mode::Chassis::Universal();
@@ -129,6 +84,10 @@ void Gimbal_to_Chassis::Data_send()
     chassis_mode.Rotating_mode = Mode::Chassis::Rotating();
     chassis_mode.KeyBoard_mode = Mode::Chassis::KeyBoard();
     chassis_mode.stop = Mode::Chassis::Stop();
+
+    auto key = BSP::Remote::dr16.keyBoard();
+    ui_list.UI_F5 = key.ctrl;
+    ui_list.pitch_pos = BSP::Motor::DM::Motor4310.getAngleDeg(1);
 
     // 计算总数据长度
     const uint8_t len = sizeof(direction) + sizeof(chassis_mode) + sizeof(ui_list) + 1; //+1帧头
@@ -155,7 +114,7 @@ void Gimbal_to_Chassis::Data_send()
 float Gimbal_to_Chassis::CalcuGimbalToChassisAngle()
 {
 
-    float encoder_angle = BSP::Motor::Dji::Motor6020.getAngleDeg(1) + 360;
+    float encoder_angle = BSP::Motor::Dji::Motor6020.getAngleDeg(1);
 
     // 计算最终角度误差 --------------------------------------------------
     return Tools.Zero_crossing_processing(Init_Angle, encoder_angle, 360.0f) - encoder_angle;
@@ -170,7 +129,6 @@ uint16_t demo_angle = 4050;
 
 void Vision::Data_send()
 {
-    ins_dt = DWT_GetDeltaT(&INS_DWT_Count);
     frame.head_one = 0x39;
     frame.head_two = 0x39;
 
@@ -184,11 +142,6 @@ void Vision::Data_send()
 
     Tx_pData[0] = frame.head_one;
     Tx_pData[1] = frame.head_two;
-
-    // send_time++;
-    // tx_gimbal.pitch_angle = send_time;
-    // tx_gimbal.yaw_angle = send_time;
-
 
     Tx_pData[2] = (int32_t)tx_gimbal.pitch_angle >> 24;
     Tx_pData[3] = (int32_t)tx_gimbal.pitch_angle >> 16;
@@ -207,18 +160,16 @@ void Vision::Data_send()
 
 	send_time++;
     tx_gimbal.time = send_time;
-
+	rx_target.time = (Rx_pData[13] << 24 | Rx_pData[14] << 16 | Rx_pData[15] << 8 | Rx_pData[16]);
 	
     demo_time = tx_gimbal.time - rx_target.time;
-	rx_target.time = (Rx_pData[13] << 24 | Rx_pData[14] << 16 | Rx_pData[15] << 8 | Rx_pData[16]);
 
-	
     Tx_pData[14] = (int32_t)tx_gimbal.time >> 24;
     Tx_pData[15] = (int32_t)tx_gimbal.time >> 16;
     Tx_pData[16] = (int32_t)tx_gimbal.time >> 8;
     Tx_pData[17] = (int32_t)tx_gimbal.time;
 
-    //    HAL_UART_Transmit_IT(&huart6, Tx_pData, 14);
+//    HAL_UART_Transmit_IT(&huart6, Tx_pData, 18);
     CDC_Transmit_FS(Tx_pData, 18);
 
 
@@ -236,23 +187,29 @@ void Vision::Data_send()
 
     //    memcpy_safe(tx_other); // 序列化方向数据
 
-    Tools.vofaSend(demo_time, tx_gimbal.time, rx_target.time, time_out ,rx_target.yaw_angle ,0);
+//    Tools.vofaSend(Communicat::Vision_Data.fire_flag, Communicat::Vision_Data.fire_num,
+//                   rx_other.fire, rx_other.fire, 0, 0);
 }
 
 void Vision::dataReceive()
 {
     uint32_t rx_len = 17; // 定义长度变量
-                          //    CDC_Receive_FS(Rx_pData, rx_len);
-                          //    HAL_UART_Receive_IT(&huart6, Rx_pData, 13);
+    CDC_Receive_FS(Rx_pData, &rx_len);
+//    HAL_UART_Receive_IT(&huart6, Rx_pData, 17);
 
-    uint8_t state = CDC_Receive_FS(Rx_pData, &rx_len);
+//    uint8_t state = CDC_Receive_FS(Rx_pData, &rx_len);
 
     if (Rx_pData[0] == 0x39 && Rx_pData[1] == 0x39)
     {
         rx_other.vision_ready = Rx_pData[10];
         rx_other.fire = (Rx_pData[11]);
         rx_other.tail = Rx_pData[12];
+	
+		rx_target.pitch_angle = (Rx_pData[2] << 24 | Rx_pData[3] << 16 | Rx_pData[4] << 8 | Rx_pData[5]) / 100.0;
+		
+		rx_target.yaw_angle = (Rx_pData[6] << 24 | Rx_pData[7] << 16 | Rx_pData[8] << 8 | Rx_pData[9]) / 100.0;
 
+	
         if (fabs(rx_target.yaw_angle) > 25.0) // 超过25°置零（异常值）
         {
             rx_target.yaw_angle = 0;
@@ -276,9 +233,8 @@ void Vision::dataReceive()
         //		}
         //        rx_angle = __builtin_bswap32(rx_target.yaw_angle);
     }
-    rx_target.yaw_angle = (Rx_pData[6] << 24 | Rx_pData[7] << 16 | Rx_pData[8] << 8 | Rx_pData[9]);
-    rx_target.pitch_angle = (Rx_pData[2] << 24 | Rx_pData[3] << 16 | Rx_pData[4] << 8 | Rx_pData[5]);
-
+	
+	
     //    USBD_CDC_SetRxBuffer(&hUsbDeviceFS, Rx_pData);
     //    USBD_CDC_ReceivePacket(&hUsbDeviceFS);
 

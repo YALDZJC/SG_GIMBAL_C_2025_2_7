@@ -16,6 +16,7 @@ class Gimbal_to_Chassis
     uint8_t head = 0xA5; // 帧头
 
     int16_t Init_Angle = 310.0f;
+    int16_t target_offset_angle = 0;
     // 初始化反转标志
     bool is_v_reverse = false;
 
@@ -27,6 +28,7 @@ class Gimbal_to_Chassis
         uint8_t Rotating_vel;
         float Yaw_encoder_angle_err;
         uint8_t is_v_reverse : 1;
+        uint8_t target_offset_angle;
     };
 
     struct __attribute__((packed)) ChassisMode // 底盘模式
@@ -44,9 +46,10 @@ class Gimbal_to_Chassis
         uint8_t BP : 1;
         uint8_t UI_F5 : 1;
         uint8_t Shift : 1;
+        float pitch_pos;
     };
 
-    uint8_t buffer[11];
+    uint8_t buffer[20];
 
     Direction direction;
     ChassisMode chassis_mode;
@@ -60,6 +63,12 @@ class Gimbal_to_Chassis
     void set_Shift(bool Shift);
     void set_MCL(bool MCL);
     void set_BP(bool BP);
+    void set_Init_angle(int16_t angle);
+
+    void set_pitch_pos(float pos)
+    {
+        ui_list.pitch_pos = pos;
+    }
 };
 
 class Vision
@@ -92,7 +101,7 @@ class Vision
         uint8_t head_one;
         uint8_t head_two;
     };
-    
+
     struct Rx_Target
     {
         float pitch_angle;
@@ -121,6 +130,9 @@ class Vision
     uint8_t Tx_pData[18];
     uint8_t Rx_pData[17];
 
+    bool fire_flag;
+    uint32_t fire_num;
+
   public:
     void Data_send();
     void dataReceive();
@@ -135,6 +147,20 @@ class Vision
     float get_vision_pitch()
     {
         return pitch_angle_ = rx_target.pitch_angle;
+    }
+
+    void get_fire_num(int32_t *tar)
+    {
+        if (rx_other.fire == 1 && fire_flag == false)
+        {
+            *tar -= 40.0f;
+            fire_flag = true;
+        }
+        else if (rx_other.fire == 0)
+        {
+            fire_num = 0;
+            fire_flag = false;
+        }
     }
 };
 
@@ -173,6 +199,12 @@ inline void Gimbal_to_Chassis::set_BP(bool BP)
     ui_list.BP = BP;
 }
 
+inline void Gimbal_to_Chassis::set_Init_angle(int16_t angle)
+{
+    direction.target_offset_angle = angle;
+//    Init_Angle += angle;
+}
+
 inline Vision Vision_Data;
 
 } // namespace Communicat
@@ -186,7 +218,7 @@ extern "C"
 #endif
 
     void CommunicationTask(void *argument);
-void send();
+    void send();
 
 #ifdef __cplusplus
 }
