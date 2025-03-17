@@ -2,7 +2,7 @@
 
 #include "../BSP/stdxxx.hpp"
 #include "../Task/EvenTask.hpp"
-
+#include "../APP/Tools.hpp"
 namespace Communicat
 {
 class Gimbal_to_Chassis
@@ -15,10 +15,8 @@ class Gimbal_to_Chassis
 
     uint8_t head = 0xA5; // 帧头
 
-    int16_t Init_Angle = 310.0f;
+    int16_t Init_Angle = 225.0f;
     int16_t target_offset_angle = 0;
-    // 初始化反转标志
-    bool is_v_reverse = false;
 
     struct __attribute__((packed)) Direction // 方向结构体
     {
@@ -27,8 +25,8 @@ class Gimbal_to_Chassis
 
         uint8_t Rotating_vel;
         float Yaw_encoder_angle_err;
-        uint8_t is_v_reverse : 1;
         uint8_t target_offset_angle;
+        int8_t Power;
     };
 
     struct __attribute__((packed)) ChassisMode // 底盘模式
@@ -46,7 +44,7 @@ class Gimbal_to_Chassis
         uint8_t BP : 1;
         uint8_t UI_F5 : 1;
         uint8_t Shift : 1;
-        float pitch_pos;
+        uint8_t Vision : 2;
     };
 
     uint8_t buffer[20];
@@ -65,9 +63,15 @@ class Gimbal_to_Chassis
     void set_BP(bool BP);
     void set_Init_angle(int16_t angle);
 
-    void set_pitch_pos(float pos)
+    void setPower(int8_t power)
     {
-        ui_list.pitch_pos = pos;
+        direction.Power += power;
+        direction.Power = Tools.clamp(direction.Power, 100, -100);
+    }
+
+    void setVisionMode(int8_t mode)
+    {
+        ui_list.Vision = mode;
     }
 };
 
@@ -92,8 +96,8 @@ class Vision
     {
         uint8_t bullet_rate;
         uint8_t enemy_color;
-        uint8_t forget;
-        uint8_t forget_two;
+        uint8_t vision_mode;
+        uint8_t tail;
     };
 
     struct Rx_Frame
@@ -153,7 +157,7 @@ class Vision
     {
         if (rx_other.fire == 1 && fire_flag == false)
         {
-            *tar -= 40.0f;
+            *tar -= 80.0f;
             fire_flag = true;
         }
         else if (rx_other.fire == 0)
@@ -161,6 +165,11 @@ class Vision
             fire_num = 0;
             fire_flag = false;
         }
+    }
+
+    void setVisionMode(uint8_t mode)
+    {
+        tx_other.vision_mode = mode;
     }
 };
 

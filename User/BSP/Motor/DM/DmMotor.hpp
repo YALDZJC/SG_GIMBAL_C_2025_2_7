@@ -269,6 +269,7 @@ template <uint8_t N> class DMMotorBase : public MotorBase<N>
         *(uint64_t *)(&send_data[0]) = 0xFCFFFFFFFFFFFFFF;
 
         CAN::BSP::Can_Send(hcan, init_address + send_idxs_[motor_index - 1], send_data, CAN_TX_MAILBOX2);
+        state = DmRun::RUN_ON;
     }
 
     /**
@@ -281,6 +282,7 @@ template <uint8_t N> class DMMotorBase : public MotorBase<N>
     {
         *(uint64_t *)(&send_data[0]) = 0xFDFFFFFFFFFFFFFF;
         CAN::BSP::Can_Send(hcan, init_address + send_idxs_[motor_index - 1], send_data, CAN_TX_MAILBOX2);
+        state = DmRun::RUN_OFF;
     }
 
     /**
@@ -327,6 +329,8 @@ template <uint8_t N> class DMMotorBase : public MotorBase<N>
     DMMotorfeedback feedback_[N]; // 国际单位数据
     Parameters params_;           // 转国际单位参数列表
     uint8_t send_data[8];
+
+    DmRun state = DmRun::RUN_OFF;
 };
 
 template <uint8_t N> class J4310 : public DMMotorBase<N>

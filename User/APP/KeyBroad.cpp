@@ -102,26 +102,47 @@ void KeyBroad::UpData()
     // 点击小陀螺
     UpKey(Q, kb.q);
     if (getKeepClick(Q))
-        Gimbal_to_Chassis_Data.set_Rotating_vel(110);
+        Gimbal_to_Chassis_Data.set_Rotating_vel(220);
     else
         Gimbal_to_Chassis_Data.set_Rotating_vel(0);
 
     // 点击加速
     UpKey(Shift, kb.shift);
-    Gimbal_to_Chassis_Data.set_Shift(getKeepClick(Shift));
+    Gimbal_to_Chassis_Data.set_Shift(kb.shift);
 
     UpKey(E, kb.e);
 
-	if (getKeepClick(E))
+    if (getKeepClick(E))
     {
-		Gimbal_to_Chassis_Data.set_Init_angle(45);
-	}
-	else
-	{
-		Gimbal_to_Chassis_Data.set_Init_angle(0);
-	}
+        Gimbal_to_Chassis_Data.set_Init_angle(45);
+    }
+    else
+    {
+        Gimbal_to_Chassis_Data.set_Init_angle(0);
+    }
 
-    UpKey(X, kb.x);
+    UpKey(F, kb.f);
+    if (getFallingKey(F))
+    {
+        Gimbal_to_Chassis_Data.setPower(10);
+    }
+    UpKey(V, kb.v);
+    if (getFallingKey(V))
+    {
+        Gimbal_to_Chassis_Data.setPower(-10);
+    }
+
+    UpKey(Ctrl, kb.ctrl);
+    if (getFallingKey(Ctrl))
+    {
+        Gimbal_to_Chassis_Data.set_UIF5(true);
+    }
+    else
+    {
+        Gimbal_to_Chassis_Data.set_UIF5(false);
+    }
+
+
 }
 
 bool KeyBroad::getRisingKey(KeyID id)

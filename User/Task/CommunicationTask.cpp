@@ -19,7 +19,6 @@ uint64_t i;
 
 Communicat::Gimbal_to_Chassis Gimbal_to_Chassis_Data;
 
-
 // delay PID测试
 float time_kp = 2.0, time_out, int_time = 5;
 uint32_t demo_time; // 测试时间戳
@@ -30,7 +29,7 @@ void CommunicationTask(void *argument)
     {
         Communicat::Vision_Data.Data_send();
         Communicat::Vision_Data.dataReceive();
-        Gimbal_to_Chassis_Data.Data_send();
+//        Gimbal_to_Chassis_Data.Data_send();
 
         osDelay(int_time);
     }
@@ -75,7 +74,6 @@ void Gimbal_to_Chassis::Data_send()
     {
         direction.LX = channel_to_uint8(BSP::Remote::dr16.remoteLeft().x);
         direction.LY = channel_to_uint8(BSP::Remote::dr16.remoteLeft().y);
-		direction.Rotating_vel = channel_to_uint8(BSP::Remote::dr16.sw());
     }
     direction.Yaw_encoder_angle_err = CalcuGimbalToChassisAngle();
 
@@ -85,10 +83,16 @@ void Gimbal_to_Chassis::Data_send()
     chassis_mode.KeyBoard_mode = Mode::Chassis::KeyBoard();
     chassis_mode.stop = Mode::Chassis::Stop();
 
+    if (chassis_mode.Rotating_mode)
+        direction.Rotating_vel = channel_to_uint8(BSP::Remote::dr16.sw());
+
     auto key = BSP::Remote::dr16.keyBoard();
     ui_list.UI_F5 = key.ctrl;
-    ui_list.pitch_pos = BSP::Motor::DM::Motor4310.getAngleDeg(1);
-
+	
+	if(demo_time > 200)
+	{
+		ui_list.Vision = 0;
+	}
     // 计算总数据长度
     const uint8_t len = sizeof(direction) + sizeof(chassis_mode) + sizeof(ui_list) + 1; //+1帧头
 
@@ -137,8 +141,8 @@ void Vision::Data_send()
 
     tx_other.bullet_rate = 26;
     tx_other.enemy_color = 0x52; // 0x42我红   0X52我蓝
-    tx_other.forget = 0;         // 击打小陀螺
-    tx_other.forget_two = 0xFF;  // 准备标志位
+//    tx_other.vision_mode = 0;    // 击打小陀螺
+    tx_other.tail = 0xFF;        // 准备标志位
 
     Tx_pData[0] = frame.head_one;
     Tx_pData[1] = frame.head_two;
@@ -155,13 +159,13 @@ void Vision::Data_send()
 
     Tx_pData[10] = 26;
     Tx_pData[11] = 0x52; // 0x42红   0X52蓝色
-    Tx_pData[12] = 0;
+    Tx_pData[12] = tx_other.vision_mode;
     Tx_pData[13] = 0XFF;
 
-	send_time++;
+    send_time++;
     tx_gimbal.time = send_time;
-	rx_target.time = (Rx_pData[13] << 24 | Rx_pData[14] << 16 | Rx_pData[15] << 8 | Rx_pData[16]);
-	
+    rx_target.time = (Rx_pData[13] << 24 | Rx_pData[14] << 16 | Rx_pData[15] << 8 | Rx_pData[16]);
+
     demo_time = tx_gimbal.time - rx_target.time;
 
     Tx_pData[14] = (int32_t)tx_gimbal.time >> 24;
@@ -169,9 +173,8 @@ void Vision::Data_send()
     Tx_pData[16] = (int32_t)tx_gimbal.time >> 8;
     Tx_pData[17] = (int32_t)tx_gimbal.time;
 
-//    HAL_UART_Transmit_IT(&huart6, Tx_pData, 18);
+    //    HAL_UART_Transmit_IT(&huart6, Tx_pData, 18);
     CDC_Transmit_FS(Tx_pData, 18);
-
 
     // auto temp_ptr = Tx_pData;
     // const auto memcpy_safe = [&](const auto &data) {
@@ -187,34 +190,33 @@ void Vision::Data_send()
 
     //    memcpy_safe(tx_other); // 序列化方向数据
 
-//    Tools.vofaSend(Communicat::Vision_Data.fire_flag, Communicat::Vision_Data.fire_num,
-//                   rx_other.fire, rx_other.fire, 0, 0);
+    //    Tools.vofaSend(Communicat::Vision_Data.fire_flag, 0,
+    //                   rx_other.fire, 0, 0, 0);
 }
 
 void Vision::dataReceive()
 {
     uint32_t rx_len = 17; // 定义长度变量
     CDC_Receive_FS(Rx_pData, &rx_len);
-//    HAL_UART_Receive_IT(&huart6, Rx_pData, 17);
+    //    HAL_UART_Receive_IT(&huart6, Rx_pData, 17);
 
-//    uint8_t state = CDC_Receive_FS(Rx_pData, &rx_len);
+    //    uint8_t state = CDC_Receive_FS(Rx_pData, &rx_len);
 
     if (Rx_pData[0] == 0x39 && Rx_pData[1] == 0x39)
     {
         rx_other.vision_ready = Rx_pData[10];
         rx_other.fire = (Rx_pData[11]);
         rx_other.tail = Rx_pData[12];
-	
-		rx_target.pitch_angle = (Rx_pData[2] << 24 | Rx_pData[3] << 16 | Rx_pData[4] << 8 | Rx_pData[5]) / 100.0;
-		
-		rx_target.yaw_angle = (Rx_pData[6] << 24 | Rx_pData[7] << 16 | Rx_pData[8] << 8 | Rx_pData[9]) / 100.0;
 
-	
+        rx_target.pitch_angle = (Rx_pData[2] << 24 | Rx_pData[3] << 16 | Rx_pData[4] << 8 | Rx_pData[5]) / 100.0;
+
+        rx_target.yaw_angle = (Rx_pData[6] << 24 | Rx_pData[7] << 16 | Rx_pData[8] << 8 | Rx_pData[9]) / 100.0;
+
         if (fabs(rx_target.yaw_angle) > 25.0) // 超过25°置零（异常值）
         {
             rx_target.yaw_angle = 0;
         }
-        if (fabs(rx_target.pitch_angle) > 15.0) // 超过25°置零（异常值）
+        if (fabs(rx_target.pitch_angle) > 25.0) // 超过25°置零（异常值）
         {
             rx_target.pitch_angle = 0;
         }
@@ -233,8 +235,7 @@ void Vision::dataReceive()
         //		}
         //        rx_angle = __builtin_bswap32(rx_target.yaw_angle);
     }
-	
-	
+
     //    USBD_CDC_SetRxBuffer(&hUsbDeviceFS, Rx_pData);
     //    USBD_CDC_ReceivePacket(&hUsbDeviceFS);
 
