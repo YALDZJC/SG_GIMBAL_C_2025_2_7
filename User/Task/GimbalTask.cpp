@@ -221,7 +221,7 @@ class Gimbal_Task::KeyBoardHandler : public StateHandler
 
         mouse_vel.x = Tools.clamp(mouse_vel.x, 50, -50);
 
-        gimbal_data.tar_pitch += mouse_vel.y * 60;
+        gimbal_data.tar_pitch += mouse_vel.y * 100;
         // yaw期望值计算
         gimbal_data.tar_yaw -= mouse_vel.x * 100;
         // pitch限幅
@@ -280,7 +280,7 @@ class Gimbal_Task::KeyBoardHandler : public StateHandler
 		if (APP::Key::keyBroad.getFallingKey(APP::Key::keyBroad.C))
 		{
 			num++;
-			num %= 3;
+			num %= 4;
 		}
 		
         m_task.LaunchState(gimbal_data.is_Launch);
@@ -397,7 +397,7 @@ void Gimbal_Task::updateState()
     }
 }
 
-TD tar_pitch(40);
+TD tar_pitch(80);
 TD tar_yaw(80);
 
 TD tar_shoot(30);
@@ -592,8 +592,8 @@ void Gimbal_Task::CanSend()
     BSP::Motor::Dji::Motor2006.sendCAN(&hcan1, 0);
     BSP::Motor::Dji::Motor3508.sendCAN(&hcan1, 1);
 
-    Tools.vofaSend(u, x1,
-    		BSP::IMU::imu.getGyroZ(), tar1, BSP::IMU::imu.getAddYaw(), tar_yaw.x1);
+//    Tools.vofaSend(u, x1,
+//    		BSP::IMU::imu.getGyroZ(), tar1, BSP::IMU::imu.getAddYaw(), tar_yaw.x1);
 }
 
 void Gimbal_Task::Stop()

@@ -29,7 +29,7 @@ void CommunicationTask(void *argument)
     {
         Communicat::Vision_Data.Data_send();
         Communicat::Vision_Data.dataReceive();
-//        Gimbal_to_Chassis_Data.Data_send();
+        Gimbal_to_Chassis_Data.Data_send();
 
         osDelay(int_time);
     }
@@ -93,6 +93,10 @@ void Gimbal_to_Chassis::Data_send()
 	{
 		ui_list.Vision = 0;
 	}
+
+    ui_list.aim_x = Vision_Data.getAimX();
+    ui_list.aim_y = Vision_Data.getAimY();
+
     // 计算总数据长度
     const uint8_t len = sizeof(direction) + sizeof(chassis_mode) + sizeof(ui_list) + 1; //+1帧头
 
@@ -196,7 +200,7 @@ void Vision::Data_send()
 
 void Vision::dataReceive()
 {
-    uint32_t rx_len = 17; // 定义长度变量
+    uint32_t rx_len = 19; // 定义长度变量
     CDC_Receive_FS(Rx_pData, &rx_len);
     //    HAL_UART_Receive_IT(&huart6, Rx_pData, 17);
 
@@ -207,6 +211,8 @@ void Vision::dataReceive()
         rx_other.vision_ready = Rx_pData[10];
         rx_other.fire = (Rx_pData[11]);
         rx_other.tail = Rx_pData[12];
+        rx_other.aim_x = Rx_pData[17];
+        rx_other.aim_y = Rx_pData[18];
 
         rx_target.pitch_angle = (Rx_pData[2] << 24 | Rx_pData[3] << 16 | Rx_pData[4] << 8 | Rx_pData[5]) / 100.0;
 

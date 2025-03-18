@@ -45,6 +45,8 @@ class Gimbal_to_Chassis
         uint8_t UI_F5 : 1;
         uint8_t Shift : 1;
         uint8_t Vision : 2;
+        uint8_t aim_x;
+        uint8_t aim_y;
     };
 
     uint8_t buffer[20];
@@ -118,6 +120,9 @@ class Vision
         uint8_t vision_ready;
         uint8_t fire;
         uint8_t tail;
+
+        uint8_t aim_x;
+        uint8_t aim_y;
     };
 
     float pitch_angle_;
@@ -132,7 +137,7 @@ class Vision
     Rx_Other rx_other;
 
     uint8_t Tx_pData[18];
-    uint8_t Rx_pData[17];
+    uint8_t Rx_pData[19];
 
     bool fire_flag;
     uint32_t fire_num;
@@ -170,6 +175,16 @@ class Vision
     void setVisionMode(uint8_t mode)
     {
         tx_other.vision_mode = mode;
+    }
+
+    uint8_t getAimX()
+    {
+        return rx_other.aim_x;
+    }
+
+    uint8_t getAimY()
+    {
+        return rx_other.aim_y;
     }
 };
 
