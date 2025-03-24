@@ -40,8 +40,8 @@ class GimbalData
     float tar_dail_vel;
     int32_t tar_Dail_angle;
 
-    float DM_Kp = 70;
-    float DM_Kd = 1.7;
+    float DM_Kp = 50;
+    float DM_Kd = 3.5;
     float err = 0;
     float yaw_pos;
     float yaw_vel;
@@ -216,7 +216,7 @@ class Gimbal_Task::KeyBoardHandler : public StateHandler
         auto mouse_key = BSP::Remote::dr16.mouse();
         auto key = BSP::Remote::dr16.keyBoard();
 
-        mouse_vel.x = Tools.clamp(mouse_vel.x, 50, -50);
+        mouse_vel.x = Tools.clamp(mouse_vel.x, 0.005f, -0.005f);
 
         gimbal_data.tar_pitch += mouse_vel.y * 50;
         // yaw期望值计算
@@ -425,9 +425,9 @@ void Gimbal_Task::FilterUpdata()
     shoot_vel_Right.Calc(BSP::Motor::Dji::Motor3508.getVelocityRpm(2));
 }
 
-float x1, x2, x3, x1_d, x2_d, T = 0.005, l1, l2, l3, y, b = 0.6, u, wc = 120, u0;
+float x1, x2, x3, x1_d, x2_d, T = 0.005, l1, l2, l3, y, b = 0.7, u, wc = 40, u0;
 float out, last_out;
-float kp = 150, kd, p_out, tar1;
+float kp = 180, kd, p_out, tar1;
 float step, err;
 void LadrcDemo()
 {
@@ -449,16 +449,30 @@ void LadrcDemo()
 
     //	u = u0 - x2/b;
 
-    l1 = 2 * wc;
-    l2 = wc * wc;
-    //	l3 = wc * wc* wc;
+//    l1 = 2 * wc;
+//    l2 = wc * wc;
 
     err = y - x1;
-    x1 += (x2 + l1 * err + b * u) * T;
-    x2 += l2 * err * T;
+//    x1 += (x2 + l1 * err + b * u) * T;
+//    x2 += l2 * err * T;
 
-    last_out = x1;
-    p_out = kp * (tar1 - x1);
+//    p_out = kp * (tar1 - x1) + kd * (0 - x2);
+//    u0 = p_out;
+
+//    u = (u0 - x2) / b;
+
+
+
+          //β计算
+          l1 = 3.0 * wc;//β1
+          l2 = 3.0 * wc * wc;//β2
+          l3 = wc * wc * wc;//β3
+
+        //目标与观测误差
+        x1 += (x2 + l1 * err) * T;
+        x2 += (x3 + l2 * err + b * u) * T;
+        x3 += l3 * err * T;
+    p_out = kp * (tar1 - x1) + kd * (0 - x2);
     u0 = p_out;
 
     u = u0 / b;
@@ -648,8 +662,10 @@ void Gimbal_Task::CanSend()
     BSP::Motor::Dji::Motor2006.sendCAN(&hcan1, 0);
     BSP::Motor::Dji::Motor3508.sendCAN(&hcan1, 1);
 
-    //    Tools.vofaSend(u, x1,
-    //    		BSP::IMU::imu.getGyroZ(), tar1, BSP::IMU::imu.getAddYaw(), tar_yaw.x1);
+	auto mouse_vel = BSP::Remote::dr16.mouseVel();
+
+//        Tools.vofaSend(mouse_vel.x, x1,
+//        		BSP::IMU::imu.getGyroZ(), tar1, BSP::IMU::imu.getAddYaw(), tar_yaw.x1);
 }
 
 void Gimbal_Task::Stop()
@@ -710,7 +726,7 @@ void Gimbal_Task::LaunchState(bool is_Launch)
             gimbal_data.shoot_time = 50;
             gimbal_data.fire_flag = true;
         }
-        else if (sw >= 0.6 || mouse_key.left == 1)
+        else if (sw >= 0.6 || mouse_key.left == 1 && mouse_key.right == 0)
         {
             gimbal_data.shoot_time = 100;
             gimbal_data.fire_flag = true;

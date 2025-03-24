@@ -1,7 +1,7 @@
 #include "../APP/Variable.hpp"
 
-TD tar_pitch(50);
-TD tar_yaw(60);
+TD tar_pitch(150);
+TD tar_yaw(150);
 
 TD tar_shoot(30);
 
@@ -10,7 +10,7 @@ TD Yaw_out(0);
 TD shoot_vel_Left(100);
 TD shoot_vel_Right(100);
 
-Kpid_t Kpid_yaw_angle(10, 0, 0.0);
+Kpid_t Kpid_yaw_angle(6.1, 0, 0.0);
 Kpid_t Kpid_yaw_vel(350, 0.0, 0.0);
 
 PID pid_yaw_angle(4, 20);

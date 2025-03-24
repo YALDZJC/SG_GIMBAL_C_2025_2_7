@@ -1,6 +1,6 @@
 #include "../BSP/Remote/Dbus.hpp"
-#include "../Task/EvenTask.hpp"
 #include "../Task/CommunicationTask.hpp"
+#include "../Task/EvenTask.hpp"
 
 namespace Mode
 {
@@ -10,9 +10,9 @@ namespace Gimbal
 {
 /**
  * @brief 云台模式切换
- *      1: 普通模式     左上
+ *      1: 普通模式     左下
  *      2: 视觉模式     左中
- *      3: 发射模式     左下
+ *      3: 发射模式     左上        开启发射标志位
  *      4: 键鼠模式     左中右中
  *      5: 停止模式     左下右下
  *
@@ -21,7 +21,7 @@ namespace Gimbal
  */
 
 /**
- * @brief 按键：右上
+ * @brief 按键：右下
  * 云台普通模式，此时发射机构失能，视觉失能
  *
  * @return true
@@ -34,7 +34,7 @@ inline bool Normal()
 
 /**
  * @brief 按键：右中
- * 云台期望值变为视觉发送的期望值
+ * 云台期望值变为视觉发送的期望值 如果视觉发送为0则为普通模式
  * @return true
  * @return false
  */
@@ -45,7 +45,7 @@ inline bool Vision()
 
 /**
  * @brief 按键：右下
- * 使能发射机构
+ * 使能发射机构 此时按SW控制发射频率
  * @return true
  * @return false
  */
@@ -120,7 +120,7 @@ inline bool Follow()
 /**
  * @brief 按键：左下
  * 小陀螺模式
- * 此时vw为固定值
+ * 此时vw为SW旋钮的值
  * @return true
  * @return false
  */
@@ -160,12 +160,8 @@ inline void SendRemote()
         Gimbal_to_Chassis_Data.set_LX(L.x);
         Gimbal_to_Chassis_Data.set_LY(L.y);
     }
-
-    
 }
 
 } // namespace Chassis
-
-
 
 } // namespace Mode
