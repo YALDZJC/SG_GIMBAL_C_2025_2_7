@@ -8,23 +8,27 @@ static float rpm2av(float rpm)
 
 class Ude
 {
-public:
-    Ude(float k, float B,float u_max, float break_I) : k_(k), B_(B),u_max(u_max), break_I(break_I) { };
+  public:
+    Ude(float k, float B, float u_max, float break_I) : k_(k), B_(B), u_max(u_max), break_I(break_I) {};
     ~Ude() = default;
 
     float UdeCalc(float rpm, float u, float err)
     {
-        rpm_ = rpm2av(rpm);
+        vel_ = rpm2av(rpm);
+
+        // 积分隔离
         if (abs(err) < break_I)
-					u0_ += u * B_ * 0.001;
+            u0_ += u * B_ * 0.001;
         else
-          u0_ = 0;
+            u0_ = 0;
 
         // 积分限幅
-        if (u0_ > u_max) u0_ = u_max;
-        if (u0_ < -u_max) u0_ = -u_max;
+        if (u0_ > u_max)
+            u0_ = u_max;
+        if (u0_ < -u_max)
+            u0_ = -u_max;
 
-        cout_ = (k_ * (rpm_ - u0_))/B_;
+        cout_ = (k_ * (vel_ - u0_)) / B_;
 
         return cout_;
     }
@@ -44,12 +48,12 @@ public:
         u0_ = 0;
         cout_ = 0;
     }
-    
-    float rpm_;
 
-private:
-	float xxx;
-	float B_;
+    float vel_;
+
+  private:
+    float xxx;
+    float B_;
     float cout_;
     float u_max;
     float break_I;

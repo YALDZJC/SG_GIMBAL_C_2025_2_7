@@ -5,3 +5,4 @@ MDK-ARM/*.uvguix.*
 .vs/
 .vscode/
 CppProperties.json
+*.o

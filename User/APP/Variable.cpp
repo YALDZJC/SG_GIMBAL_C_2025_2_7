@@ -5,6 +5,8 @@ TD tar_yaw(150);
 
 TD tar_shoot(30);
 
+TD Yaw_vel(100);
+
 TD Yaw_out(0);
 
 TD shoot_vel_Left(100);

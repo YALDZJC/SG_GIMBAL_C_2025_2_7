@@ -20,5 +20,6 @@ extern PID pid_yaw_vel;
 extern Kpid_t Kpid_pitch_angle;
 extern PID pid_pitch_angle;
 
+extern TD Yaw_vel;
 
 extern Ude yaw_ude;

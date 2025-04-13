@@ -40,8 +40,8 @@ class GimbalData
     float tar_dail_vel;
     int32_t tar_Dail_angle;
 
-    float DM_Kp = 50;
-    float DM_Kd = 3.5;
+    float DM_Kp = 20;
+    float DM_Kd = 1;
     float err = 0;
     float yaw_pos;
     float yaw_vel;
@@ -147,7 +147,7 @@ class Gimbal_Task::VisionHandler : public StateHandler
 
     void VisionTar()
     {
-        gimbal_data.tar_yaw -= BSP::Remote::dr16.remoteRight().x * 0.7;
+        gimbal_data.tar_yaw -= BSP::Remote::dr16.remoteRight().x * 0.3;
 
         // pitch期望值计算
         gimbal_data.tar_pitch -= BSP::Remote::dr16.remoteRight().y * 0.1;
@@ -220,7 +220,7 @@ class Gimbal_Task::KeyBoardHandler : public StateHandler
 
         gimbal_data.tar_pitch += mouse_vel.y * 50;
         // yaw期望值计算
-        gimbal_data.tar_yaw -= mouse_vel.x * 100;
+        gimbal_data.tar_yaw -= mouse_vel.x * 50;
         // pitch限幅
         gimbal_data.tar_pitch = Tools.clamp(gimbal_data.tar_pitch, 23, -8);
 
@@ -397,7 +397,7 @@ void Gimbal_Task::TargetUpdata()
     // yaw期望值计算
     if (gimbal_data.is_sin == 0)
     {
-        gimbal_data.tar_yaw -= BSP::Remote::dr16.remoteRight().x * 0.7;
+        gimbal_data.tar_yaw -= BSP::Remote::dr16.remoteRight().x * 0.3;
     }
     else if (gimbal_data.is_sin == 1)
     {
@@ -418,7 +418,7 @@ void Gimbal_Task::FilterUpdata()
     // 摩擦轮期望值计算
     tar_shoot.Calc(gimbal_data.tar_shoot);
 
-    //    Yaw_vel.Calc(BSP::IMU::imu.getGyroZ());
+    Yaw_vel.Calc(BSP::Motor::Dji::Motor6020.getVelocityRpm(1));
 
     // 摩擦轮速度滤波
     shoot_vel_Left.Calc(BSP::Motor::Dji::Motor3508.getVelocityRpm(1));
@@ -427,12 +427,15 @@ void Gimbal_Task::FilterUpdata()
 
 float x1, x2, x3, x1_d, x2_d, T = 0.005, l1, l2, l3, y, b = 0.7, u, wc = 40, u0;
 float out, last_out;
-float kp = 180, kd, p_out, tar1;
+float kp = 50, kd, p_out, tar1;
 float step, err;
 void LadrcDemo()
 {
-    auto yaw_angle = BSP::IMU::imu.getAddYaw();
-    y = BSP::IMU::imu.getGyroZ();
+//    auto yaw_angle = BSP::IMU::imu.getAddYaw();
+		auto yaw_angle = BSP::IMU::imu.getAddYaw();
+
+//    y = BSP::IMU::imu.getGyroZ();
+	y = BSP::IMU::imu.getGyroZ();
     //	l1 = 2*wc;
     //	l2 = wc*wc;
     //
@@ -442,6 +445,9 @@ void LadrcDemo()
     //
     //	last_out = x1;
     pid_yaw_angle.GetPidPos(Kpid_yaw_angle, tar_yaw.x1, yaw_angle, 16384);
+
+		Yaw_out.Calc(pid_yaw_angle.getOut());
+	  gimbal_data.ff_value = gimbal_data.sin_value * gimbal_data.ff_k;
 
     tar1 = pid_yaw_angle.getOut() + gimbal_data.ff_value;
     //	p_out = kp * (tar1 - x1);
@@ -502,10 +508,9 @@ void pidUpdata()
         auto yaw_angle = BSP::IMU::imu.getAddYaw();
         auto yaw_angle_vel = BSP::IMU::imu.getGyroZ();
         LadrcDemo();
-        gimbal_data.ff_value = tar_yaw.x2 * gimbal_data.ff_k;
 
-        //    pid_yaw_angle.GetPidPos(Kpid_yaw_angle, tar_yaw.x1, yaw_angle, 16384);
-        //    pid_yaw_vel.GetPidPos(Kpid_yaw_vel, tar_yaw.x1, BSP::IMU::imu.getGyroZ(), 16384);
+//        pid_yaw_angle.GetPidPos(Kpid_yaw_angle, tar_yaw.x1, yaw_angle, 16384);
+//        pid_yaw_vel.GetPidPos(Kpid_yaw_vel, pid_yaw_angle.getOut(), BSP::IMU::imu.getGyroZ(), 16384);
 
         // Pitch
         using namespace BSP::Motor;
@@ -555,7 +560,7 @@ void Gimbal_Task::ShootUpdate()
 
 uint8_t blocking_flag;
 uint32_t blocking_time;
-uint32_t time;
+uint32_t time_tick;
 int64_t angle_sum_prev;
 /**
  * @brief 卡弹检测
@@ -569,7 +574,7 @@ static void blocking_check()
     if (fabs(pid_Dial_pos.GetErr()) > 120)
     {
         // 未在退弹过程中，每200ms检测一次是否卡弹
-        if ((HAL_GetTick() - time) > 100 && blocking_flag == 0)
+        if ((HAL_GetTick() - time_tick) > 100 && blocking_flag == 0)
         {
             //
             if (fabs(angle - angle_sum_prev) < 120)
@@ -578,7 +583,7 @@ static void blocking_check()
                 blocking_time = HAL_GetTick();
             }
             angle_sum_prev = angle;
-            time = HAL_GetTick();
+            time_tick = HAL_GetTick();
         }
     }
     // 进行退弹
@@ -664,8 +669,8 @@ void Gimbal_Task::CanSend()
 
 	auto mouse_vel = BSP::Remote::dr16.mouseVel();
 
-//        Tools.vofaSend(mouse_vel.x, x1,
-//        		BSP::IMU::imu.getGyroZ(), tar1, BSP::IMU::imu.getAddYaw(), tar_yaw.x1);
+//        Tools.vofaSend(pid_yaw_angle.getOut(), x1,
+//        		BSP::IMU::imu.getGyroZ(), Yaw_out.x1, BSP::IMU::imu.getAddYaw(), tar_yaw.x1);
 }
 
 void Gimbal_Task::Stop()
