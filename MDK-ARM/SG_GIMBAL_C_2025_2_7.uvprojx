@@ -880,6 +880,41 @@
           </Files>
         </Group>
         <Group>
+          <GroupName>Mode</GroupName>
+          <Files>
+            <File>
+              <FileName>KeyBoardHandler.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>..\User\APP\Task\src\KeyBoardHandler.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>LaunchHandler.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>..\User\APP\Task\src\LaunchHandler.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>NormalHandler.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>..\User\APP\Task\src\NormalHandler.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>StopHandler.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>..\User\APP\Task\src\StopHandler.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>VisionHandler.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>..\User\APP\Task\src\VisionHandler.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>State.hpp</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\User\APP\Task\State.hpp</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
           <GroupName>Application/User/USB_DEVICE/App</GroupName>
           <GroupOption>
             <CommonProperty>

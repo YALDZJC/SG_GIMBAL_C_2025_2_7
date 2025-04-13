@@ -1,3 +1,7 @@
+#pragma once
+#ifndef APP_MODE_HPP
+#define APP_MODE_HPP
+
 #include "../BSP/Remote/Dbus.hpp"
 #include "../Task/CommunicationTask.hpp"
 #include "../Task/EvenTask.hpp"
@@ -165,3 +169,5 @@ inline void SendRemote()
 } // namespace Chassis
 
 } // namespace Mode
+
+#endif // APP_MODE_HPP

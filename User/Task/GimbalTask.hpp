@@ -1,18 +1,29 @@
 #pragma once
-#include "../APP/State.hpp"
+#include "../APP/Task/State.hpp"
+#include "../APP/Task/StateTypes.hpp"
+// 不要包含 HandlerFactory.hpp 造成循环引用
+// #include "../APP/Task/HandlerFactory.hpp"
+
+#include "../APP/Task/include/KeyBoardHandler.hpp"
+#include "../APP/Task/include/LaunchHandler.hpp"
+#include "../APP/Task/include/NormalHandler.hpp"
+#include "../APP/Task/include/StopHandler.hpp"
+#include "../APP/Task/include/VisionHandler.hpp"
+
+#include <memory>
+#include <string>
+
+// 用于避免循环引用
+namespace APP
+{
+using StateType = std::string;
+}
 
 class Gimbal_Task : public Task
 {
   public:
-    // 专属状态枚举（使用作用域限定）
-    enum class State
-    {
-        NormalState,   // 通用模式
-        VisionState,   // 视觉模式
-        LaunchState,   // 发射模式
-        KeyBoardState, // 键鼠模式
-        StopState      // 急停状态
-    };
+    // 使用 APP 命名空间中定义的 StateType
+    using State = APP::StateType;
 
     explicit Gimbal_Task();
 
@@ -25,34 +36,12 @@ class Gimbal_Task : public Task
     void updateState() override;
 
   private:
-    // 状态处理器实现类声明
-    class NormalHandler;
-    class VisionHandler;
-    class LaunchHandler;
-    class KeyBoardHandler;
-    class StopHandler;
-
     // 成员变量
-    State m_currentState = State::StopState;
+    State m_currentState = "Stop";                // 默认为停止状态
     std::unique_ptr<StateHandler> m_stateHandler; // 当前状态处理器
 
   private:
     void TargetUpdata();
-
-    void YawUpdata();
-    void PitchUpdata();
-    void Stop();
-    void CanSend();
-    void ShootUpdate();
-    void DialUpdata();
-    void FilterUpdata();
-
-    void setSendChassis();
-
-  public:
-    void Gimbal();
-    void Launch();
-    void LaunchState(bool is_Launch);
 };
 
 // 将RTOS任务引至.c文件
@@ -60,7 +49,6 @@ class Gimbal_Task : public Task
 extern "C"
 {
 #endif
-    void pidUpdata();
     void GimbalTask(void *argument);
 
 #ifdef __cplusplus

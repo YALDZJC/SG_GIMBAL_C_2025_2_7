@@ -1,3 +1,4 @@
+#pragma once
 #include "../MotorBase.hpp"
 
 namespace BSP::Motor::DM

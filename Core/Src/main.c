@@ -199,7 +199,7 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
   }
   /* USER CODE BEGIN Callback 1 */
   else if (htim->Instance == TIM7) {
-    pidUpdata();
+    // pidUpdata();
   }
   /* USER CODE END Callback 1 */
 }
