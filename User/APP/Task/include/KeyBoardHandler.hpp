@@ -1,10 +1,10 @@
 #pragma once
 #include "../../../Task/GimbalTask.hpp"
-#include "../State.hpp"
+#include "../User/APP/Task/TaskManager.hpp"
 
 class Gimbal_Task; // 前向声明
 
-class KeyBoardHandler : public StateHandler
+class KeyBoardHandler : public APP::StateHandler
 {
     Gimbal_Task &m_task;
 
@@ -13,6 +13,6 @@ class KeyBoardHandler : public StateHandler
     {
     }
     void KeyBoardTar();
-    void handle() override;
+    void handle();
     // 其他成员函数声明
 };

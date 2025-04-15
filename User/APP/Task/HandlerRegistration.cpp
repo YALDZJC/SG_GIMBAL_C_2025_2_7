@@ -1,5 +1,6 @@
 #include "../Mode.hpp"
-#include "HandlerFactory.hpp"
+
+#include "../Task/TaskManager.hpp"
 #include "include/KeyBoardHandler.hpp"
 #include "include/LaunchHandler.hpp"
 #include "include/NormalHandler.hpp"

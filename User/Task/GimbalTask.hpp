@@ -1,6 +1,6 @@
 #pragma once
-#include "../APP/Task/State.hpp"
-#include "../APP/Task/StateTypes.hpp"
+
+#include "../User/APP/Task/TaskManager.hpp"
 // 不要包含 HandlerFactory.hpp 造成循环引用
 // #include "../APP/Task/HandlerFactory.hpp"
 
@@ -19,7 +19,7 @@ namespace APP
 using StateType = std::string;
 }
 
-class Gimbal_Task : public Task
+class Gimbal_Task : public APP::Task
 {
   public:
     // 使用 APP 命名空间中定义的 StateType
@@ -38,10 +38,9 @@ class Gimbal_Task : public Task
   private:
     // 成员变量
     State m_currentState = "Stop";                // 默认为停止状态
-    std::unique_ptr<StateHandler> m_stateHandler; // 当前状态处理器
+    std::unique_ptr<APP::StateHandler> m_stateHandler; // 当前状态处理器
 
   private:
-    void TargetUpdata();
 };
 
 // 将RTOS任务引至.c文件

@@ -1,8 +1,8 @@
 #pragma once
 #include "../../../Task/GimbalTask.hpp"
-#include "../State.hpp"
+#include "../User/APP/Task/TaskManager.hpp"
 
-class StopHandler : public StateHandler
+class StopHandler : public APP::StateHandler
 {
     Gimbal_Task &m_task;
 
@@ -11,6 +11,6 @@ class StopHandler : public StateHandler
     {
     }
 
-    void handle() override;
+    void handle();
     // 其他成员函数声明
 };

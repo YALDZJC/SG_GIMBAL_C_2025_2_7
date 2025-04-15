@@ -1,10 +1,10 @@
 #pragma once
 #include "../../../Task/GimbalTask.hpp"
-#include "../State.hpp"
+#include "../User/APP/Task/TaskManager.hpp"
 
 class Gimbal_Task; // 前向声明
 
-class NormalHandler : public StateHandler
+class NormalHandler : public APP::StateHandler
 {
   private:
     Gimbal_Task &m_task;
@@ -14,6 +14,6 @@ class NormalHandler : public StateHandler
     {
     }
 
-    void handle() override;
+    void handle();
     // 其他成员函数声明
 };

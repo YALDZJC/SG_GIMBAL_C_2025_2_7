@@ -1,8 +1,8 @@
 #pragma once
 #include "../../../Task/GimbalTask.hpp"
-#include "../State.hpp"
+#include "../User/APP/Task/TaskManager.hpp"
 
-class VisionHandler : public StateHandler
+class VisionHandler : public APP::StateHandler
 {
   private:
     Gimbal_Task &m_task;
@@ -13,6 +13,6 @@ class VisionHandler : public StateHandler
     }
 
     void VisionTar();
-    void handle() override;
+    void handle();
     // 其他成员函数声明
 };

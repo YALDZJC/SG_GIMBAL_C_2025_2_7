@@ -1,11 +1,13 @@
 #pragma once
 #include "../../../Task/GimbalTask.hpp"
+#include "../User/APP/Task/TaskManager.hpp"
+
 #include <memory>
 #include <vector>
 
 class Gimbal_Task; // 前向声明
 
-class LaunchHandler : public StateHandler
+class LaunchHandler : public APP::StateHandler
 {
     Gimbal_Task &m_task;
 
@@ -13,6 +15,6 @@ class LaunchHandler : public StateHandler
     explicit LaunchHandler(Gimbal_Task &task) : m_task(task)
     {
     }
-    void handle() override;
+    void handle();
     // 其他成员函数声明
 };

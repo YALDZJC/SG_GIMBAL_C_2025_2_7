@@ -1,13 +1,10 @@
 #include "../Task/GimbalTask.hpp"
 #include "../APP/KeyBroad.hpp"
 #include "../APP/Mode.hpp"
-#include "../APP/Task/HandlerFactory.hpp"
-#include "../APP/Task/State.hpp"
+
 
 #include "cmsis_os2.h"
 
-// 定义 taskManager
-TaskManager taskManager;
 
 void GimbalTask(void *argument)
 {
