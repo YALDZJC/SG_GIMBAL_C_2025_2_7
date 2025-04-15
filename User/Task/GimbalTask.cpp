@@ -9,12 +9,13 @@
 void GimbalTask(void *argument)
 {
     osDelay(500);
-
-    taskManager.addTask<Gimbal_Task>();
+	
+    APP::taskManager.addTask<Gimbal_Task>();
+    APP::taskManager.updateAll();
 
     for (;;)
     {
-        taskManager.updateAll();
+        APP::taskManager.updateAll();
         osDelay(2);
     }
 }

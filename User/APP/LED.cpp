@@ -7,19 +7,19 @@ bool LED::Update(void)
     Dir *dir = static_cast<Dir *>(sub);
 
 	
-    if(dir->getDir_Yaw())
-    {
-        uint32_t aRGB = RED;
-        aRGB_led_show(aRGB);
-        return false;
-    }
-    
-    if(dir->getDir_IMU() == true)
-    {
-        uint32_t aRGB = PINK;
-        aRGB_led_show(aRGB);
-        return false;
-    }
+//    if(dir->getDir_Yaw())
+//    {
+//        uint32_t aRGB = RED;
+//        aRGB_led_show(aRGB);
+//        return false;
+//    }
+//    
+//    if(dir->getDir_IMU() == true)
+//    {
+//        uint32_t aRGB = PINK;
+//        aRGB_led_show(aRGB);
+//        return false;
+//    }
 
 		Normal_State();
 

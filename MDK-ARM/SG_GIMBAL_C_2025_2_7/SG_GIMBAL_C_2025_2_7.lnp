@@ -62,6 +62,7 @@
 "sg_gimbal_c_2025_2_7\normalhandler.o"
 "sg_gimbal_c_2025_2_7\stophandler.o"
 "sg_gimbal_c_2025_2_7\visionhandler.o"
+"sg_gimbal_c_2025_2_7\statemanagement.o"
 "sg_gimbal_c_2025_2_7\usb_device.o"
 "sg_gimbal_c_2025_2_7\usbd_desc.o"
 "sg_gimbal_c_2025_2_7\usbd_cdc_if.o"

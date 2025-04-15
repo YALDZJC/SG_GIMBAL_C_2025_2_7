@@ -908,9 +908,14 @@
               <FilePath>..\User\APP\Task\src\VisionHandler.cpp</FilePath>
             </File>
             <File>
-              <FileName>State.hpp</FileName>
+              <FileName>StateManagement.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>..\User\APP\Task\StateManagement.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>StateManagement.hpp</FileName>
               <FileType>5</FileType>
-              <FilePath>..\User\APP\Task\State.hpp</FilePath>
+              <FilePath>..\User\APP\Task\StateManagement.hpp</FilePath>
             </File>
           </Files>
         </Group>

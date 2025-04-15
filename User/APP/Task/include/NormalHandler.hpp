@@ -1,6 +1,6 @@
 #pragma once
 #include "../../../Task/GimbalTask.hpp"
-#include "../User/APP/Task/TaskManager.hpp"
+#include "../User/APP/Task/StateManagement.hpp"
 
 class Gimbal_Task; // 前向声明
 

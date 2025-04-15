@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../User/APP/Task/TaskManager.hpp"
+#include "../User/APP/Task/StateManagement.hpp"
 // 不要包含 HandlerFactory.hpp 造成循环引用
 // #include "../APP/Task/HandlerFactory.hpp"
 
@@ -13,11 +13,6 @@
 #include <memory>
 #include <string>
 
-// 用于避免循环引用
-namespace APP
-{
-using StateType = std::string;
-}
 
 class Gimbal_Task : public APP::Task
 {
@@ -41,6 +36,9 @@ class Gimbal_Task : public APP::Task
     std::unique_ptr<APP::StateHandler> m_stateHandler; // 当前状态处理器
 
   private:
+    
+    // 友元函数，允许直接访问私有成员
+    friend void createAllHandlers(Gimbal_Task& task);
 };
 
 // 将RTOS任务引至.c文件
