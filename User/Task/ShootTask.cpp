@@ -7,10 +7,10 @@ void ShootTask(void *argument)
 {
     for (;;)
     {
-        hz_send += 0.001;
-        Communicat::Vision_Data.time_demo();
+        // hz_send += 0.001;
+        // Communicat::Vision_Data.time_demo();
 
-        osDelay(5);
+        osDelay(1);
     }
 }
 
