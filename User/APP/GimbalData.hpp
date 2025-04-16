@@ -1,7 +1,7 @@
 #pragma once
 #include "../BSP/Motor/DM/DmMotor.hpp"
 
-namespace APP
+namespace APP::Gimbal
 {
 
 class GimbalData

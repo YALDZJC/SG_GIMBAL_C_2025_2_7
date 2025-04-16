@@ -2,9 +2,7 @@
 #include "../APP/KeyBroad.hpp"
 #include "../APP/Mode.hpp"
 
-
 #include "cmsis_os2.h"
-
 
 void GimbalTask(void *argument)
 {

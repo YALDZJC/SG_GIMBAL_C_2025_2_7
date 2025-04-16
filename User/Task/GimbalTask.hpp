@@ -34,11 +34,6 @@ class Gimbal_Task : public APP::Task
     // 成员变量
     State m_currentState = "Stop";                // 默认为停止状态
     std::unique_ptr<APP::StateHandler> m_stateHandler; // 当前状态处理器
-
-  private:
-    
-    // 友元函数，允许直接访问私有成员
-    friend void createAllHandlers(Gimbal_Task& task);
 };
 
 // 将RTOS任务引至.c文件
