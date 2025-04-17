@@ -3,6 +3,15 @@
 namespace Alg::LADRC
 {
 
+float TDquadratic::Calc(float u)
+{
+    // 计算公式
+    u = u;
+    x1 += x2 * h;
+    x2 += (-2.0f * r * x2 - r * r * (x1 - u)) * h;
+
+    return x1;
+}
 
 void Adrc::ESOCalc(float target, float feedback)
 {
@@ -11,26 +20,22 @@ void Adrc::ESOCalc(float target, float feedback)
 
     err = feedback_ - z1;
 
-    z1 += (z2 + beta1 * err) * h;
-    z2 += (z3 + beta2 * err + b0 * u) * h;
-    z3 += beta3 * err * h;
-
-    beta1 = 3.0f * wc_;
-    beta2 = 3.0f * wc_ * wc_;
-    beta3 = wc_ * wc_ * wc_;
+    z1 += (z2 + beta1 * err) * h_;
+    z2 += (z3 + beta2 * err + b0_ * u) * h_;
+    z3 += beta3 * err * h_;
 }
 
 void Adrc::SefCalc()
 {
-    u0 = Kp * (td.getX1() - z1) + Kd * (td.getX2() - z2) - z3;
+    u0 = Kp_ * (td_.getX1() - z1) + Kd_ * (td_.getX2() - z2) - z3;
 
-    u = u0 / b0;
+    u = u0 / b0_;
 }
 
-float Adrc::UpData(float target, float feedback)
+float Adrc::UpData(float feedback)
 {
-    td.Calc(target);
-    ESOCalc(target, feedback);
+    td_.Calc(target_);
+    ESOCalc(target_, feedback);
     SefCalc();
 
     return u;
