@@ -38,7 +38,10 @@ class ShootFSM : public Class_FSM
 
     // 拨盘控制
 
-    // 摩擦轮控制
+    // CAN设置
+    void CAN_Set(void);
+    //CAN发送
+    void CAN_Send(void);
 };
 } // namespace TASK::Shoot
 

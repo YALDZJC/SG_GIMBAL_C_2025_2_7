@@ -103,7 +103,6 @@ template <uint8_t N> class DjiMotorBase : public MotorBase<N>
     /**
      * @brief 设置发送数据
      *
-     * @param msd   发送数据的结构体
      * @param data  数据发送的数据
      * @param id    CAN id
      */
