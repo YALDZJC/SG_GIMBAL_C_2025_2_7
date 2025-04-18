@@ -1,8 +1,8 @@
 #pragma once
 
+#include "../APP/Tools.hpp"
 #include "../BSP/stdxxx.hpp"
 #include "../Task/EvenTask.hpp"
-#include "../APP/Tools.hpp"
 namespace Communicat
 {
 class Gimbal_to_Chassis
@@ -49,11 +49,17 @@ class Gimbal_to_Chassis
         uint8_t aim_y;
     };
 
+    struct __attribute__((packed)) RxRefree // 云台数据
+    {
+        uint16_t booster_heat_cd;
+    };
+
     uint8_t buffer[20];
 
     Direction direction;
     ChassisMode chassis_mode;
     UiList ui_list;
+    RxRefree rx_refree;
 
   public:
     void set_LX(double LX);
@@ -65,6 +71,10 @@ class Gimbal_to_Chassis
     void set_BP(bool BP);
     void set_Init_angle(int16_t angle);
 
+    uint16_t getBoosterHeatCd()
+    {
+        return rx_refree.booster_heat_cd;
+    }
     void setPower(int8_t power)
     {
         direction.Power += power;
@@ -226,7 +236,7 @@ inline void Gimbal_to_Chassis::set_BP(bool BP)
 inline void Gimbal_to_Chassis::set_Init_angle(int16_t angle)
 {
     direction.target_offset_angle = angle;
-//    Init_Angle += angle;
+    //    Init_Angle += angle;
 }
 
 inline Vision Vision_Data;

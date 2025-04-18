@@ -107,5 +107,15 @@ template <typename Type, uint32_t Max_Size = 200> class SlidingWindowDetector
     {
         return size;
     }
+
+    /**
+     * @brief 设置阈值
+     * 
+     * @param newThreshold  新的阈值 
+     */
+    void setThreshold(Type newThreshold)
+    {
+        threshold = newThreshold;
+    }
 };
 } // namespace Alg::SW
