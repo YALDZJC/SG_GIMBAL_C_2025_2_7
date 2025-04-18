@@ -3,7 +3,7 @@
 // 热量检测
 namespace APP ::Heat_Detector
 {
-void Class_FSM_Heat_Limit::UpState()
+void Class_FSM_Heat_Limit::UpData()
 {
     Status[Now_Status_Serial].Count_Time++;
 

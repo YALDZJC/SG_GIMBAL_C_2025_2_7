@@ -84,6 +84,11 @@ class Class_FSM_Heat_Limit : public Class_FSM
         target_fire = num;
     }
 
-    void UpState(void);
+    float getNowFire()
+    {
+        return now_fire;
+    }
+
+    void UpData(void);
 };
 } // namespace APP::Heat_Detector

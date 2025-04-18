@@ -2,7 +2,7 @@
 #include "../Task/CommunicationTask.hpp"
 
 #include "../BSP/Motor/Dji/DjiMotor.hpp"
-
+#include "../APP/Heat_Detector/Heat_Detector.hpp"
 
 #include "cmsis_os2.h"
 float hz_send;
