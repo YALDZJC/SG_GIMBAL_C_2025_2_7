@@ -12,7 +12,8 @@ namespace Alg::SW
  * @tparam Type     数据类型
  * @tparam Max_Size 最大窗口大小
  */
-template <typename Type, uint32_t Max_Size = 200> class SlidingWindowDetector
+template <typename Type, uint32_t Max_Size = 200> 
+class SlidingWindowDetector
 {
   private:
     Type data[Max_Size]; // 数据数组

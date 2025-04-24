@@ -29,7 +29,7 @@ void CommunicationTask(void *argument)
     {
         Communicat::Vision_Data.Data_send();
         Communicat::Vision_Data.dataReceive();
-        Gimbal_to_Chassis_Data.Data_send();
+        // Gimbal_to_Chassis_Data.Data_send();
 
         osDelay(int_time);
     }

@@ -58,6 +58,7 @@
 "sg_gimbal_c_2025_2_7\eventask.o"
 "sg_gimbal_c_2025_2_7\shoottask.o"
 "sg_gimbal_c_2025_2_7\pid.o"
+"sg_gimbal_c_2025_2_7\adrc.o"
 "sg_gimbal_c_2025_2_7\keyboardhandler.o"
 "sg_gimbal_c_2025_2_7\launchhandler.o"
 "sg_gimbal_c_2025_2_7\normalhandler.o"

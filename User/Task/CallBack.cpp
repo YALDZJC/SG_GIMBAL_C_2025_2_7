@@ -36,6 +36,6 @@ void HAL_CAN_RxFifo1MsgPendingCallback(CAN_HandleTypeDef *hcan)
 
 void HAL_UARTEx_RxEventCallback(UART_HandleTypeDef *huart, uint16_t Size)
 {
-    BSP::Remote::dr16.Parse(huart, Size);
-    BSP::IMU::imu.Parse(huart, Size);
+//    BSP::Remote::dr16.Parse(huart, Size);
+//    BSP::IMU::imu.Parse(huart, Size);
 }

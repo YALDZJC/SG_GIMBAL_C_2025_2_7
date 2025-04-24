@@ -1,8 +1,9 @@
 #include "../Task/ShootTask.hpp"
 #include "../Task/CommunicationTask.hpp"
 
-#include "../BSP/Motor/Dji/DjiMotor.hpp"
 #include "../APP/Heat_Detector/Heat_Detector.hpp"
+#include "../APP/Tools.hpp"
+#include "../BSP/Motor/Dji/DjiMotor.hpp"
 
 #include "cmsis_os2.h"
 float hz_send;
@@ -69,49 +70,51 @@ void Class_JammingFSM::UpState()
 
 void Class_ShootFSM::UpState()
 {
-    switch(Now_Status_Serial)
+    switch (Now_Status_Serial)
     {
-        case (Booster_Status::DISABLE): {
-            //如何失能状态，拨盘力矩为0，摩擦轮期望值为0
-            adrc_friction_L_vel.setTarget(0.0f);
-            adrc_friction_R_vel.setTarget(0.0f);
+    case (Booster_Status::DISABLE): {
+        // 如何失能状态，拨盘力矩为0，摩擦轮期望值为0
+        adrc_friction_L_vel.setTarget(0.0f);
+        adrc_friction_R_vel.setTarget(0.0f);
 
-            target_Dail_torque = 0.0f;
-            break;
-        }
-        case (Booster_Status::STOP): {
-            // 停止状态，拨盘与摩擦轮期望值都为0
-            adrc_friction_L_vel.setTarget(target_friction_omega);
-            adrc_friction_R_vel.setTarget(-target_friction_omega);
+        target_Dail_torque = 0.0f;
+        break;
+    }
+    case (Booster_Status::STOP): {
+        // 停止状态，拨盘与摩擦轮期望值都为0
+        adrc_friction_L_vel.setTarget(target_friction_omega);
+        adrc_friction_R_vel.setTarget(-target_friction_omega);
 
-            adrc_Dail_vel.setTarget(0.0f);
-            break;
-        }
-        case (Booster_Status::ONLY): {
-            // 单发模式
-            break;
-        }
-        case (Booster_Status::AUTO): {
-            // 连发模式
-            adrc_friction_L_vel.setTarget(target_friction_omega);
-            adrc_friction_R_vel.setTarget(-target_friction_omega);
-            adrc_Dail_vel.setTarget(target_dail_omega);
+        adrc_Dail_vel.setTarget(0.0f);
+        break;
+    }
+    case (Booster_Status::ONLY): {
+        // 单发模式
+        break;
+    }
+    case (Booster_Status::AUTO): {
+        // 连发模式
+        adrc_friction_L_vel.setTarget(target_friction_omega);
+        adrc_friction_R_vel.setTarget(-target_friction_omega);
+        adrc_Dail_vel.setTarget(target_dail_omega);
 
-            break;
-        }
+        break;
+    }
     }
 }
 
 void Class_ShootFSM::Control(void)
 {
-    auto velL = BSP::Motor::Dji::Motor3508.getAddAngleRad(1);
-    auto velR = BSP::Motor::Dji::Motor3508.getAddAngleRad(2);
-    auto DailVel = BSP::Motor::Dji::Motor2006.getAddAngleRad(1);
+    auto velL = BSP::Motor::Dji::Motor3508.getVelocityRads(1);
+    auto velR = BSP::Motor::Dji::Motor3508.getVelocityRads(2);
+    auto DailVel = BSP::Motor::Dji::Motor2006.getVelocityRads(1);
 
     // 控制摩擦轮
     adrc_friction_L_vel.UpData(velL);
     adrc_friction_R_vel.UpData(velR);
     adrc_Dail_vel.UpData(DailVel);
+
+    Tools.vofaSend(adrc_friction_L_vel.getZ1(), velL, target_friction_omega, 0, 0, 0);
 
     CAN_Set();
     CAN_Send();
@@ -122,10 +125,10 @@ void Class_ShootFSM::CAN_Set(void)
     auto Motor_Friction = BSP::Motor::Dji::Motor3508;
     auto Motor_Dail = BSP::Motor::Dji::Motor2006;
 
-    Motor_Friction.setCAN(adrc_friction_L_vel.getU(), 1);
-    Motor_Friction.setCAN(adrc_friction_R_vel.getU(), 2);
+    BSP::Motor::Dji::Motor3508.setCAN(adrc_friction_L_vel.getU(), 2);
+    BSP::Motor::Dji::Motor3508.setCAN(adrc_friction_R_vel.getU(), 3);
 
-    Motor_Dail.setCAN(adrc_Dail_vel.getU(), 1);
+//    BSP::Motor::Dji::Motor3508.setCAN(adrc_Dail_vel.getU(), 1);
 }
 
 void Class_ShootFSM::CAN_Send(void)
@@ -134,6 +137,6 @@ void Class_ShootFSM::CAN_Send(void)
     auto Motor_Dail = BSP::Motor::Dji::Motor2006;
 
     Motor_Friction.sendCAN(&hcan1, 1);
-    Motor_Dail.sendCAN(&hcan1, 1);
+//    Motor_Dail.sendCAN(&hcan1, 1);
 }
 } // namespace TASK::Shoot

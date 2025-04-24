@@ -30,12 +30,6 @@ void EventTask(void *argument)
         Dir_Event.UpEvent();
         osDelay(1);
 
-#ifdef ADRC_TEST
-        // ADRC测试代码
-        static Alg::LADRC::Adrc testAdrc(0.001, 1.0, 100.0, 0.7, 0.01);
-        double output = testAdrc.Update(1.0, 0.5);
-        // 可通过CAN发送输出值验证
-#endif
     }
 }
 
