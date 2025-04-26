@@ -1,40 +1,39 @@
 #pragma once
 
-#include "../User/APP/Task/StateManagement.hpp"
-// 不要包含 HandlerFactory.hpp 造成循环引用
-// #include "../APP/Task/HandlerFactory.hpp"
-
-#include "../APP/Task/include/KeyBoardHandler.hpp"
-#include "../APP/Task/include/LaunchHandler.hpp"
-#include "../APP/Task/include/NormalHandler.hpp"
-#include "../APP/Task/include/StopHandler.hpp"
-#include "../APP/Task/include/VisionHandler.hpp"
 
 #include <memory>
 #include <string>
 
-
-class Gimbal_Task : public APP::Task
+#include "../Algorithm/LADRC/Adrc.hpp"
+#include "../Algorithm/PID.hpp"
+class Gimbal
 {
   public:
-    // 使用 APP 命名空间中定义的 StateType
-    using State = APP::StateType;
-
-    explicit Gimbal_Task();
-
-    // 禁用拷贝和赋值
-    Gimbal_Task(const Gimbal_Task &) = delete;
-    Gimbal_Task &operator=(const Gimbal_Task &) = delete;
-
-  protected:
-    void executeState() override;
-    void updateState() override;
+  public:
+    // 构造函数声明
+    Gimbal();
+    void upDate();
 
   private:
-    // 成员变量
-    State m_currentState = "Stop";                // 默认为停止状态
-    std::unique_ptr<APP::StateHandler> m_stateHandler; // 当前状态处理器
+    void modSwitch();
+
+    void filter();
+
+    void pitchControl();
+    void yawControl();
+
+
+
+
+    uint8_t is_sin;
+    float sin_val;
+    float sin_hz;
+
+    PID pid_yaw_angle;
+    Kpid_t kpid_yaw_angle;
+    Alg::LADRC::Adrc adrc_yaw_vel;
 };
+
 
 // 将RTOS任务引至.c文件
 #ifdef __cplusplus

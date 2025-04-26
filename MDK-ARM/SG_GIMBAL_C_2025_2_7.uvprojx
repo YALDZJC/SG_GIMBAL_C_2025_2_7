@@ -793,11 +793,6 @@
               <FilePath>..\User\BSP\IMU\HI12H3_IMU.cpp</FilePath>
             </File>
             <File>
-              <FileName>Dbus.cpp</FileName>
-              <FileType>8</FileType>
-              <FilePath>..\User\BSP\Remote\Dbus.cpp</FilePath>
-            </File>
-            <File>
               <FileName>Bsp_Can.hpp</FileName>
               <FileType>5</FileType>
               <FilePath>..\User\BSP\CAN\Bsp_Can.hpp</FilePath>
@@ -806,6 +801,16 @@
               <FileName>Init.cpp</FileName>
               <FileType>8</FileType>
               <FilePath>..\User\BSP\Init.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>Mini.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>..\User\BSP\Remote\Mini\Mini.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>Dbus.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>..\User\BSP\Remote\Dbus\Dbus.cpp</FilePath>
             </File>
           </Files>
         </Group>
@@ -831,16 +836,6 @@
               <FileName>Variable.cpp</FileName>
               <FileType>8</FileType>
               <FilePath>..\User\APP\Variable.cpp</FilePath>
-            </File>
-            <File>
-              <FileName>KeyBroad.cpp</FileName>
-              <FileType>8</FileType>
-              <FilePath>..\User\APP\KeyBroad.cpp</FilePath>
-            </File>
-            <File>
-              <FileName>GimbalData.cpp</FileName>
-              <FileType>8</FileType>
-              <FilePath>..\User\APP\GimbalData.cpp</FilePath>
             </File>
           </Files>
         </Group>
@@ -886,46 +881,6 @@
               <FileName>Adrc.cpp</FileName>
               <FileType>8</FileType>
               <FilePath>..\User\Algorithm\LADRC\Adrc.cpp</FilePath>
-            </File>
-          </Files>
-        </Group>
-        <Group>
-          <GroupName>Mode</GroupName>
-          <Files>
-            <File>
-              <FileName>KeyBoardHandler.cpp</FileName>
-              <FileType>8</FileType>
-              <FilePath>..\User\APP\Task\src\KeyBoardHandler.cpp</FilePath>
-            </File>
-            <File>
-              <FileName>LaunchHandler.cpp</FileName>
-              <FileType>8</FileType>
-              <FilePath>..\User\APP\Task\src\LaunchHandler.cpp</FilePath>
-            </File>
-            <File>
-              <FileName>NormalHandler.cpp</FileName>
-              <FileType>8</FileType>
-              <FilePath>..\User\APP\Task\src\NormalHandler.cpp</FilePath>
-            </File>
-            <File>
-              <FileName>StopHandler.cpp</FileName>
-              <FileType>8</FileType>
-              <FilePath>..\User\APP\Task\src\StopHandler.cpp</FilePath>
-            </File>
-            <File>
-              <FileName>VisionHandler.cpp</FileName>
-              <FileType>8</FileType>
-              <FilePath>..\User\APP\Task\src\VisionHandler.cpp</FilePath>
-            </File>
-            <File>
-              <FileName>StateManagement.cpp</FileName>
-              <FileType>8</FileType>
-              <FilePath>..\User\APP\Task\StateManagement.cpp</FilePath>
-            </File>
-            <File>
-              <FileName>StateManagement.hpp</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\User\APP\Task\StateManagement.hpp</FilePath>
             </File>
           </Files>
         </Group>
@@ -1694,6 +1649,16 @@
                 </CommonProperty>
                 <FileArmAds/>
               </FileOption>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>CRC</GroupName>
+          <Files>
+            <File>
+              <FileName>crc.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>..\User\BSP\CRC\crc.cpp</FilePath>
             </File>
           </Files>
         </Group>

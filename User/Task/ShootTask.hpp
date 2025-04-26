@@ -7,9 +7,9 @@ namespace TASK::Shoot
 {
 using namespace Alg::LADRC;
 // 发射机构控制模式
-Adrc adrc_friction_L_vel(TDquadratic(300, 0, 0), 0.0, 0.0, 0, 1.0f);
-Adrc adrc_friction_R_vel(TDquadratic(300, 0, 0), 0.0, 0.0, 0, 1.0f);
-Adrc adrc_Dail_vel(TDquadratic(300, 0, 0), 0.0, 0.0, 0, 1.0f);
+Adrc adrc_friction_L_vel(TDquadratic(300, 0), 0.0, 0.0, 0, 1.0f);
+Adrc adrc_friction_R_vel(TDquadratic(300, 0), 0.0, 0.0, 0, 1.0f);
+Adrc adrc_Dail_vel(TDquadratic(300, 0), 0.0, 0.0, 0, 1.0f);
 
 enum Booster_Status
 {

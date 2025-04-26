@@ -109,12 +109,15 @@ void Class_ShootFSM::Control(void)
     auto velR = BSP::Motor::Dji::Motor3508.getVelocityRads(2);
     auto DailVel = BSP::Motor::Dji::Motor2006.getVelocityRads(1);
 
+		UpState();
+		JammingFMS.UpState();
+	
     // 控制摩擦轮
     adrc_friction_L_vel.UpData(velL);
     adrc_friction_R_vel.UpData(velR);
     adrc_Dail_vel.UpData(DailVel);
 
-    Tools.vofaSend(adrc_friction_L_vel.getZ1(), velL, target_friction_omega, 0, 0, 0);
+    // Tools.vofaSend(adrc_friction_L_vel.getZ1(), velL, target_friction_omega, 0, 0, 0);
 
     CAN_Set();
     CAN_Send();

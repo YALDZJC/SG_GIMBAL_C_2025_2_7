@@ -3,7 +3,8 @@
 #include "../BSP/IMU/HI12H3_IMU.hpp"
 #include "../BSP/Motor/DM/DmMotor.hpp"
 #include "../BSP/Motor/Dji/DjiMotor.hpp"
-#include "../BSP/Remote/Dbus.hpp"
+#include "../BSP/Remote/Dbus/Dbus.hpp"
+#include "../BSP/Remote/Mini/Mini.hpp"
 #include "../HAL/My_HAL.hpp"
 
 // can_filo0中断接收
@@ -36,6 +37,9 @@ void HAL_CAN_RxFifo1MsgPendingCallback(CAN_HandleTypeDef *hcan)
 
 void HAL_UARTEx_RxEventCallback(UART_HandleTypeDef *huart, uint16_t Size)
 {
+    auto &mini = BSP::Remote::Mini::Instance();
+
+    mini.Parse(huart, Size);
 //    BSP::Remote::dr16.Parse(huart, Size);
 //    BSP::IMU::imu.Parse(huart, Size);
 }

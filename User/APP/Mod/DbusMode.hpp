@@ -2,9 +2,9 @@
 #ifndef APP_MODE_HPP
 #define APP_MODE_HPP
 
-#include "../BSP/Remote/Dbus.hpp"
-#include "../Task/CommunicationTask.hpp"
-#include "../Task/EvenTask.hpp"
+#include "../User/BSP/Remote/Dbus/Dbus.hpp"
+#include "../User/Task/CommunicationTask.hpp"
+#include "../User/Task/EvenTask.hpp"
 
 namespace Mode
 {

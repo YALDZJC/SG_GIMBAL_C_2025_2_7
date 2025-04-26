@@ -15,7 +15,7 @@ class TDquadratic
      * @param max_x2  跟踪器的最大输出
      * @param h       采样周期，单位s
      */
-    TDquadratic(float r = 300.0f, float h = 0.001f, float max_x2 = 0) : r(r), h(h), max_x2(max_x2)
+    TDquadratic(float r = 300.0f, float h = 0.001f) : r(r), h(h)
     {
     }
 
@@ -40,7 +40,7 @@ class TDquadratic
   private:
     float u_;
     float x1, x2, max_x2;
-    float r, h, r2_1;
+    float r, h = 0.001, r2_1;
 };
 
 /**
@@ -50,7 +50,7 @@ class TDquadratic
 class Adrc
 {
   public:
-    Adrc(TDquadratic td = TDquadratic(1, 0, 0), float Kp = 0, float Kd = 0, float wc = 0, float b0 = 1,
+    Adrc(TDquadratic td = TDquadratic(1, 0), float Kp = 0, float Kd = 0, float wc = 0, float b0 = 1,
          float h = 0.001f)
         : td_(td), Kp_(Kp), Kd_(Kd), wc_(wc), b0_(b0), h_(h)
     {
