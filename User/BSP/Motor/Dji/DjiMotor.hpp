@@ -296,6 +296,6 @@ template <uint8_t N> class GM6020 : public DjiMotorBase<N>
  */
 inline GM2006<1> Motor2006(0x200, {1}, 0x200);
 inline GM3508<2> Motor3508(0x200, {2, 3}, 0x200);
-inline GM6020<1> Motor6020(0x204, {2}, 0x1FE);
+inline GM6020<1> Motor6020(0x204, {1}, 0x1FE);
 
 } // namespace BSP::Motor::Dji

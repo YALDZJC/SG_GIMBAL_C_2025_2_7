@@ -41,7 +41,7 @@ class GimbalData
     int32_t tar_Dail_angle;
 
     float DM_Kp = 50;
-    float DM_Kd = 3.5;
+    float DM_Kd = 2;
     float err = 0;
     float yaw_pos;
     float yaw_vel;
@@ -425,9 +425,9 @@ void Gimbal_Task::FilterUpdata()
     shoot_vel_Right.Calc(BSP::Motor::Dji::Motor3508.getVelocityRpm(2));
 }
 
-float x1, x2, x3, x1_d, x2_d, T = 0.005, l1, l2, l3, y, b = 0.7, u, wc = 40, u0;
+float x1, x2, x3, x1_d, x2_d, T = 0.005, l1, l2, l3, y, b = 1, u, wc = 40, u0;
 float out, last_out;
-float kp = 180, kd, p_out, tar1;
+float kp = 150, kd, p_out, tar1;
 float step, err;
 void LadrcDemo()
 {
@@ -555,7 +555,7 @@ void Gimbal_Task::ShootUpdate()
 
 uint8_t blocking_flag;
 uint32_t blocking_time;
-uint32_t time;
+uint32_t time1;
 int64_t angle_sum_prev;
 /**
  * @brief 卡弹检测
@@ -569,7 +569,7 @@ static void blocking_check()
     if (fabs(pid_Dial_pos.GetErr()) > 120)
     {
         // 未在退弹过程中，每200ms检测一次是否卡弹
-        if ((HAL_GetTick() - time) > 100 && blocking_flag == 0)
+        if ((HAL_GetTick() - time1) > 100 && blocking_flag == 0)
         {
             //
             if (fabs(angle - angle_sum_prev) < 120)
@@ -578,7 +578,7 @@ static void blocking_check()
                 blocking_time = HAL_GetTick();
             }
             angle_sum_prev = angle;
-            time = HAL_GetTick();
+            time1 = HAL_GetTick();
         }
     }
     // 进行退弹
@@ -651,7 +651,7 @@ void Gimbal_Task::CanSend()
 	
     gimbal_data.Yaw_final_out = Tools.clamp(u, 16384.0f, -16384.0f);
 
-    BSP::Motor::Dji::Motor6020.setCAN(gimbal_data.Yaw_final_out, 2);
+    BSP::Motor::Dji::Motor6020.setCAN(gimbal_data.Yaw_final_out, 1);
 
     BSP::Motor::Dji::Motor3508.setCAN(pid_shoot_Left_vel.getOut(), 2);
     BSP::Motor::Dji::Motor3508.setCAN(pid_shoot_Right_vel.getOut(), 3);
