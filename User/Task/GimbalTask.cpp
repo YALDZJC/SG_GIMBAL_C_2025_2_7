@@ -27,7 +27,7 @@ void GimbalTask(void *argument)
 
 // 构造函数定义，使用初始化列表
 Gimbal::Gimbal()
-    : adrc_yaw_vel(Alg::LADRC::TDquadratic(1, 0.001), 0, 0, 0, 1, 0.001),
+    : adrc_yaw_vel(Alg::LADRC::TDquadratic(100, 0.001), 150, 150, 0.4, 0.001, 16384),
       // 速度pid的积分
       pid_yaw_angle{0, 0}, pid_yaw_vel{0, 0},
       // pid的k值
@@ -55,8 +55,8 @@ void Gimbal::modSwitch()
     auto remote_ry = mini.remoteRight().y;
 
     //  赋值
-    filter_tar_yaw += remote_rx * 0.01f;
-    filter_tar_pitch += remote_ry * 0.01f;
+//    filter_tar_yaw += remote_rx * 0.01f;
+//    filter_tar_pitch += remote_ry * 0.01f;
 
 //    // 设置模式
 //    if (Mode::Gimbal::Stop())
@@ -108,7 +108,7 @@ void Gimbal::yawControl()
     td_yaw_vel.Calc(cur_vel);
 
 		// PID更新
-    pid_yaw_angle.GetPidPos(kpid_yaw_angle, gimbal_data.getTarYaw(), cur_angle, 16384.0f);
+    pid_yaw_angle.GetPidPos(kpid_yaw_angle, gimbal_data.getTarYaw(), cur_angle, 35.0f);
     // ADRC更新
     adrc_yaw_vel.setTarget(pid_yaw_angle.getOut());           	// 设置目标值
     adrc_yaw_vel.UpData(cur_vel);                   						// 更新adrc

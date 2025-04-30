@@ -44,10 +44,10 @@ void Adrc::SefCalc()
     u = (u0 - z2) / b0_;
 
     // 限幅
-    if (u > max)
-        u = max;
-    if (u < -max)
-        u = -max;
+    if (u > max_)
+        u = max_;
+    if (u < -max_)
+        u = -max_;
 }
 
 float Adrc::UpData(float feedback)

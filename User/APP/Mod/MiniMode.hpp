@@ -6,7 +6,7 @@
 #include "../User/Task/CommunicationTask.hpp"
 #include "../User/Task/EvenTask.hpp"
 
-#include "../User/APP/Key/KeyBroad.hpp"
+#include "../User/BSP/SimpleKey/SimpleKey.hpp"
 
 namespace Mode
 {
