@@ -9,6 +9,9 @@ class GimbalData
     float tar_yaw;
     float tar_pitch;
 
+    constexpr static float DM_kp = 50.0f;
+    constexpr static float DM_kd = 2.0f;
+
   public:
     void setTarYaw(float yaw)
     {
@@ -28,6 +31,16 @@ class GimbalData
     float getTarPitch()
     {
         return tar_pitch;
+    }
+
+    float getDmKp()
+    {
+        return DM_kp;
+    }
+
+    float getDmKd()
+    {
+        return DM_kd;
     }
 };
 

@@ -1,11 +1,7 @@
 #include "HI12H3_IMU.hpp"
 
-namespace BSP
+namespace BSP::IMU
 {
-namespace IMU
-{
-HI12 imu;
-
 void HI12::Init()
 {
     HAL_UARTEx_ReceiveToIdle_DMA(&IMUHuart, buffer, sizeof(buffer));
@@ -100,5 +96,4 @@ void HI12::AddCaclu(AddData &addData, float angle)
 
     addData.last_angle = Data;
 }
-} // namespace IMU
-} // namespace BSP
+} // namespace BSP::IMU

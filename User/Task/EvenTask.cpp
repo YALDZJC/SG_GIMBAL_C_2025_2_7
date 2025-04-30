@@ -1,17 +1,16 @@
 #include "../Task/EvenTask.hpp"
-#ifdef ADRC_TEST
 #include "../Algorithm/LADRC/Adrc.hpp"
-#endif
+
 #include "../APP/Buzzer.hpp"
 #include "../APP/LED.hpp"
 #include "../APP/Variable.hpp"
 #include "../BSP/IMU/HI12H3_IMU.hpp"
 #include "../BSP/Remote/Dbus/Dbus.hpp"
 
-#include "../BSP/Motor/Dji/DjiMotor.hpp"
-
 #include "../BSP/CAN/Bsp_Can.hpp"
 #include "../BSP/Init.hpp"
+#include "../BSP/Motor/DM/DmMotor.hpp"
+#include "../BSP/Motor/Dji/DjiMotor.hpp"
 #include "cmsis_os2.h"
 #include "tim.h"
 
@@ -29,7 +28,6 @@ void EventTask(void *argument)
     {
         Dir_Event.UpEvent();
         osDelay(1);
-
     }
 }
 
@@ -47,19 +45,20 @@ bool Dir::Dir_Yaw()
     bool Dir = BSP::Motor::Dji::Motor6020.ISDir();
     DirData.Yaw = BSP::Motor::Dji::Motor6020.GetDir(1);
 
-
     return DirData.Yaw;
 }
 
 bool Dir::Dir_Pitch()
 {
-    bool Dir = BSP::Motor::Dji::Motor3508.ISDir();
+    bool Dir = BSP::Motor::DM::Motor4310.ISDir();
 
-    // for (int i = 0; i < 4; i++)
-    // {
-    //     DirData.Wheel[i] = BSP::Motor::Dji::Motor3508.GetDir(i);
-    // }
-
+    DirData.Pitch = BSP::Motor::DM::Motor4310.GetDir(1);
+	
+    if (Dir == true)
+    {
+        BSP::Motor::DM::Motor4310.On(&hcan2, 1);
+        osDelay(10);
+    }
     return Dir;
 }
 

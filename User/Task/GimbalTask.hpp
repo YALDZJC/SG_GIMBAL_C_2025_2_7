@@ -1,6 +1,5 @@
 #pragma once
 
-
 #include <memory>
 #include <string>
 
@@ -22,18 +21,24 @@ class Gimbal
     void pitchControl();
     void yawControl();
 
-
-
+    float filter_tar_yaw;
+    float filter_tar_pitch;
 
     uint8_t is_sin;
     float sin_val;
     float sin_hz;
-
+		float b;
+	
+		uint32_t task_tick;
     PID pid_yaw_angle;
     Kpid_t kpid_yaw_angle;
+
+    PID pid_yaw_vel;
+    Kpid_t kpid_yaw_vel;
+
+    Alg::LADRC::TDquadratic td_yaw_vel;
     Alg::LADRC::Adrc adrc_yaw_vel;
 };
-
 
 // 将RTOS任务引至.c文件
 #ifdef __cplusplus

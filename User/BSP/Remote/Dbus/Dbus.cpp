@@ -3,8 +3,6 @@
 
 namespace BSP ::Remote
 {
-Dr16 dr16;
-
 void Dr16::Init()
 {
     HAL_UARTEx_ReceiveToIdle_DMA(&ClickerHuart, Dr16::pData, sizeof(Dr16::pData));

@@ -155,9 +155,16 @@ class Vision
   public:
     void Data_send();
     void dataReceive();
-    void set_pitch_angle(float pitch_angle);
-    void set_yaw_angle(float yaw_angle);
     void time_demo();
+    float set_pitch_angle(float yaw_angle)
+    {
+        return yaw_angle_ = yaw_angle;
+    }
+
+    float set_yaw_angle(float pitch_angle)
+    {
+        return pitch_angle_ = pitch_angle;
+    }
 
     float get_vision_yaw()
     {
@@ -239,7 +246,7 @@ inline void Gimbal_to_Chassis::set_Init_angle(int16_t angle)
     //    Init_Angle += angle;
 }
 
-inline Vision Vision_Data;
+inline Vision vision;
 
 } // namespace Communicat
 

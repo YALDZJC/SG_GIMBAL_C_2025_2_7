@@ -1,6 +1,5 @@
 #pragma once
-#ifndef APP_MODE_HPP
-#define APP_MODE_HPP
+
 
 #include "../User/BSP/Remote/Dbus/Dbus.hpp"
 #include "../User/BSP/Remote/Mini/Mini.hpp"
@@ -13,9 +12,9 @@ namespace Mode
 {
 using namespace BSP::Remote;
 
-APP::Key::SimpleKey key_paused;
-APP::Key::SimpleKey key_fn_left;
-APP::Key::SimpleKey key_fn_right;
+inline APP::Key::SimpleKey key_paused;
+inline APP::Key::SimpleKey key_fn_left;
+inline APP::Key::SimpleKey key_fn_right;
 
 namespace Gimbal
 {
@@ -53,10 +52,9 @@ inline bool Vision()
 inline bool Launch()
 {
     auto &remote = Mini::Instance();
+    key_fn_left.update(remote.fnLeft() == Mini::Switch::UP);
 
-    APP::Key::keyBroad.UpKey(APP::Key::KeyID::R, remote.trigger() == Mini::Switch::UP);
-
-    return (dr16.switchRight() == Dr16::Switch::UP);
+    return (key_fn_left.getToggleState());
 }
 
 /**
@@ -67,7 +65,9 @@ inline bool Launch()
  */
 inline bool KeyBoard()
 {
-    return (dr16.switchLeft() == Dr16::Switch::MIDDLE) && (dr16.switchRight() == Dr16::Switch::MIDDLE);
+    auto &remote = Mini::Instance();
+
+    return (remote.gear() == Mini::Gear::DOWN);
 }
 
 /**
@@ -78,8 +78,16 @@ inline bool KeyBoard()
  */
 inline bool Stop()
 {
-    return (dr16.switchLeft() == Dr16::Switch::DOWN) && (dr16.switchRight() == Dr16::Switch::DOWN) ||
-           (Dir_Event.getDir_Remote() == true);
+    auto &remote = Mini::Instance();
+    key_paused.update(remote.paused() == Mini::Switch::UP);
+
+    // 短按返回true，长按返回false
+    if (key_paused.getLongPress())
+    {
+        return false; // 长按返回0
+    }
+
+    return key_paused.getClick(); // 短按返回1
 }
 
 } // namespace Gimbal
@@ -107,7 +115,9 @@ namespace Chassis
  */
 inline bool Universal()
 {
-    return (dr16.switchLeft() == Dr16::Switch::UP);
+    auto &remote = Mini::Instance();
+
+    return (remote.gear() == Mini::Gear::UP);
 }
 
 /**
@@ -119,7 +129,9 @@ inline bool Universal()
  */
 inline bool Follow()
 {
-    return (dr16.switchLeft() == Dr16::Switch::MIDDLE) && (dr16.switchRight() != Dr16::Switch::MIDDLE);
+    auto &remote = Mini::Instance();
+
+    return (remote.gear() == Mini::Gear::MIDDLE);
 }
 
 /**
@@ -131,7 +143,9 @@ inline bool Follow()
  */
 inline bool Rotating()
 {
-    return (dr16.switchLeft() == Dr16::Switch::DOWN) && (dr16.switchRight() != Dr16::Switch::DOWN);
+    auto &remote = Mini::Instance();
+
+    return (remote.gear() == Mini::Gear::MIDDLE);
 }
 
 /**
@@ -142,7 +156,9 @@ inline bool Rotating()
  */
 inline bool KeyBoard()
 {
-    return (dr16.switchLeft() == Dr16::Switch::MIDDLE) && (dr16.switchRight() == Dr16::Switch::MIDDLE);
+    auto &remote = Mini::Instance();
+
+    return (remote.gear() == Mini::Gear::DOWN);
 }
 
 /**
@@ -153,22 +169,18 @@ inline bool KeyBoard()
  */
 inline bool Stop()
 {
-    return (dr16.switchLeft() == Dr16::Switch::DOWN) && (dr16.switchRight() == Dr16::Switch::DOWN) ||
-           (Dir_Event.getDir_Remote() == true);
-}
+    auto &remote = Mini::Instance();
+    key_paused.update(remote.paused() == Mini::Switch::UP);
 
-inline void SendRemote()
-{
-    auto L = dr16.remoteLeft();
-    if (Mode::Gimbal::KeyBoard() == false)
+    // 短按返回true，长按返回false
+    if (key_paused.getLongPress())
     {
-        Gimbal_to_Chassis_Data.set_LX(L.x);
-        Gimbal_to_Chassis_Data.set_LY(L.y);
+        return false; // 长按返回0
     }
+
+    return key_paused.getClick(); // 短按返回1
 }
 
 } // namespace Chassis
 
 } // namespace Mode
-
-#endif // APP_MODE_HPP

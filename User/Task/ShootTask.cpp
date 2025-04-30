@@ -4,6 +4,7 @@
 #include "../APP/Heat_Detector/Heat_Detector.hpp"
 #include "../APP/Tools.hpp"
 #include "../BSP/Motor/Dji/DjiMotor.hpp"
+#include "../App/Mod/MiniMode.hpp"
 
 #include "cmsis_os2.h"
 float hz_send;
@@ -81,7 +82,7 @@ void Class_ShootFSM::UpState()
         break;
     }
     case (Booster_Status::STOP): {
-        // 停止状态，拨盘与摩擦轮期望值都为0
+        // 停止状态，拨盘期望值为0
         adrc_friction_L_vel.setTarget(target_friction_omega);
         adrc_friction_R_vel.setTarget(-target_friction_omega);
 
@@ -109,15 +110,18 @@ void Class_ShootFSM::Control(void)
     auto velR = BSP::Motor::Dji::Motor3508.getVelocityRads(2);
     auto DailVel = BSP::Motor::Dji::Motor2006.getVelocityRads(1);
 
-		UpState();
-		JammingFMS.UpState();
-	
+    if(Mode::Gimbal::Launch())
+    {
+        Now_Status_Serial = Booster_Status::STOP;
+    }
+
+    UpState();
+    JammingFMS.UpState();
+
     // 控制摩擦轮
     adrc_friction_L_vel.UpData(velL);
     adrc_friction_R_vel.UpData(velR);
     adrc_Dail_vel.UpData(DailVel);
-
-    // Tools.vofaSend(adrc_friction_L_vel.getZ1(), velL, target_friction_omega, 0, 0, 0);
 
     CAN_Set();
     CAN_Send();
@@ -131,7 +135,7 @@ void Class_ShootFSM::CAN_Set(void)
     BSP::Motor::Dji::Motor3508.setCAN(adrc_friction_L_vel.getU(), 2);
     BSP::Motor::Dji::Motor3508.setCAN(adrc_friction_R_vel.getU(), 3);
 
-//    BSP::Motor::Dji::Motor3508.setCAN(adrc_Dail_vel.getU(), 1);
+    //    BSP::Motor::Dji::Motor3508.setCAN(adrc_Dail_vel.getU(), 1);
 }
 
 void Class_ShootFSM::CAN_Send(void)
@@ -140,6 +144,6 @@ void Class_ShootFSM::CAN_Send(void)
     auto Motor_Dail = BSP::Motor::Dji::Motor2006;
 
     Motor_Friction.sendCAN(&hcan1, 1);
-//    Motor_Dail.sendCAN(&hcan1, 1);
+    //    Motor_Dail.sendCAN(&hcan1, 1);
 }
 } // namespace TASK::Shoot

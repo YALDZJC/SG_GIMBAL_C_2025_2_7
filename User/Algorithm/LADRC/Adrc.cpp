@@ -9,7 +9,6 @@ float TDquadratic::Calc(float u)
     u_ = u;
     x1 += x2 * h;
     x2 += (-2.0f * r * x2 - r * r * (x1 - u_)) * h;
-
     return x1;
 }
 
@@ -17,35 +16,49 @@ void Adrc::ESOCalc(float target, float feedback)
 {
     feedback_ = feedback;
     target_ = target;
-
-    err = feedback_ - z1;
-
-	  beta1 = 3.0f * wc_;
-    beta2 = 3.0f * wc_ * wc_;
-    beta3 = wc_ * wc_ * wc_;
 	
-	
-    z1 += (z2 + beta1 * err) * h_;
-    z2 += (z3 + beta2 * err + b0_ * u) * h_;
-    z3 += beta3 * err * h_;
+    // 计算ESO增益系数
+    beta1 = 2.0f * wc_;
+    beta2 = wc_ * wc_;
+
+    // 更新ESO状态
+    z1 += h_ * (z2 + beta1 * e + b0_ * u);
+    z2 += h_ * (beta2 * e);
+		
+		// 目标与观测误差
+    e = feedback_ - this->z1;
+    z1 += (z2 + beta1 * e + b0_ * this->u) * this->h_;
+    z2 += beta2 * e * h_;
 }
 
 void Adrc::SefCalc()
 {
-    u0 = Kp_ * (td_.getX1() - z1) + Kd_ * (td_.getX2() - z2) - z3;
+    // 计算跟踪误差
+		float u0 = 0;
+    float e1 = td_.getX1() - z1;
 
-    u = u0 / b0_;
-	
-	if(u >= max)
-		u = max;
-	if(u<= -max)
-		u = -max;
+    // 计算控制律
+    u0 = Kp_ * e1;
+
+    // 计算最终控制量（补偿扰动）
+    u = (u0 - z2) / b0_;
+
+    // 限幅
+    if (u > max)
+        u = max;
+    if (u < -max)
+        u = -max;
 }
 
 float Adrc::UpData(float feedback)
 {
+    // 跟踪微分器处理目标值
     td_.Calc(target_);
+
+    // ESO估计系统状态和扰动
     ESOCalc(target_, feedback);
+
+    // 计算控制律
     SefCalc();
 
     return u;

@@ -3,20 +3,6 @@
 
 namespace BSP::Motor::DM
 {
-
-enum class DmRun
-{
-    NONE = 0,
-    RUN_ON = 1,
-    RUN_OFF = 2
-};
-
-enum class DmState
-{
-    ON,
-    OFF
-};
-
 // 参数结构体定义
 struct Parameters
 {
@@ -125,8 +111,6 @@ template <uint8_t N> class DMMotorBase : public MotorBase<N>
         return (int)((x - offset) * ((float)((1 << bits) - 1)) / span);
     }
 
-    // // 定义参数生成方法的虚函数
-    // virtual Parameters GetParameters() = 0; // 纯虚函数要求子类必须实现
     /**
      * @brief 将反馈数据转换为国际单位
      *
@@ -157,7 +141,8 @@ template <uint8_t N> class DMMotorBase : public MotorBase<N>
             this->unit_data_[i].add_angle += (Data - lastData);
 
         this->unit_data_[i].last_angle = Data;
-        // 角度计算逻辑...
+
+        this->runTime_[i].dirTime.UpLastTime();
     }
 
   public:
@@ -270,7 +255,6 @@ template <uint8_t N> class DMMotorBase : public MotorBase<N>
         *(uint64_t *)(&send_data[0]) = 0xFCFFFFFFFFFFFFFF;
 
         CAN::BSP::Can_Send(hcan, init_address + send_idxs_[motor_index - 1], send_data, CAN_TX_MAILBOX2);
-        state = DmRun::RUN_ON;
     }
 
     /**
@@ -283,7 +267,6 @@ template <uint8_t N> class DMMotorBase : public MotorBase<N>
     {
         *(uint64_t *)(&send_data[0]) = 0xFDFFFFFFFFFFFFFF;
         CAN::BSP::Can_Send(hcan, init_address + send_idxs_[motor_index - 1], send_data, CAN_TX_MAILBOX2);
-        state = DmRun::RUN_OFF;
     }
 
     /**
@@ -296,6 +279,18 @@ template <uint8_t N> class DMMotorBase : public MotorBase<N>
     {
         *(uint64_t *)(&send_data[0]) = 0xFBFFFFFFFFFFFFFF;
         CAN::BSP::Can_Send(hcan, init_address + send_idxs_[motor_index - 1], send_data, CAN_TX_MAILBOX2);
+    }
+
+    uint8_t ISDir()
+    {
+        bool is_dir = false;
+        for (uint8_t i = 0; i < N; i++)
+        {
+            is_dir |= this->runTime_[i].Dir_Flag = this->runTime_[i].dirTime.ISDir(100);
+            this->runTime_[i].Dir_Flag = is_dir;
+        }
+
+        return is_dir;
     }
 
   protected:
@@ -331,7 +326,6 @@ template <uint8_t N> class DMMotorBase : public MotorBase<N>
     Parameters params_;           // 转国际单位参数列表
     uint8_t send_data[8];
 
-    DmRun state = DmRun::RUN_OFF;
 };
 
 template <uint8_t N> class J4310 : public DMMotorBase<N>

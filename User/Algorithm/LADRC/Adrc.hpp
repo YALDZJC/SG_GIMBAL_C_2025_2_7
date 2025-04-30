@@ -52,7 +52,7 @@ class Adrc
   public:
     Adrc(TDquadratic td = TDquadratic(1, 0), float Kp = 0, float Kd = 0, float wc = 0, float b0 = 1,
          float h = 0.001f)
-        : td_(td), Kp_(Kp), Kd_(Kd), wc_(wc), b0_(b0), h_(h)
+        : td_(td), Kp_(Kp), wc_(wc), b0_(b0), h_(h)
     {
 
     }
@@ -87,16 +87,13 @@ class Adrc
     }
 
   private:
-    float Kp_, Kd_;
-
-    float z1, z2, z3;
+    float Kp_;
+    float z1, z2;
     float wc_; // 观测器带宽
-
-    float target_, feedback_, err; // 反馈值和误差
+    float target_, feedback_, e; // 反馈值和误差
     float u;                       // 控制器输出
-    float u0;                      // SFEF输出
     float b0_ = 1;                 // 控制器增益（调节单位用）
-    float beta1, beta2, beta3;     // ESO增益
+    float beta1, beta2;     // ESO增益
     float h_ = 0.001f;             // 采样周期
 		float max;
     /**

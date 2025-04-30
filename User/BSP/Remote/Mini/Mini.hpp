@@ -10,7 +10,6 @@ namespace BSP::Remote
 class Mini
 {
   public: // 公有成员函数
-
     // 获取单例实例
     static Mini &Instance()
     {
@@ -178,20 +177,18 @@ class Mini
     // 调用zero初始化
     Vector joystick_right_ = Vector::zero();
     Vector joystick_left_ = Vector::zero();
-		Vector sw_ = Vector::zero();
+    Vector sw_ = Vector::zero();
 
     Vector mouse_vel_ = Vector::zero();
     Mouse mouse_key_ = Mouse::zero();
-	
+
     Keyboard keyboard_ = Keyboard::zero();
-		
+
     Gear gear_ = Gear::UNKNOWN;
     Switch paused_ = Switch::UNKNOWN;
     Switch fn_left_ = Switch::UNKNOWN;
     Switch fn_right_ = Switch::UNKNOWN;
     Switch trigger_ = Switch::UNKNOWN;
-
-
 
   public:
     // get方法
@@ -269,7 +266,7 @@ class Mini
         return trigger_;
     }
 
-		 /**
+    /**
      * @brief 获取鼠标的速度
      *
      * @return Vector

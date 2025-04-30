@@ -25,18 +25,6 @@ namespace Gimbal
  */
 
 /**
- * @brief 按键：右下
- * 云台普通模式，此时发射机构失能，视觉失能
- *
- * @return true
- * @return false
- */
-inline bool Normal()
-{
-    return (dr16.switchRight() == Dr16::Switch::DOWN);
-}
-
-/**
  * @brief 按键：右中
  * 云台期望值变为视觉发送的期望值 如果视觉发送为0则为普通模式
  * @return true

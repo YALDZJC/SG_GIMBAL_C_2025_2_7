@@ -268,7 +268,7 @@ inline float HI12::getAddYaw()
 }
 
 // 全局实例
-extern HI12 imu;
+inline HI12 imu;
 
 } // namespace IMU
 } // namespace BSP

@@ -48,10 +48,10 @@ void Mini::UpdateStatus()
 {
     auto channel_to_double = [](uint16_t value) { return (static_cast<int32_t>(value) - 1024) / 660.0; };
 
-    joystick_right_.y = -channel_to_double(static_cast<uint16_t>(part1_.joystick_channel0));
-    joystick_right_.x = channel_to_double(static_cast<uint16_t>(part1_.joystick_channel1));
-    joystick_left_.y = -channel_to_double(static_cast<uint16_t>(part1_.joystick_channel2));
-    joystick_left_.x = channel_to_double(static_cast<uint16_t>(part1_.joystick_channel3));
+    joystick_right_.x = -channel_to_double(static_cast<uint16_t>(part1_.joystick_channel0));
+    joystick_right_.y = channel_to_double(static_cast<uint16_t>(part1_.joystick_channel1));
+    joystick_left_.x = -channel_to_double(static_cast<uint16_t>(part1_.joystick_channel2));
+    joystick_left_.y = channel_to_double(static_cast<uint16_t>(part1_.joystick_channel3));
 
     // 拨杆值
     sw_.x = channel_to_double(static_cast<uint16_t>(part1_.sw));

@@ -2,7 +2,6 @@
 
 #include "../User/BSP/StaticTime.hpp"
 
- 
 #include "stdint.h"
 #include "usart.h"
 
@@ -219,7 +218,8 @@ class Dr16
     }
 };
 
-extern Dr16 dr16;
+inline Dr16 dr16;
+
 } // namespace BSP::Remote
 #ifdef __cplusplus
 extern "C"
