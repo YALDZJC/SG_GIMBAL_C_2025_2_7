@@ -9,7 +9,7 @@
 #include "../BSP/Remote/Mini/Mini.hpp"
 #include "../Task/CommunicationTask.hpp"
 
-#include "../APP/Mod/MiniMode.hpp"
+#include "../APP/Mod/RemoteModeManager.hpp"
 #include "../BSP/DWT/DWT.hpp"
 
 #include "can.h"

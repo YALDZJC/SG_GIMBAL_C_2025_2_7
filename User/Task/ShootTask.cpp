@@ -3,8 +3,8 @@
 
 #include "../APP/Heat_Detector/Heat_Detector.hpp"
 #include "../APP/Tools.hpp"
+#include "../App/Mod/RemoteModeManager.hpp"
 #include "../BSP/Motor/Dji/DjiMotor.hpp"
-#include "../App/Mod/MiniMode.hpp"
 
 #include "cmsis_os2.h"
 float hz_send;
@@ -110,7 +110,7 @@ void Class_ShootFSM::Control(void)
     auto velR = BSP::Motor::Dji::Motor3508.getVelocityRads(2);
     auto DailVel = BSP::Motor::Dji::Motor2006.getVelocityRads(1);
 
-    if(Mode::Gimbal::Launch())
+    if (Mode::Gimbal::Launch())
     {
         Now_Status_Serial = Booster_Status::STOP;
     }
