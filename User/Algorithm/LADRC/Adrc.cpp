@@ -35,7 +35,7 @@ void Adrc::SefCalc()
 {
     // 计算跟踪误差
 		float u0 = 0;
-    float e1 = td_.getX1() - z1;
+    float e1 = target_ - z1;
 
     // 计算控制律
     u0 = Kp_ * e1;

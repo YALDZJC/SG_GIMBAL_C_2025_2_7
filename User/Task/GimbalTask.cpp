@@ -3,11 +3,13 @@
 #include "../APP/Mode.hpp"
 #include "../APP/Tools.hpp"
 #include "../APP/Variable.hpp"
+#include "../Algorithm/LADRC/Adrc.hpp"
 #include "../BSP/IMU/HI12H3_IMU.hpp"
 #include "../BSP/Motor/DM/DmMotor.hpp"
 #include "../BSP/Motor/Dji/DjiMotor.hpp"
 #include "../BSP/Remote/Dbus.hpp"
 #include "../Task/CommunicationTask.hpp"
+
 #include "cmsis_os2.h"
 
 void GimbalTask(void *argument)
@@ -19,7 +21,7 @@ void GimbalTask(void *argument)
     for (;;)
     {
         taskManager.updateAll();
-        osDelay(2);
+        osDelay(1);
     }
 }
 
@@ -40,8 +42,8 @@ class GimbalData
     float tar_dail_vel;
     int32_t tar_Dail_angle;
 
-    float DM_Kp = 50;
-    float DM_Kd = 2;
+    float DM_Kp = 120;
+    float DM_Kd = 3;
     float err = 0;
     float yaw_pos;
     float yaw_vel;
@@ -54,10 +56,10 @@ class GimbalData
     float B;
 
     float ff_value = 0;
-    float ff_k = 0;
+    float ff_k = 0.6;
     float Yaw_final_out;
 
-    float pitch_gravity_ff = -0.8; // pitch重力前馈
+    float pitch_gravity_ff = -1.2; // pitch重力前馈
     float Pitch_final_out;
 
     uint32_t shoot_time_ms;
@@ -159,8 +161,8 @@ class Gimbal_Task::VisionHandler : public StateHandler
             gimbal_data.tar_pitch =
                 (Communicat::Vision_Data.rx_target.pitch_angle + BSP::Motor::DM::Motor4310.getAngleDeg(1));
             gimbal_data.tar_yaw = Communicat::Vision_Data.rx_target.yaw_angle + BSP::IMU::imu.getAddYaw();
-			
-			if (BSP::Remote::dr16.sw() >= 0.6 && gimbal_data.is_Launch == true)
+
+            if (BSP::Remote::dr16.sw() >= 0.6 && gimbal_data.is_Launch == true)
                 Communicat::Vision_Data.get_fire_num(&gimbal_data.tar_Dail_angle);
         }
     }
@@ -267,7 +269,6 @@ class Gimbal_Task::KeyBoardHandler : public StateHandler
             gimbal_data.is_Launch = false;
             Gimbal_to_Chassis_Data.set_MCL(false);
         }
-
 
         m_task.LaunchState(gimbal_data.is_Launch);
 
@@ -428,9 +429,12 @@ float x1, x2, x3, x1_d, x2_d, T = 0.005, l1, l2, l3, y, b = 1, u, wc = 40, u0;
 float out, last_out;
 float kp = 150, kd, p_out, tar1;
 float step, err;
+
+Alg::LADRC::Adrc adrc_yaw_vel(Alg::LADRC::TDquadratic(100, 0.005), 10, 30, 0.1, 0.005, 16384);
 void LadrcDemo()
 {
     auto yaw_angle = BSP::IMU::imu.getAddYaw();
+    // y = BSP::IMU::imu.getGyroZ();
     y = BSP::IMU::imu.getGyroZ();
     //	l1 = 2*wc;
     //	l2 = wc*wc;
@@ -443,38 +447,11 @@ void LadrcDemo()
     pid_yaw_angle.GetPidPos(Kpid_yaw_angle, tar_yaw.x1, yaw_angle, 16384);
 
     tar1 = pid_yaw_angle.getOut() + gimbal_data.ff_value;
-    //	p_out = kp * (tar1 - x1);
-    //	u0 = p_out;
 
-    //	u = u0 - x2/b;
+    //			pid_yaw_vel.GetPidPos(Kpid_yaw_vel, tar1, y, 16384);
 
-//    l1 = 2 * wc;
-//    l2 = wc * wc;
-
-    err = y - x1;
-//    x1 += (x2 + l1 * err + b * u) * T;
-//    x2 += l2 * err * T;
-
-//    p_out = kp * (tar1 - x1) + kd * (0 - x2);
-//    u0 = p_out;
-
-//    u = (u0 - x2) / b;
-
-
-
-          //β计算
-          l1 = 3.0 * wc;//β1
-          l2 = 3.0 * wc * wc;//β2
-          l3 = wc * wc * wc;//β3
-
-        //目标与观测误差
-        x1 += (x2 + l1 * err) * T;
-        x2 += (x3 + l2 * err + b * u) * T;
-        x3 += l3 * err * T;
-    p_out = kp * (tar1 - x1) + kd * (0 - x2);
-    u0 = p_out;
-
-    u = u0 / b;
+    adrc_yaw_vel.setTarget(tar1);
+    adrc_yaw_vel.UpData(y);
 }
 
 void Gimbal_Task::YawUpdata()
@@ -635,20 +612,20 @@ void Gimbal_Task::DialUpdata()
 
 void Gimbal_Task::CanSend()
 {
-	    static uint16_t num = 1;
+    static uint16_t num = 1;
 
-        APP::Key::keyBroad.UpKey(APP::Key::keyBroad.C, BSP::Remote::dr16.keyBoard().c);
-        num = Tools.clamp(num, 3, 1);
-        Communicat::Vision_Data.setVisionMode(num);
-        Gimbal_to_Chassis_Data.setVisionMode(num);
-	
-        if (APP::Key::keyBroad.getFallingKey(APP::Key::keyBroad.C))
-        {
-            num++;
-            num %= 4;
-        }
-	
-    gimbal_data.Yaw_final_out = Tools.clamp(u, 16384.0f, -16384.0f);
+    APP::Key::keyBroad.UpKey(APP::Key::keyBroad.C, BSP::Remote::dr16.keyBoard().c);
+    num = Tools.clamp(num, 3, 1);
+    Communicat::Vision_Data.setVisionMode(num);
+    Gimbal_to_Chassis_Data.setVisionMode(num);
+
+    if (APP::Key::keyBroad.getFallingKey(APP::Key::keyBroad.C))
+    {
+        num++;
+        num %= 4;
+    }
+
+    gimbal_data.Yaw_final_out = Tools.clamp(adrc_yaw_vel.getU(), 16384.0f, -16384.0f);
 
     BSP::Motor::Dji::Motor6020.setCAN(gimbal_data.Yaw_final_out, 1);
 
@@ -661,10 +638,16 @@ void Gimbal_Task::CanSend()
     BSP::Motor::Dji::Motor2006.sendCAN(&hcan1, 0);
     BSP::Motor::Dji::Motor3508.sendCAN(&hcan1, 1);
 
-	auto mouse_vel = BSP::Remote::dr16.mouseVel();
+    auto mouse_vel = BSP::Remote::dr16.mouseVel();
 
-//        Tools.vofaSend(mouse_vel.x, x1,
-//        		BSP::IMU::imu.getGyroZ(), tar1, BSP::IMU::imu.getAddYaw(), tar_yaw.x1);
+    // YAW轴调参
+    //    Tools.vofaSend(adrc_yaw_vel.getZ1(), adrc_yaw_vel.getFeedback(), adrc_yaw_vel.getTarget(),
+    //    gimbal_data.tar_yaw,
+    //                   BSP::IMU::imu.getAddYaw(), tar_yaw.x1);
+
+    // Pitch调参
+    Tools.vofaSend(gimbal_data.tar_pitch, adrc_yaw_vel.getFeedback(), BSP::Motor::DM::Motor4310.getAddAngleDeg(1), 0, 0,
+                   0);
 }
 
 void Gimbal_Task::Stop()

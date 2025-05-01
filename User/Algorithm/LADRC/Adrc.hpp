@@ -86,6 +86,16 @@ class Adrc
         return z1;
     }
 
+    float getFeedback()
+    {
+        return feedback_;
+    }
+
+    float getTarget()
+    {
+        return target_;
+    }
+
   private:
     float Kp_;
     float z1, z2;
