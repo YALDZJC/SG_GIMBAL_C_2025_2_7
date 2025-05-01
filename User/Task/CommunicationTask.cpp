@@ -5,6 +5,8 @@
 #include "../BSP/Motor/DM/DmMotor.hpp"
 #include "../BSP/Motor/Dji/DjiMotor.hpp"
 #include "../BSP/Remote/Dbus.hpp"
+#include "../Algor"
+
 #include "usbd_cdc_if.h"
 // #include "usb_device.h"
 
@@ -214,9 +216,9 @@ void Vision::dataReceive()
         rx_other.aim_x = Rx_pData[17];
         rx_other.aim_y = Rx_pData[18];
 
-        rx_target.pitch_angle = (Rx_pData[2] << 24 | Rx_pData[3] << 16 | Rx_pData[4] << 8 | Rx_pData[5]) / 100.0;
+        rx_target.pitch_angle = (Rx_pData[2] << 24 | Rx_pData[3] << 16 | Rx_pData[4] << 8 | Rx_pData[5]) / 100.0 + BSP::Motor::DM::Motor4310.getAngleDeg(1);
 
-        rx_target.yaw_angle = (Rx_pData[6] << 24 | Rx_pData[7] << 16 | Rx_pData[8] << 8 | Rx_pData[9]) / 100.0;
+        rx_target.yaw_angle = ((Rx_pData[6] << 24 | Rx_pData[7] << 16 | Rx_pData[8] << 8 | Rx_pData[9]) / 100.0) + BSP::IMU::imu.getAddYaw();
 
         if (fabs(rx_target.yaw_angle) > 25.0) // 超过25°置零（异常值）
         {

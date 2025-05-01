@@ -54,7 +54,7 @@ class GimbalData
     float B;
 
     float ff_value = 0;
-    float ff_k = 0.13;
+    float ff_k = 0;
     float Yaw_final_out;
 
     float pitch_gravity_ff = -0.8; // pitch重力前馈
@@ -218,7 +218,7 @@ class Gimbal_Task::KeyBoardHandler : public StateHandler
 
         mouse_vel.x = Tools.clamp(mouse_vel.x, 0.005f, -0.005f);
 
-        gimbal_data.tar_pitch += mouse_vel.y * 50;
+        gimbal_data.tar_pitch -= mouse_vel.y * 50;
         // yaw期望值计算
         gimbal_data.tar_yaw -= mouse_vel.x * 100;
         // pitch限幅
@@ -233,9 +233,8 @@ class Gimbal_Task::KeyBoardHandler : public StateHandler
         if (mouse_key.right)
         {
             //			auto Vision = Communicat::Vision_Data;
-            gimbal_data.tar_pitch =
-                (Communicat::Vision_Data.rx_target.pitch_angle + BSP::Motor::DM::Motor4310.getAngleDeg(1));
-            gimbal_data.tar_yaw = Communicat::Vision_Data.rx_target.yaw_angle + BSP::IMU::imu.getAddYaw();
+            gimbal_data.tar_pitch = Communicat::Vision_Data.get_vision_pitch();
+            gimbal_data.tar_yaw = Communicat::Vision_Data.get_vision_yaw();
             //			gimbal_data.err =  tar_pitch.x1 - BSP::Motor::DM::Motor4310.getAngleDeg(1);
 
             if (mouse_key.left && gimbal_data.is_Launch == true)
@@ -607,7 +606,7 @@ void Gimbal_Task::DialUpdata()
     // {
     //     pid_Dial_pos.GetPidPos(Kpid_Dial_pos, gimbal_data.tar_Dail_angle,
     //     BSP::Motor::Dji::Motor2006.getAddAngleRad(1),
-    //                            16384);
+    //                            16384);9
     //     pid_Dial_vel.GetPidPos(Kpid_Dial_pos_vel, pid_Dial_pos.getOut(),
     //     BSP::Motor::Dji::Motor2006.getVelocityRpm(1),
     //                            16384.0f);

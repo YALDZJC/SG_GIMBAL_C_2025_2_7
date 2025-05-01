@@ -151,11 +151,11 @@ class Vision
 
     float get_vision_yaw()
     {
-        return yaw_angle_ = rx_target.yaw_angle;
+        return rx_target.yaw_angle;
     }
     float get_vision_pitch()
     {
-        return pitch_angle_ = rx_target.pitch_angle;
+        return rx_target.pitch_angle;
     }
 
     void get_fire_num(int32_t *tar)
