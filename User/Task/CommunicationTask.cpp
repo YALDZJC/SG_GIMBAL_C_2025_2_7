@@ -1,10 +1,12 @@
 #include "../Task/CommunicationTask.hpp"
+
 #include "../APP/Mod/RemoteModeManager.hpp"
 #include "../APP/Tools.hpp"
 #include "../BSP/IMU/HI12H3_IMU.hpp"
 #include "../BSP/Motor/DM/DmMotor.hpp"
 #include "../BSP/Motor/Dji/DjiMotor.hpp"
 #include "../BSP/Remote/Dbus/Dbus.hpp"
+
 #include "usbd_cdc_if.h"
 // #include "usb_device.h"
 
@@ -59,13 +61,11 @@ void Vision::time_demo()
 void Gimbal_to_Chassis::Data_send()
 {
     using namespace BSP;
-
+    auto *remote = Mode::RemoteModeManager::Instance().getActiveController();
     auto channel_to_uint8 = [](float value) { return (static_cast<uint8_t>(value * 110) + 110); };
 
     // 初始化结构体数据
-    Mode::Chassis::SendRemote();
-
-    if (Mode::Chassis::KeyBoard() == true)
+    if (remote->isKeyboardMode() == true)
     {
         direction.LX = channel_to_uint8(direction.LX);
         direction.LY = channel_to_uint8(direction.LY);
@@ -78,11 +78,11 @@ void Gimbal_to_Chassis::Data_send()
 
     direction.Yaw_encoder_angle_err = CalcuGimbalToChassisAngle();
 
-    chassis_mode.Universal_mode = Mode::Chassis::Universal();
-    chassis_mode.Follow_mode = Mode::Chassis::Follow();
-    chassis_mode.Rotating_mode = Mode::Chassis::Rotating();
-    chassis_mode.KeyBoard_mode = Mode::Chassis::KeyBoard();
-    chassis_mode.stop = Mode::Chassis::Stop();
+    chassis_mode.Universal_mode = remote->isUniversalMode();
+    chassis_mode.Follow_mode = remote->isFollowMode();
+    chassis_mode.Rotating_mode = remote->isRotatingMode();
+    chassis_mode.KeyBoard_mode = remote->isKeyboardMode();
+    chassis_mode.stop = remote->isStopMode();
 
     if (chassis_mode.Rotating_mode)
         direction.Rotating_vel = channel_to_uint8(BSP::Remote::dr16.sw());

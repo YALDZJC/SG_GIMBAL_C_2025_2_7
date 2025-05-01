@@ -2,9 +2,9 @@
 #ifndef APP_MINI_CONTROLLER_HPP
 #define APP_MINI_CONTROLLER_HPP
 
-#include "../User/BSP/Remote/Mini/Mini.hpp"
-#include "../User/BSP/SimpleKey/SimpleKey.hpp"
-#include "IRemoteController.hpp"
+#include "../../User/BSP/Remote/Mini/Mini.hpp"
+#include "../../User/BSP/SimpleKey/SimpleKey.hpp"
+#include "../IRemoteController.hpp"
 
 namespace Mode
 {
@@ -92,6 +92,32 @@ class MiniRemoteController : public IRemoteController
         auto &remote = Mini::Instance();
         // Mini遥控器的正确API使用remoteLeft().y获取左摇杆Y值
         return remote.remoteLeft().y;
+    }
+
+    float getRightX() const override
+    {
+        auto &remote = Mini::Instance();
+        // Mini遥控器的正确API使用remoteRight().x获取右摇杆X值
+        return remote.remoteRight().x;
+    }
+
+    float getRightY() const override
+    {
+        auto &remote = Mini::Instance();
+        // Mini遥控器的正确API使用remoteRight().y获取右摇杆Y值
+        return remote.remoteRight().y;
+    }
+
+    float getMouseVelX() const override
+    {
+        auto &remote = Mini::Instance();
+        return remote.mouseVel().x;
+    }
+
+    float getMouseVelY() const override
+    {
+        auto &remote = Mini::Instance();
+        return remote.mouseVel().y;
     }
 
     void update() override

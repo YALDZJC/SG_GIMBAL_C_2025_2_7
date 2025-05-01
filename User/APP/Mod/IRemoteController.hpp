@@ -1,6 +1,4 @@
 #pragma once
-#ifndef APP_I_REMOTE_CONTROLLER_HPP
-#define APP_I_REMOTE_CONTROLLER_HPP
 
 namespace Mode
 {
@@ -29,11 +27,15 @@ class IRemoteController
     // 获取摇杆值
     virtual float getLeftX() const = 0;
     virtual float getLeftY() const = 0;
+    virtual float getRightX() const = 0;
+    virtual float getRightY() const = 0;
+
+    // 获取鼠标值
+    virtual float getMouseVelX() const = 0;
+    virtual float getMouseVelY() const = 0;
 
     // 更新状态
     virtual void update() = 0;
 };
 
 } // namespace Mode
-
-#endif // APP_I_REMOTE_CONTROLLER_HPP

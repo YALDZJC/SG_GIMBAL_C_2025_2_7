@@ -1,10 +1,8 @@
 #pragma once
-#ifndef APP_DR16_CONTROLLER_HPP
-#define APP_DR16_CONTROLLER_HPP
 
+#include "../IRemoteController.hpp"
 #include "../User/BSP/Remote/Dbus/Dbus.hpp"
 #include "../User/Task/EvenTask.hpp"
-#include "IRemoteController.hpp"
 
 namespace Mode
 {
@@ -18,7 +16,7 @@ class DR16RemoteController : public IRemoteController
   public:
     bool isConnected() const override
     {
-        return !Dir_Event.getDir_Remote(); // Dir_Remote为true表示断连
+        return !dr16.ISDir(); // Dir_Remote为true表示断连
     }
 
     bool isVisionMode() const override
@@ -67,6 +65,26 @@ class DR16RemoteController : public IRemoteController
         return dr16.remoteLeft().y;
     }
 
+    float getRightX() const override
+    {
+        return dr16.remoteRight().x;
+    }
+
+    float getRightY() const override
+    {
+        return dr16.remoteRight().y;
+    }
+
+    float getMouseVelX() const override
+    {
+        return dr16.mouseVel().x;
+    }
+
+    float getMouseVelY() const override
+    {
+        return dr16.mouseVel().y;
+    }
+
     void update() override
     {
         // DR16没有需要额外更新的内容
@@ -74,5 +92,3 @@ class DR16RemoteController : public IRemoteController
 };
 
 } // namespace Mode
-
-#endif // APP_DR16_CONTROLLER_HPP

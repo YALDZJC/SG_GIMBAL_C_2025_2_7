@@ -1,6 +1,8 @@
 #include "../Task/ShootTask.hpp"
 #include "../Task/CommunicationTask.hpp"
 
+#include "../APP/Mod/RemoteModeManager.hpp"
+
 #include "../APP/Heat_Detector/Heat_Detector.hpp"
 #include "../APP/Tools.hpp"
 #include "../App/Mod/RemoteModeManager.hpp"
@@ -106,11 +108,13 @@ void Class_ShootFSM::UpState()
 
 void Class_ShootFSM::Control(void)
 {
+    auto *remote = Mode::RemoteModeManager::Instance().getActiveController();
+
     auto velL = BSP::Motor::Dji::Motor3508.getVelocityRads(1);
     auto velR = BSP::Motor::Dji::Motor3508.getVelocityRads(2);
     auto DailVel = BSP::Motor::Dji::Motor2006.getVelocityRads(1);
 
-    if (Mode::Gimbal::Launch())
+    if (remote->isLaunchMode())
     {
         Now_Status_Serial = Booster_Status::STOP;
     }
