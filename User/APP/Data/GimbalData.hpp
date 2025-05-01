@@ -1,5 +1,9 @@
 
 
+#pragma once
+
+#include "../User/APP/Tools.hpp"
+
 namespace APP::Data
 {
 
@@ -30,6 +34,8 @@ class GimbalData
 
     float getTarPitch()
     {
+        tar_pitch = Tools.clamp(tar_pitch, 23.0f, -8.0f);
+
         return tar_pitch;
     }
 
@@ -45,4 +51,4 @@ class GimbalData
 };
 
 inline GimbalData gimbal_data;
-} // namespace APP::Gimbal
+} // namespace APP::Data

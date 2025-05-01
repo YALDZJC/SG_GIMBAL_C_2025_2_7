@@ -17,6 +17,10 @@ class RemoteModeManager
     static RemoteModeManager &Instance()
     {
         static RemoteModeManager instance;
+        // 获取当前应该使用的遥控器
+        instance.init();
+        instance.determineActiveController();
+
         return instance;
     }
 
@@ -51,9 +55,6 @@ class RemoteModeManager
 
         m_dr16Controller->update();
         m_miniController->update();
-
-        // 获取当前应该使用的遥控器
-        determineActiveController();
     }
 
     // 获取当前活动的遥控器
@@ -76,17 +77,12 @@ class RemoteModeManager
     // 决定哪个遥控器是当前活动的
     void determineActiveController()
     {
+        // 默认使用dr16
+        m_activeController = m_dr16Controller;
+
         if (m_dr16Controller->isConnected())
         {
-            m_activeController = m_dr16Controller;
-        }
-        else if (m_miniController->isConnected())
-        {
             m_activeController = m_miniController;
-        }
-        else
-        {
-            m_activeController = nullptr;
         }
     }
 
@@ -95,7 +91,6 @@ class RemoteModeManager
         : m_dr16Controller(nullptr), m_miniController(nullptr), m_activeController(nullptr), m_isInitialized(false)
     {
         // 构造函数中自动执行初始化
-        init();
     }
 
     RemoteModeManager(const RemoteModeManager &) = delete;

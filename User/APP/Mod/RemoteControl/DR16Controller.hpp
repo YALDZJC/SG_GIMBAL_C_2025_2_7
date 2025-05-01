@@ -16,7 +16,7 @@ class DR16RemoteController : public IRemoteController
   public:
     bool isConnected() const override
     {
-        return !dr16.ISDir(); // Dir_Remote为true表示断连
+        return Dir_Event.getDir_Remote(); // Dir_Remote为true表示断连
     }
 
     bool isVisionMode() const override

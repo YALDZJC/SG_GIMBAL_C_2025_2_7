@@ -40,6 +40,7 @@ void HAL_UARTEx_RxEventCallback(UART_HandleTypeDef *huart, uint16_t Size)
     auto &mini = BSP::Remote::Mini::Instance();
 
     mini.Parse(huart, Size);
-//    BSP::Remote::dr16.Parse(huart, Size);
+    BSP::Remote::dr16.Parse(huart, Size);
+    
     BSP::IMU::imu.Parse(huart, Size);
 }

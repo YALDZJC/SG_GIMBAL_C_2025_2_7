@@ -114,10 +114,10 @@ void Class_ShootFSM::Control(void)
     auto velR = BSP::Motor::Dji::Motor3508.getVelocityRads(2);
     auto DailVel = BSP::Motor::Dji::Motor2006.getVelocityRads(1);
 
-    if (remote->isLaunchMode())
-    {
-        Now_Status_Serial = Booster_Status::STOP;
-    }
+//    if (remote->isLaunchMode())
+//    {
+//        Now_Status_Serial = Booster_Status::STOP;
+//    }
 
     UpState();
     JammingFMS.UpState();

@@ -16,10 +16,13 @@
 #include "cmsis_os2.h"
 
 Gimbal gimbal;
+
 void GimbalTask(void *argument)
 {
     for (;;)
     {
+        auto *remote = Mode::RemoteModeManager::Instance().getActiveController();
+        remote->update();
         gimbal.upDate();
         osDelay(1);
     }
@@ -27,7 +30,7 @@ void GimbalTask(void *argument)
 
 // 构造函数定义，使用初始化列表
 Gimbal::Gimbal()
-    : adrc_yaw_vel(Alg::LADRC::TDquadratic(100, 0.001), 150, 150, 0.4, 0.001, 16384),
+    : adrc_yaw_vel(Alg::LADRC::TDquadratic(100, 0.001), 0, 0, 0.4, 0.001, 16384),
       // 速度pid的积分
       pid_yaw_angle{0, 0}, pid_yaw_vel{0, 0},
       // pid的k值
@@ -51,6 +54,12 @@ void Gimbal::modSwitch()
     using namespace APP::Data;
 
     auto *remote = Mode::RemoteModeManager::Instance().getActiveController();
+
+    if (remote == nullptr)
+    {
+        // 处理无遥控器的情况
+        return;
+    }
 
     auto remote_rx = remote->getRightX();
     auto remote_ry = remote->getRightY();
@@ -92,27 +101,26 @@ void Gimbal::modSwitch()
     }
 }
 
-uint8_t is_pid;
-
 void Gimbal::yawControl()
 {
     using namespace APP::Data;
 
-    // // 获取当前角度值
-    // auto cur_angle = BSP::IMU::imu.getAddYaw();
-    // auto cur_vel = BSP::IMU::imu.getGyroZ();
-
     // 获取当前角度值
-    auto cur_angle = BSP::Motor::Dji::Motor6020.getAddAngleDeg(1);
-    auto cur_vel = BSP::Motor::Dji::Motor6020.getVelocityRads(1);
+    auto cur_angle = BSP::IMU::imu.getAddYaw();
+    auto cur_vel = BSP::IMU::imu.getGyroZ();
+
+//    // 获取当前角度值
+//    auto cur_angle = BSP::Motor::Dji::Motor6020.getAddAngleDeg(1);
+//    auto cur_vel = BSP::Motor::Dji::Motor6020.getVelocityRads(1);
 
     td_yaw_vel.Calc(cur_vel);
 
     // PID更新
     pid_yaw_angle.GetPidPos(kpid_yaw_angle, gimbal_data.getTarYaw(), cur_angle, 35.0f);
     // ADRC更新
-    adrc_yaw_vel.setTarget(pid_yaw_angle.getOut());            // 设置目标值
-    adrc_yaw_vel.UpData(cur_vel);                              // 更新adrc
+    adrc_yaw_vel.setTarget(pid_yaw_angle.getOut()); // 设置目标值
+    adrc_yaw_vel.UpData(cur_vel);                   // 更新adrc
+
     BSP::Motor::Dji::Motor6020.setCAN(adrc_yaw_vel.getU(), 1); // 设置电机扭矩
 
     BSP::Motor::Dji::Motor6020.sendCAN(&hcan1, 0); // 发送数据
