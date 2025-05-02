@@ -1,6 +1,6 @@
 #include "../APP/Variable.hpp"
 
-TD tar_pitch(70);
+TD tar_pitch(50);
 TD tar_yaw(70);
 
 TD tar_shoot(30);

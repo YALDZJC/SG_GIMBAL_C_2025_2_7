@@ -56,7 +56,7 @@ class GimbalData
     float B;
 
     float ff_value = 0;
-    float ff_k = 0.6;
+    float ff_k = 0.4;
     float Yaw_final_out;
 
     float pitch_gravity_ff = -1.2; // pitch重力前馈
@@ -405,7 +405,8 @@ void Gimbal_Task::TargetUpdata()
     }
     else
     {
-        gimbal_data.tar_yaw = tar;
+//        gimbal_data.tar_yaw = tar;
+				gimbal_data.tar_pitch = tar;
     }
 
     //    Tools.vofaSend(gimbal_data.tar_Dail_angle, 0, 0, 0, 0, 0);
@@ -646,8 +647,8 @@ void Gimbal_Task::CanSend()
     //                   BSP::IMU::imu.getAddYaw(), tar_yaw.x1);
 
     // Pitch调参
-//    Tools.vofaSend(gimbal_data.tar_pitch, adrc_yaw_vel.getFeedback(), BSP::Motor::DM::Motor4310.getAddAngleDeg(1), 0, 0,
-//                   0);
+    Tools.vofaSend(gimbal_data.tar_pitch, adrc_yaw_vel.getFeedback(), BSP::Motor::DM::Motor4310.getAddAngleDeg(1), 0, 0,
+                   0);
 }
 
 void Gimbal_Task::Stop()
