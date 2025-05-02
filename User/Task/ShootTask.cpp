@@ -30,7 +30,7 @@ Class_ShootFSM::Class_ShootFSM()
     : adrc_friction_L_vel(Alg::LADRC::TDquadratic(200, 0.001), 10, 25, 1, 0.001, 16384),
       adrc_friction_R_vel(Alg::LADRC::TDquadratic(200, 0.001), 10, 25, 1, 0.001, 16384),
       adrc_Dail_vel(Alg::LADRC::TDquadratic(200, 0.001), 5, 40, 0.9, 0.001, 16384),
-      Heat_Limit(50, 10.0f) // 示例参数：窗口大小50，阈值10.0
+      Heat_Limit(100, 10.0f) // 示例参数：窗口大小50，阈值10.0
 {
     // 其他初始化逻辑（如果有）
 }

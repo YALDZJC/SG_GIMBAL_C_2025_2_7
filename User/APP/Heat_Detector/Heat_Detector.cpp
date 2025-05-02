@@ -1,5 +1,5 @@
 #include "../User/APP/Heat_Detector/Heat_Detector.hpp"
-
+// 不需要全局变量，滑动窗口内部已经有累计值
 // 热量检测
 namespace APP ::Heat_Detector
 {
@@ -7,7 +7,7 @@ void Class_FSM_Heat_Limit::UpData()
 {
     Status[Now_Status_Serial].Count_Time++;
 
-    auto vel = (friction_L_vel - friction_R_vel) * 0.6f;
+    auto vel = (friction_L_vel - friction_R_vel);
 
     switch (Now_Status_Serial)
     {
@@ -23,8 +23,9 @@ void Class_FSM_Heat_Limit::UpData()
     }
     case Heat_Detector_Status::ENABLE: {
         // 使能状态，电流检测器开始工作
-        float now_current = (friction_L_current - friction_R_current) * 0.5f;
+        float now_current = friction_L_current - friction_R_current; // 使用完整差值
         bool is_beyond = Current_Detector.addValue(now_current);
+        // 不需要额外累加，所有累计值已在滑动窗口内部处理
 
         if (is_beyond)
         {

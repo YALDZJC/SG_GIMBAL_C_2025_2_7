@@ -205,6 +205,16 @@
           <WinNumber>1</WinNumber>
           <ItemText>cur_vel_Threshold</ItemText>
         </Ww>
+        <Ww>
+          <count>10</count>
+          <WinNumber>1</WinNumber>
+          <ItemText>now_current</ItemText>
+        </Ww>
+        <Ww>
+          <count>11</count>
+          <WinNumber>1</WinNumber>
+          <ItemText>now_current_sum</ItemText>
+        </Ww>
       </WatchWindow1>
       <WatchWindow2>
         <Ww>

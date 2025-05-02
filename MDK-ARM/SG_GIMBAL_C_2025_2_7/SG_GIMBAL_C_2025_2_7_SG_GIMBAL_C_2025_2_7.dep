@@ -1,7 +1,7 @@
 Dependencies for Project 'SG_GIMBAL_C_2025_2_7', Target 'SG_GIMBAL_C_2025_2_7': (DO NOT MODIFY !)
 CompilerVersion: 6180000::V6.18::ARMCLANG
 F (startup_stm32f407xx.s)(0x68139941)(--target=arm-arm-none-eabi -mcpu=cortex-m4 -mfpu=fpv4-sp-d16 -mfloat-abi=hard -masm=auto -c-gdwarf-4 -I ../Core/Inc-I./RTE/_SG_GIMBAL_C_2025_2_7-IC:/Users/Administrator.DESKTOP-IAACAVF/AppData/Local/Arm/Packs/ARM/CMSIS/6.1.0/CMSIS/Core/Include-IC:/Users/Administrator.DESKTOP-IAACAVF/AppData/Local/Arm/Packs/Keil/STM32F4xx_DFP/2.17.1/Drivers/CMSIS/Device/ST/STM32F4xx/Include-Wa,armasm,--pd,"__UVISION_VERSION SETA 537" -Wa,armasm,--pd,"_RTE_ SETA 1" -Wa,armasm,--pd,"STM32F407xx SETA 1" -Wa,armasm,--pd,"_RTE_ SETA 1"-o sg_gimbal_c_2025_2_7/startup_stm32f407xx.o)
-F (../Core/Src/main.c)(0x6813908B)(-xc -std=c99 --target=arm-arm-none-eabi -mcpu=cortex-m4 -mfpu=fpv4-sp-d16 -mfloat-abi=hard -c-fno-rtti -funsigned-char-gdwarf-4 -O0 -ffunction-sections -Wno-packed -Wno-missing-variable-declarations -Wno-missing-prototypes -Wno-missing-noreturn -Wno-sign-conversion -Wno-nonportable-include-path -Wno-reserved-id-macro -Wno-unused-macros -Wno-documentation-unknown-command -Wno-documentation -Wno-license-management -Wno-parentheses-equality -Wno-reserved-identifier -I ../Core/Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I ../Middlewares/Third_Party/FreeRTOS/Source/include -I ../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2 -I ../Middlewares/Third_Party/FreeRTOS/Source/portable/RVDS/ARM_CM4F -I ../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I ../Drivers/CMSIS/Include -I ../User -I ../USB_DEVICE/App -I ../USB_DEVICE/Target -I ../Middlewares/ST/STM32_USB_Device_Library/Core/Inc -I ../Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Inc-I./RTE/_SG_GIMBAL_C_2025_2_7-IC:/Users/Administrator.DESKTOP-IAACAVF/AppData/Local/Arm/Packs/ARM/CMSIS/6.1.0/CMSIS/Core/Include-IC:/Users/Administrator.DESKTOP-IAACAVF/AppData/Local/Arm/Packs/Keil/STM32F4xx_DFP/2.17.1/Drivers/CMSIS/Device/ST/STM32F4xx/Include-D__UVISION_VERSION="537" -D_RTE_ -DSTM32F407xx -D_RTE_ -DUSE_HAL_DRIVER -DSTM32F407xx-o sg_gimbal_c_2025_2_7/main.o -MD)
+F (../Core/Src/main.c)(0x6814EF3A)(-xc -std=c99 --target=arm-arm-none-eabi -mcpu=cortex-m4 -mfpu=fpv4-sp-d16 -mfloat-abi=hard -c-fno-rtti -funsigned-char-gdwarf-4 -O0 -ffunction-sections -Wno-packed -Wno-missing-variable-declarations -Wno-missing-prototypes -Wno-missing-noreturn -Wno-sign-conversion -Wno-nonportable-include-path -Wno-reserved-id-macro -Wno-unused-macros -Wno-documentation-unknown-command -Wno-documentation -Wno-license-management -Wno-parentheses-equality -Wno-reserved-identifier -I ../Core/Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I ../Middlewares/Third_Party/FreeRTOS/Source/include -I ../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2 -I ../Middlewares/Third_Party/FreeRTOS/Source/portable/RVDS/ARM_CM4F -I ../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I ../Drivers/CMSIS/Include -I ../User -I ../USB_DEVICE/App -I ../USB_DEVICE/Target -I ../Middlewares/ST/STM32_USB_Device_Library/Core/Inc -I ../Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Inc-I./RTE/_SG_GIMBAL_C_2025_2_7-IC:/Users/Administrator.DESKTOP-IAACAVF/AppData/Local/Arm/Packs/ARM/CMSIS/6.1.0/CMSIS/Core/Include-IC:/Users/Administrator.DESKTOP-IAACAVF/AppData/Local/Arm/Packs/Keil/STM32F4xx_DFP/2.17.1/Drivers/CMSIS/Device/ST/STM32F4xx/Include-D__UVISION_VERSION="537" -D_RTE_ -DSTM32F407xx -D_RTE_ -DUSE_HAL_DRIVER -DSTM32F407xx-o sg_gimbal_c_2025_2_7/main.o -MD)
 I (..\Core\Inc\main.h)(0x67A52C18)
 I (..\Drivers\STM32F4xx_HAL_Driver\Inc\stm32f4xx_hal.h)(0x66FB9B26)
 I (..\Core\Inc\stm32f4xx_hal_conf.h)(0x67CB3090)
@@ -254,7 +254,7 @@ I (..\Drivers\STM32F4xx_HAL_Driver\Inc\stm32f4xx_hal_uart.h)(0x66FB9B26)
 I (..\Drivers\STM32F4xx_HAL_Driver\Inc\stm32f4xx_hal_pcd.h)(0x66FB9B26)
 I (..\Drivers\STM32F4xx_HAL_Driver\Inc\stm32f4xx_ll_usb.h)(0x66FB9B26)
 I (..\Drivers\STM32F4xx_HAL_Driver\Inc\stm32f4xx_hal_pcd_ex.h)(0x66FB9B26)
-F (../Core/Src/usart.c)(0x6813AA9F)(-xc -std=c99 --target=arm-arm-none-eabi -mcpu=cortex-m4 -mfpu=fpv4-sp-d16 -mfloat-abi=hard -c-fno-rtti -funsigned-char-gdwarf-4 -O0 -ffunction-sections -Wno-packed -Wno-missing-variable-declarations -Wno-missing-prototypes -Wno-missing-noreturn -Wno-sign-conversion -Wno-nonportable-include-path -Wno-reserved-id-macro -Wno-unused-macros -Wno-documentation-unknown-command -Wno-documentation -Wno-license-management -Wno-parentheses-equality -Wno-reserved-identifier -I ../Core/Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I ../Middlewares/Third_Party/FreeRTOS/Source/include -I ../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2 -I ../Middlewares/Third_Party/FreeRTOS/Source/portable/RVDS/ARM_CM4F -I ../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I ../Drivers/CMSIS/Include -I ../User -I ../USB_DEVICE/App -I ../USB_DEVICE/Target -I ../Middlewares/ST/STM32_USB_Device_Library/Core/Inc -I ../Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Inc-I./RTE/_SG_GIMBAL_C_2025_2_7-IC:/Users/Administrator.DESKTOP-IAACAVF/AppData/Local/Arm/Packs/ARM/CMSIS/6.1.0/CMSIS/Core/Include-IC:/Users/Administrator.DESKTOP-IAACAVF/AppData/Local/Arm/Packs/Keil/STM32F4xx_DFP/2.17.1/Drivers/CMSIS/Device/ST/STM32F4xx/Include-D__UVISION_VERSION="537" -D_RTE_ -DSTM32F407xx -D_RTE_ -DUSE_HAL_DRIVER -DSTM32F407xx-o sg_gimbal_c_2025_2_7/usart.o -MD)
+F (../Core/Src/usart.c)(0x6814EF3A)(-xc -std=c99 --target=arm-arm-none-eabi -mcpu=cortex-m4 -mfpu=fpv4-sp-d16 -mfloat-abi=hard -c-fno-rtti -funsigned-char-gdwarf-4 -O0 -ffunction-sections -Wno-packed -Wno-missing-variable-declarations -Wno-missing-prototypes -Wno-missing-noreturn -Wno-sign-conversion -Wno-nonportable-include-path -Wno-reserved-id-macro -Wno-unused-macros -Wno-documentation-unknown-command -Wno-documentation -Wno-license-management -Wno-parentheses-equality -Wno-reserved-identifier -I ../Core/Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I ../Middlewares/Third_Party/FreeRTOS/Source/include -I ../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2 -I ../Middlewares/Third_Party/FreeRTOS/Source/portable/RVDS/ARM_CM4F -I ../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I ../Drivers/CMSIS/Include -I ../User -I ../USB_DEVICE/App -I ../USB_DEVICE/Target -I ../Middlewares/ST/STM32_USB_Device_Library/Core/Inc -I ../Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Inc-I./RTE/_SG_GIMBAL_C_2025_2_7-IC:/Users/Administrator.DESKTOP-IAACAVF/AppData/Local/Arm/Packs/ARM/CMSIS/6.1.0/CMSIS/Core/Include-IC:/Users/Administrator.DESKTOP-IAACAVF/AppData/Local/Arm/Packs/Keil/STM32F4xx_DFP/2.17.1/Drivers/CMSIS/Device/ST/STM32F4xx/Include-D__UVISION_VERSION="537" -D_RTE_ -DSTM32F407xx -D_RTE_ -DUSE_HAL_DRIVER -DSTM32F407xx-o sg_gimbal_c_2025_2_7/usart.o -MD)
 I (..\Core\Inc\usart.h)(0x67A52C17)
 I (..\Core\Inc\main.h)(0x67A52C18)
 I (..\Drivers\STM32F4xx_HAL_Driver\Inc\stm32f4xx_hal.h)(0x66FB9B26)
@@ -1313,9 +1313,9 @@ I (..\Middlewares\Third_Party\FreeRTOS\Source\include\task.h)(0x66FB9AB3)
 I (..\Middlewares\Third_Party\FreeRTOS\Source\include\list.h)(0x66FB9AB3)
 F (..\User\HAL\HAL.cpp)(0x67AF2D1A)(-xc++ -std=c++17 --target=arm-arm-none-eabi -mcpu=cortex-m4 -mfpu=fpv4-sp-d16 -mfloat-abi=hard -c-fno-rtti -funsigned-char -fno-exceptions-gdwarf-4 -O0 -ffunction-sections -Wno-packed -Wno-missing-variable-declarations -Wno-missing-prototypes -Wno-missing-noreturn -Wno-sign-conversion -Wno-nonportable-include-path -Wno-reserved-id-macro -Wno-unused-macros -Wno-documentation-unknown-command -Wno-documentation -Wno-license-management -Wno-parentheses-equality -Wno-reserved-identifier -I ../Core/Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I ../Middlewares/Third_Party/FreeRTOS/Source/include -I ../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2 -I ../Middlewares/Third_Party/FreeRTOS/Source/portable/RVDS/ARM_CM4F -I ../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I ../Drivers/CMSIS/Include -I ../User -I ../USB_DEVICE/App -I ../USB_DEVICE/Target -I ../Middlewares/ST/STM32_USB_Device_Library/Core/Inc -I ../Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Inc-I./RTE/_SG_GIMBAL_C_2025_2_7-IC:/Users/Administrator.DESKTOP-IAACAVF/AppData/Local/Arm/Packs/ARM/CMSIS/6.1.0/CMSIS/Core/Include-IC:/Users/Administrator.DESKTOP-IAACAVF/AppData/Local/Arm/Packs/Keil/STM32F4xx_DFP/2.17.1/Drivers/CMSIS/Device/ST/STM32F4xx/Include-D__UVISION_VERSION="537" -D_RTE_ -DSTM32F407xx -D_RTE_ -DUSE_HAL_DRIVER -DSTM32F407xx-o sg_gimbal_c_2025_2_7/hal.o -MD)
 F (..\User\HAL\My_HAL.cpp)(0x67AF2D0F)(-xc++ -std=c++17 --target=arm-arm-none-eabi -mcpu=cortex-m4 -mfpu=fpv4-sp-d16 -mfloat-abi=hard -c-fno-rtti -funsigned-char -fno-exceptions-gdwarf-4 -O0 -ffunction-sections -Wno-packed -Wno-missing-variable-declarations -Wno-missing-prototypes -Wno-missing-noreturn -Wno-sign-conversion -Wno-nonportable-include-path -Wno-reserved-id-macro -Wno-unused-macros -Wno-documentation-unknown-command -Wno-documentation -Wno-license-management -Wno-parentheses-equality -Wno-reserved-identifier -I ../Core/Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I ../Middlewares/Third_Party/FreeRTOS/Source/include -I ../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2 -I ../Middlewares/Third_Party/FreeRTOS/Source/portable/RVDS/ARM_CM4F -I ../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I ../Drivers/CMSIS/Include -I ../User -I ../USB_DEVICE/App -I ../USB_DEVICE/Target -I ../Middlewares/ST/STM32_USB_Device_Library/Core/Inc -I ../Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Inc-I./RTE/_SG_GIMBAL_C_2025_2_7-IC:/Users/Administrator.DESKTOP-IAACAVF/AppData/Local/Arm/Packs/ARM/CMSIS/6.1.0/CMSIS/Core/Include-IC:/Users/Administrator.DESKTOP-IAACAVF/AppData/Local/Arm/Packs/Keil/STM32F4xx_DFP/2.17.1/Drivers/CMSIS/Device/ST/STM32F4xx/Include-D__UVISION_VERSION="537" -D_RTE_ -DSTM32F407xx -D_RTE_ -DUSE_HAL_DRIVER -DSTM32F407xx-o sg_gimbal_c_2025_2_7/my_hal.o -MD)
-F (..\User\BSP\IMU\HI12H3_IMU.cpp)(0x6813908B)(-xc++ -std=c++17 --target=arm-arm-none-eabi -mcpu=cortex-m4 -mfpu=fpv4-sp-d16 -mfloat-abi=hard -c-fno-rtti -funsigned-char -fno-exceptions-gdwarf-4 -O0 -ffunction-sections -Wno-packed -Wno-missing-variable-declarations -Wno-missing-prototypes -Wno-missing-noreturn -Wno-sign-conversion -Wno-nonportable-include-path -Wno-reserved-id-macro -Wno-unused-macros -Wno-documentation-unknown-command -Wno-documentation -Wno-license-management -Wno-parentheses-equality -Wno-reserved-identifier -I ../Core/Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I ../Middlewares/Third_Party/FreeRTOS/Source/include -I ../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2 -I ../Middlewares/Third_Party/FreeRTOS/Source/portable/RVDS/ARM_CM4F -I ../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I ../Drivers/CMSIS/Include -I ../User -I ../USB_DEVICE/App -I ../USB_DEVICE/Target -I ../Middlewares/ST/STM32_USB_Device_Library/Core/Inc -I ../Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Inc-I./RTE/_SG_GIMBAL_C_2025_2_7-IC:/Users/Administrator.DESKTOP-IAACAVF/AppData/Local/Arm/Packs/ARM/CMSIS/6.1.0/CMSIS/Core/Include-IC:/Users/Administrator.DESKTOP-IAACAVF/AppData/Local/Arm/Packs/Keil/STM32F4xx_DFP/2.17.1/Drivers/CMSIS/Device/ST/STM32F4xx/Include-D__UVISION_VERSION="537" -D_RTE_ -DSTM32F407xx -D_RTE_ -DUSE_HAL_DRIVER -DSTM32F407xx-o sg_gimbal_c_2025_2_7/hi12h3_imu.o -MD)
-I (..\User\BSP\IMU\HI12H3_IMU.hpp)(0x6813908B)
-I (..\User\BSP\IMU\..\StaticTime.hpp)(0x6813908B)
+F (..\User\BSP\IMU\HI12H3_IMU.cpp)(0x6814EF3A)(-xc++ -std=c++17 --target=arm-arm-none-eabi -mcpu=cortex-m4 -mfpu=fpv4-sp-d16 -mfloat-abi=hard -c-fno-rtti -funsigned-char -fno-exceptions-gdwarf-4 -O0 -ffunction-sections -Wno-packed -Wno-missing-variable-declarations -Wno-missing-prototypes -Wno-missing-noreturn -Wno-sign-conversion -Wno-nonportable-include-path -Wno-reserved-id-macro -Wno-unused-macros -Wno-documentation-unknown-command -Wno-documentation -Wno-license-management -Wno-parentheses-equality -Wno-reserved-identifier -I ../Core/Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I ../Middlewares/Third_Party/FreeRTOS/Source/include -I ../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2 -I ../Middlewares/Third_Party/FreeRTOS/Source/portable/RVDS/ARM_CM4F -I ../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I ../Drivers/CMSIS/Include -I ../User -I ../USB_DEVICE/App -I ../USB_DEVICE/Target -I ../Middlewares/ST/STM32_USB_Device_Library/Core/Inc -I ../Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Inc-I./RTE/_SG_GIMBAL_C_2025_2_7-IC:/Users/Administrator.DESKTOP-IAACAVF/AppData/Local/Arm/Packs/ARM/CMSIS/6.1.0/CMSIS/Core/Include-IC:/Users/Administrator.DESKTOP-IAACAVF/AppData/Local/Arm/Packs/Keil/STM32F4xx_DFP/2.17.1/Drivers/CMSIS/Device/ST/STM32F4xx/Include-D__UVISION_VERSION="537" -D_RTE_ -DSTM32F407xx -D_RTE_ -DUSE_HAL_DRIVER -DSTM32F407xx-o sg_gimbal_c_2025_2_7/hi12h3_imu.o -MD)
+I (..\User\BSP\IMU\HI12H3_IMU.hpp)(0x6814EF3A)
+I (..\User\BSP\IMU\..\StaticTime.hpp)(0x6814EF3A)
 I (..\Drivers\STM32F4xx_HAL_Driver\Inc\stm32f4xx_hal.h)(0x66FB9B26)
 I (..\Core\Inc\stm32f4xx_hal_conf.h)(0x67CB3090)
 I (..\Drivers\STM32F4xx_HAL_Driver\Inc\stm32f4xx_hal_rcc.h)(0x66FB9B26)
@@ -1371,10 +1371,10 @@ I (..\User\BSP\IMU\..\stdxxx.hpp)(0x678CD51B)
 I (..\Core\Inc\usart.h)(0x67A52C17)
 I (..\Core\Inc\main.h)(0x67A52C18)
 F (..\User\BSP\CAN\Bsp_Can.hpp)(0x67C31543)()
-F (..\User\BSP\Init.cpp)(0x6813908B)(-xc++ -std=c++17 --target=arm-arm-none-eabi -mcpu=cortex-m4 -mfpu=fpv4-sp-d16 -mfloat-abi=hard -c-fno-rtti -funsigned-char -fno-exceptions-gdwarf-4 -O0 -ffunction-sections -Wno-packed -Wno-missing-variable-declarations -Wno-missing-prototypes -Wno-missing-noreturn -Wno-sign-conversion -Wno-nonportable-include-path -Wno-reserved-id-macro -Wno-unused-macros -Wno-documentation-unknown-command -Wno-documentation -Wno-license-management -Wno-parentheses-equality -Wno-reserved-identifier -I ../Core/Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I ../Middlewares/Third_Party/FreeRTOS/Source/include -I ../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2 -I ../Middlewares/Third_Party/FreeRTOS/Source/portable/RVDS/ARM_CM4F -I ../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I ../Drivers/CMSIS/Include -I ../User -I ../USB_DEVICE/App -I ../USB_DEVICE/Target -I ../Middlewares/ST/STM32_USB_Device_Library/Core/Inc -I ../Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Inc-I./RTE/_SG_GIMBAL_C_2025_2_7-IC:/Users/Administrator.DESKTOP-IAACAVF/AppData/Local/Arm/Packs/ARM/CMSIS/6.1.0/CMSIS/Core/Include-IC:/Users/Administrator.DESKTOP-IAACAVF/AppData/Local/Arm/Packs/Keil/STM32F4xx_DFP/2.17.1/Drivers/CMSIS/Device/ST/STM32F4xx/Include-D__UVISION_VERSION="537" -D_RTE_ -DSTM32F407xx -D_RTE_ -DUSE_HAL_DRIVER -DSTM32F407xx-o sg_gimbal_c_2025_2_7/init.o -MD)
+F (..\User\BSP\Init.cpp)(0x6814EF3A)(-xc++ -std=c++17 --target=arm-arm-none-eabi -mcpu=cortex-m4 -mfpu=fpv4-sp-d16 -mfloat-abi=hard -c-fno-rtti -funsigned-char -fno-exceptions-gdwarf-4 -O0 -ffunction-sections -Wno-packed -Wno-missing-variable-declarations -Wno-missing-prototypes -Wno-missing-noreturn -Wno-sign-conversion -Wno-nonportable-include-path -Wno-reserved-id-macro -Wno-unused-macros -Wno-documentation-unknown-command -Wno-documentation -Wno-license-management -Wno-parentheses-equality -Wno-reserved-identifier -I ../Core/Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I ../Middlewares/Third_Party/FreeRTOS/Source/include -I ../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2 -I ../Middlewares/Third_Party/FreeRTOS/Source/portable/RVDS/ARM_CM4F -I ../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I ../Drivers/CMSIS/Include -I ../User -I ../USB_DEVICE/App -I ../USB_DEVICE/Target -I ../Middlewares/ST/STM32_USB_Device_Library/Core/Inc -I ../Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Inc-I./RTE/_SG_GIMBAL_C_2025_2_7-IC:/Users/Administrator.DESKTOP-IAACAVF/AppData/Local/Arm/Packs/ARM/CMSIS/6.1.0/CMSIS/Core/Include-IC:/Users/Administrator.DESKTOP-IAACAVF/AppData/Local/Arm/Packs/Keil/STM32F4xx_DFP/2.17.1/Drivers/CMSIS/Device/ST/STM32F4xx/Include-D__UVISION_VERSION="537" -D_RTE_ -DSTM32F407xx -D_RTE_ -DUSE_HAL_DRIVER -DSTM32F407xx-o sg_gimbal_c_2025_2_7/init.o -MD)
 I (..\User\BSP\Init.hpp)(0x67906222)
 I (..\User\BSP\..\BSP\Remote\Dbus\Dbus.hpp)(0x68132801)
-I (..\User\..\User\BSP\StaticTime.hpp)(0x6813908B)
+I (..\User\..\User\BSP\StaticTime.hpp)(0x6814EF3A)
 I (..\Drivers\STM32F4xx_HAL_Driver\Inc\stm32f4xx_hal.h)(0x66FB9B26)
 I (..\Core\Inc\stm32f4xx_hal_conf.h)(0x67CB3090)
 I (..\Drivers\STM32F4xx_HAL_Driver\Inc\stm32f4xx_hal_rcc.h)(0x66FB9B26)
@@ -1428,8 +1428,8 @@ I (D:\Keil5\ARM\ARMCLANG\include\string.h)(0x625260D6)
 I (..\User\BSP\..\BSP\Remote\Key.hpp)(0x67BEF1D9)
 I (..\Core\Inc\usart.h)(0x67A52C17)
 I (..\Core\Inc\main.h)(0x67A52C18)
-I (..\User\BSP\..\BSP\IMU\HI12H3_IMU.hpp)(0x6813908B)
-I (..\User\BSP\..\BSP\IMU\..\StaticTime.hpp)(0x6813908B)
+I (..\User\BSP\..\BSP\IMU\HI12H3_IMU.hpp)(0x6814EF3A)
+I (..\User\BSP\..\BSP\IMU\..\StaticTime.hpp)(0x6814EF3A)
 I (..\User\BSP\..\BSP\IMU\..\stdxxx.hpp)(0x678CD51B)
 I (..\User\BSP\..\BSP\CAN\Bsp_Can.hpp)(0x67C31543)
 I (..\Core\Inc\can.h)(0x67A52C17)
@@ -1653,7 +1653,7 @@ I (D:\Keil5\ARM\ARMCLANG\include\libcxx\__thread\timed_backoff_policy.h)(0x62526
 I (D:\Keil5\ARM\ARMCLANG\include\libcxx\__memory\temporary_buffer.h)(0x625260A6)
 F (..\User\BSP\Remote\Dbus\Dbus.cpp)(0x6813AD06)(-xc++ -std=c++17 --target=arm-arm-none-eabi -mcpu=cortex-m4 -mfpu=fpv4-sp-d16 -mfloat-abi=hard -c-fno-rtti -funsigned-char -fno-exceptions-gdwarf-4 -O0 -ffunction-sections -Wno-packed -Wno-missing-variable-declarations -Wno-missing-prototypes -Wno-missing-noreturn -Wno-sign-conversion -Wno-nonportable-include-path -Wno-reserved-id-macro -Wno-unused-macros -Wno-documentation-unknown-command -Wno-documentation -Wno-license-management -Wno-parentheses-equality -Wno-reserved-identifier -I ../Core/Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I ../Middlewares/Third_Party/FreeRTOS/Source/include -I ../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2 -I ../Middlewares/Third_Party/FreeRTOS/Source/portable/RVDS/ARM_CM4F -I ../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I ../Drivers/CMSIS/Include -I ../User -I ../USB_DEVICE/App -I ../USB_DEVICE/Target -I ../Middlewares/ST/STM32_USB_Device_Library/Core/Inc -I ../Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Inc-I./RTE/_SG_GIMBAL_C_2025_2_7-IC:/Users/Administrator.DESKTOP-IAACAVF/AppData/Local/Arm/Packs/ARM/CMSIS/6.1.0/CMSIS/Core/Include-IC:/Users/Administrator.DESKTOP-IAACAVF/AppData/Local/Arm/Packs/Keil/STM32F4xx_DFP/2.17.1/Drivers/CMSIS/Device/ST/STM32F4xx/Include-D__UVISION_VERSION="537" -D_RTE_ -DSTM32F407xx -D_RTE_ -DUSE_HAL_DRIVER -DSTM32F407xx-o sg_gimbal_c_2025_2_7/dbus.o -MD)
 I (..\User\BSP\Remote\Dbus\Dbus.hpp)(0x68132801)
-I (..\User\..\User\BSP\StaticTime.hpp)(0x6813908B)
+I (..\User\..\User\BSP\StaticTime.hpp)(0x6814EF3A)
 I (..\Drivers\STM32F4xx_HAL_Driver\Inc\stm32f4xx_hal.h)(0x66FB9B26)
 I (..\Core\Inc\stm32f4xx_hal_conf.h)(0x67CB3090)
 I (..\Drivers\STM32F4xx_HAL_Driver\Inc\stm32f4xx_hal_rcc.h)(0x66FB9B26)
@@ -1870,7 +1870,7 @@ I (D:\Keil5\ARM\ARMCLANG\include\libcxx\__chrono\high_resolution_clock.h)(0x6252
 I (D:\Keil5\ARM\ARMCLANG\include\libcxx\__chrono\steady_clock.h)(0x625260C0)
 I (D:\Keil5\ARM\ARMCLANG\include\libcxx\__thread\timed_backoff_policy.h)(0x625260D4)
 I (D:\Keil5\ARM\ARMCLANG\include\libcxx\__memory\temporary_buffer.h)(0x625260A6)
-F (..\User\APP\Buzzer.cpp)(0x6813908B)(-xc++ -std=c++17 --target=arm-arm-none-eabi -mcpu=cortex-m4 -mfpu=fpv4-sp-d16 -mfloat-abi=hard -c-fno-rtti -funsigned-char -fno-exceptions-gdwarf-4 -O0 -ffunction-sections -Wno-packed -Wno-missing-variable-declarations -Wno-missing-prototypes -Wno-missing-noreturn -Wno-sign-conversion -Wno-nonportable-include-path -Wno-reserved-id-macro -Wno-unused-macros -Wno-documentation-unknown-command -Wno-documentation -Wno-license-management -Wno-parentheses-equality -Wno-reserved-identifier -I ../Core/Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I ../Middlewares/Third_Party/FreeRTOS/Source/include -I ../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2 -I ../Middlewares/Third_Party/FreeRTOS/Source/portable/RVDS/ARM_CM4F -I ../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I ../Drivers/CMSIS/Include -I ../User -I ../USB_DEVICE/App -I ../USB_DEVICE/Target -I ../Middlewares/ST/STM32_USB_Device_Library/Core/Inc -I ../Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Inc-I./RTE/_SG_GIMBAL_C_2025_2_7-IC:/Users/Administrator.DESKTOP-IAACAVF/AppData/Local/Arm/Packs/ARM/CMSIS/6.1.0/CMSIS/Core/Include-IC:/Users/Administrator.DESKTOP-IAACAVF/AppData/Local/Arm/Packs/Keil/STM32F4xx_DFP/2.17.1/Drivers/CMSIS/Device/ST/STM32F4xx/Include-D__UVISION_VERSION="537" -D_RTE_ -DSTM32F407xx -D_RTE_ -DUSE_HAL_DRIVER -DSTM32F407xx-o sg_gimbal_c_2025_2_7/buzzer.o -MD)
+F (..\User\APP\Buzzer.cpp)(0x6814EF3A)(-xc++ -std=c++17 --target=arm-arm-none-eabi -mcpu=cortex-m4 -mfpu=fpv4-sp-d16 -mfloat-abi=hard -c-fno-rtti -funsigned-char -fno-exceptions-gdwarf-4 -O0 -ffunction-sections -Wno-packed -Wno-missing-variable-declarations -Wno-missing-prototypes -Wno-missing-noreturn -Wno-sign-conversion -Wno-nonportable-include-path -Wno-reserved-id-macro -Wno-unused-macros -Wno-documentation-unknown-command -Wno-documentation -Wno-license-management -Wno-parentheses-equality -Wno-reserved-identifier -I ../Core/Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I ../Middlewares/Third_Party/FreeRTOS/Source/include -I ../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2 -I ../Middlewares/Third_Party/FreeRTOS/Source/portable/RVDS/ARM_CM4F -I ../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I ../Drivers/CMSIS/Include -I ../User -I ../USB_DEVICE/App -I ../USB_DEVICE/Target -I ../Middlewares/ST/STM32_USB_Device_Library/Core/Inc -I ../Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Inc-I./RTE/_SG_GIMBAL_C_2025_2_7-IC:/Users/Administrator.DESKTOP-IAACAVF/AppData/Local/Arm/Packs/ARM/CMSIS/6.1.0/CMSIS/Core/Include-IC:/Users/Administrator.DESKTOP-IAACAVF/AppData/Local/Arm/Packs/Keil/STM32F4xx_DFP/2.17.1/Drivers/CMSIS/Device/ST/STM32F4xx/Include-D__UVISION_VERSION="537" -D_RTE_ -DSTM32F407xx -D_RTE_ -DUSE_HAL_DRIVER -DSTM32F407xx-o sg_gimbal_c_2025_2_7/buzzer.o -MD)
 I (..\User\APP\..\App\Buzzer.hpp)(0x67BEF1D9)
 I (..\User\APP\..\BSP\stdxxx.hpp)(0x678CD51B)
 I (D:\Keil5\ARM\ARMCLANG\include\libcxx\stdint.h)(0x625260D6)
@@ -2210,7 +2210,7 @@ I (..\Drivers\STM32F4xx_HAL_Driver\Inc\stm32f4xx_hal_uart.h)(0x66FB9B26)
 I (..\Drivers\STM32F4xx_HAL_Driver\Inc\stm32f4xx_hal_pcd.h)(0x66FB9B26)
 I (..\Drivers\STM32F4xx_HAL_Driver\Inc\stm32f4xx_ll_usb.h)(0x66FB9B26)
 I (..\Drivers\STM32F4xx_HAL_Driver\Inc\stm32f4xx_hal_pcd_ex.h)(0x66FB9B26)
-F (..\User\APP\LED.cpp)(0x6813908B)(-xc++ -std=c++17 --target=arm-arm-none-eabi -mcpu=cortex-m4 -mfpu=fpv4-sp-d16 -mfloat-abi=hard -c-fno-rtti -funsigned-char -fno-exceptions-gdwarf-4 -O0 -ffunction-sections -Wno-packed -Wno-missing-variable-declarations -Wno-missing-prototypes -Wno-missing-noreturn -Wno-sign-conversion -Wno-nonportable-include-path -Wno-reserved-id-macro -Wno-unused-macros -Wno-documentation-unknown-command -Wno-documentation -Wno-license-management -Wno-parentheses-equality -Wno-reserved-identifier -I ../Core/Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I ../Middlewares/Third_Party/FreeRTOS/Source/include -I ../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2 -I ../Middlewares/Third_Party/FreeRTOS/Source/portable/RVDS/ARM_CM4F -I ../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I ../Drivers/CMSIS/Include -I ../User -I ../USB_DEVICE/App -I ../USB_DEVICE/Target -I ../Middlewares/ST/STM32_USB_Device_Library/Core/Inc -I ../Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Inc-I./RTE/_SG_GIMBAL_C_2025_2_7-IC:/Users/Administrator.DESKTOP-IAACAVF/AppData/Local/Arm/Packs/ARM/CMSIS/6.1.0/CMSIS/Core/Include-IC:/Users/Administrator.DESKTOP-IAACAVF/AppData/Local/Arm/Packs/Keil/STM32F4xx_DFP/2.17.1/Drivers/CMSIS/Device/ST/STM32F4xx/Include-D__UVISION_VERSION="537" -D_RTE_ -DSTM32F407xx -D_RTE_ -DUSE_HAL_DRIVER -DSTM32F407xx-o sg_gimbal_c_2025_2_7/led.o -MD)
+F (..\User\APP\LED.cpp)(0x6814EF3A)(-xc++ -std=c++17 --target=arm-arm-none-eabi -mcpu=cortex-m4 -mfpu=fpv4-sp-d16 -mfloat-abi=hard -c-fno-rtti -funsigned-char -fno-exceptions-gdwarf-4 -O0 -ffunction-sections -Wno-packed -Wno-missing-variable-declarations -Wno-missing-prototypes -Wno-missing-noreturn -Wno-sign-conversion -Wno-nonportable-include-path -Wno-reserved-id-macro -Wno-unused-macros -Wno-documentation-unknown-command -Wno-documentation -Wno-license-management -Wno-parentheses-equality -Wno-reserved-identifier -I ../Core/Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I ../Middlewares/Third_Party/FreeRTOS/Source/include -I ../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2 -I ../Middlewares/Third_Party/FreeRTOS/Source/portable/RVDS/ARM_CM4F -I ../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I ../Drivers/CMSIS/Include -I ../User -I ../USB_DEVICE/App -I ../USB_DEVICE/Target -I ../Middlewares/ST/STM32_USB_Device_Library/Core/Inc -I ../Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Inc-I./RTE/_SG_GIMBAL_C_2025_2_7-IC:/Users/Administrator.DESKTOP-IAACAVF/AppData/Local/Arm/Packs/ARM/CMSIS/6.1.0/CMSIS/Core/Include-IC:/Users/Administrator.DESKTOP-IAACAVF/AppData/Local/Arm/Packs/Keil/STM32F4xx_DFP/2.17.1/Drivers/CMSIS/Device/ST/STM32F4xx/Include-D__UVISION_VERSION="537" -D_RTE_ -DSTM32F407xx -D_RTE_ -DUSE_HAL_DRIVER -DSTM32F407xx-o sg_gimbal_c_2025_2_7/led.o -MD)
 I (..\User\APP\..\APP\LED.hpp)(0x67C5995C)
 I (..\User\APP\..\Task\EvenTask.hpp)(0x67C5981A)
 I (D:\Keil5\ARM\ARMCLANG\include\libcxx\list)(0x625260D6)
@@ -2551,7 +2551,7 @@ I (..\Drivers\STM32F4xx_HAL_Driver\Inc\stm32f4xx_ll_usb.h)(0x66FB9B26)
 I (..\Drivers\STM32F4xx_HAL_Driver\Inc\stm32f4xx_hal_pcd_ex.h)(0x66FB9B26)
 I (..\Middlewares\Third_Party\FreeRTOS\Source\CMSIS_RTOS_V2\cmsis_os2.h)(0x66FB9AB3)
 F (..\User\APP\Tools.cpp)(0x6807197D)(-xc++ -std=c++17 --target=arm-arm-none-eabi -mcpu=cortex-m4 -mfpu=fpv4-sp-d16 -mfloat-abi=hard -c-fno-rtti -funsigned-char -fno-exceptions-gdwarf-4 -O0 -ffunction-sections -Wno-packed -Wno-missing-variable-declarations -Wno-missing-prototypes -Wno-missing-noreturn -Wno-sign-conversion -Wno-nonportable-include-path -Wno-reserved-id-macro -Wno-unused-macros -Wno-documentation-unknown-command -Wno-documentation -Wno-license-management -Wno-parentheses-equality -Wno-reserved-identifier -I ../Core/Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I ../Middlewares/Third_Party/FreeRTOS/Source/include -I ../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2 -I ../Middlewares/Third_Party/FreeRTOS/Source/portable/RVDS/ARM_CM4F -I ../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I ../Drivers/CMSIS/Include -I ../User -I ../USB_DEVICE/App -I ../USB_DEVICE/Target -I ../Middlewares/ST/STM32_USB_Device_Library/Core/Inc -I ../Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Inc-I./RTE/_SG_GIMBAL_C_2025_2_7-IC:/Users/Administrator.DESKTOP-IAACAVF/AppData/Local/Arm/Packs/ARM/CMSIS/6.1.0/CMSIS/Core/Include-IC:/Users/Administrator.DESKTOP-IAACAVF/AppData/Local/Arm/Packs/Keil/STM32F4xx_DFP/2.17.1/Drivers/CMSIS/Device/ST/STM32F4xx/Include-D__UVISION_VERSION="537" -D_RTE_ -DSTM32F407xx -D_RTE_ -DUSE_HAL_DRIVER -DSTM32F407xx-o sg_gimbal_c_2025_2_7/tools.o -MD)
-I (..\User\APP\Tools.hpp)(0x6813908B)
+I (..\User\APP\Tools.hpp)(0x6814EF3A)
 I (..\User\APP\..\BSP\stdxxx.hpp)(0x678CD51B)
 I (D:\Keil5\ARM\ARMCLANG\include\libcxx\stdint.h)(0x625260D6)
 I (D:\Keil5\ARM\ARMCLANG\include\libcxx\__config)(0x625260CE)
@@ -2604,8 +2604,8 @@ I (..\Drivers\STM32F4xx_HAL_Driver\Inc\stm32f4xx_hal_uart.h)(0x66FB9B26)
 I (..\Drivers\STM32F4xx_HAL_Driver\Inc\stm32f4xx_hal_pcd.h)(0x66FB9B26)
 I (..\Drivers\STM32F4xx_HAL_Driver\Inc\stm32f4xx_ll_usb.h)(0x66FB9B26)
 I (..\Drivers\STM32F4xx_HAL_Driver\Inc\stm32f4xx_hal_pcd_ex.h)(0x66FB9B26)
-F (..\User\APP\Variable.cpp)(0x6813908B)(-xc++ -std=c++17 --target=arm-arm-none-eabi -mcpu=cortex-m4 -mfpu=fpv4-sp-d16 -mfloat-abi=hard -c-fno-rtti -funsigned-char -fno-exceptions-gdwarf-4 -O0 -ffunction-sections -Wno-packed -Wno-missing-variable-declarations -Wno-missing-prototypes -Wno-missing-noreturn -Wno-sign-conversion -Wno-nonportable-include-path -Wno-reserved-id-macro -Wno-unused-macros -Wno-documentation-unknown-command -Wno-documentation -Wno-license-management -Wno-parentheses-equality -Wno-reserved-identifier -I ../Core/Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I ../Middlewares/Third_Party/FreeRTOS/Source/include -I ../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2 -I ../Middlewares/Third_Party/FreeRTOS/Source/portable/RVDS/ARM_CM4F -I ../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I ../Drivers/CMSIS/Include -I ../User -I ../USB_DEVICE/App -I ../USB_DEVICE/Target -I ../Middlewares/ST/STM32_USB_Device_Library/Core/Inc -I ../Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Inc-I./RTE/_SG_GIMBAL_C_2025_2_7-IC:/Users/Administrator.DESKTOP-IAACAVF/AppData/Local/Arm/Packs/ARM/CMSIS/6.1.0/CMSIS/Core/Include-IC:/Users/Administrator.DESKTOP-IAACAVF/AppData/Local/Arm/Packs/Keil/STM32F4xx_DFP/2.17.1/Drivers/CMSIS/Device/ST/STM32F4xx/Include-D__UVISION_VERSION="537" -D_RTE_ -DSTM32F407xx -D_RTE_ -DUSE_HAL_DRIVER -DSTM32F407xx-o sg_gimbal_c_2025_2_7/variable.o -MD)
-I (..\User\APP\..\APP\Variable.hpp)(0x6813908B)
+F (..\User\APP\Variable.cpp)(0x6814EF3A)(-xc++ -std=c++17 --target=arm-arm-none-eabi -mcpu=cortex-m4 -mfpu=fpv4-sp-d16 -mfloat-abi=hard -c-fno-rtti -funsigned-char -fno-exceptions-gdwarf-4 -O0 -ffunction-sections -Wno-packed -Wno-missing-variable-declarations -Wno-missing-prototypes -Wno-missing-noreturn -Wno-sign-conversion -Wno-nonportable-include-path -Wno-reserved-id-macro -Wno-unused-macros -Wno-documentation-unknown-command -Wno-documentation -Wno-license-management -Wno-parentheses-equality -Wno-reserved-identifier -I ../Core/Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I ../Middlewares/Third_Party/FreeRTOS/Source/include -I ../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2 -I ../Middlewares/Third_Party/FreeRTOS/Source/portable/RVDS/ARM_CM4F -I ../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I ../Drivers/CMSIS/Include -I ../User -I ../USB_DEVICE/App -I ../USB_DEVICE/Target -I ../Middlewares/ST/STM32_USB_Device_Library/Core/Inc -I ../Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Inc-I./RTE/_SG_GIMBAL_C_2025_2_7-IC:/Users/Administrator.DESKTOP-IAACAVF/AppData/Local/Arm/Packs/ARM/CMSIS/6.1.0/CMSIS/Core/Include-IC:/Users/Administrator.DESKTOP-IAACAVF/AppData/Local/Arm/Packs/Keil/STM32F4xx_DFP/2.17.1/Drivers/CMSIS/Device/ST/STM32F4xx/Include-D__UVISION_VERSION="537" -D_RTE_ -DSTM32F407xx -D_RTE_ -DUSE_HAL_DRIVER -DSTM32F407xx-o sg_gimbal_c_2025_2_7/variable.o -MD)
+I (..\User\APP\..\APP\Variable.hpp)(0x6814EF3A)
 I (..\User\APP\..\Algorithm\PID.hpp)(0x680CFADC)
 I (..\User\APP\..\Algorithm\..\BSP\stdxxx.hpp)(0x678CD51B)
 I (D:\Keil5\ARM\ARMCLANG\include\libcxx\stdint.h)(0x625260D6)
@@ -2624,7 +2624,7 @@ I (D:\Keil5\ARM\ARMCLANG\include\libcxx\stdlib.h)(0x625260D6)
 I (D:\Keil5\ARM\ARMCLANG\include\stdlib.h)(0x625260D6)
 I (D:\Keil5\ARM\ARMCLANG\include\libcxx\string.h)(0x625260D6)
 I (D:\Keil5\ARM\ARMCLANG\include\string.h)(0x625260D6)
-I (..\User\APP\..\Algorithm\Ude.hpp)(0x6813908B)
+I (..\User\APP\..\Algorithm\Ude.hpp)(0x6814EF3A)
 I (..\User\APP\..\Task\EvenTask.hpp)(0x67C5981A)
 I (D:\Keil5\ARM\ARMCLANG\include\libcxx\list)(0x625260D6)
 I (D:\Keil5\ARM\ARMCLANG\include\libcxx\__debug)(0x625260CA)
@@ -2911,17 +2911,18 @@ I (D:\Keil5\ARM\ARMCLANG\include\libcxx\__algorithm\stable_sort.h)(0x625260B8)
 I (D:\Keil5\ARM\ARMCLANG\include\libcxx\__algorithm\transform.h)(0x625260B8)
 I (D:\Keil5\ARM\ARMCLANG\include\libcxx\__algorithm\unique.h)(0x625260B8)
 I (D:\Keil5\ARM\ARMCLANG\include\libcxx\__algorithm\unique_copy.h)(0x625260B8)
-I (..\User\APP\..\Algorithm\LADRC\Adrc.hpp)(0x6813D922)
-F (..\User\APP\Heat_Detector\Heat_Detector.cpp)(0x681416BC)(-xc++ -std=c++17 --target=arm-arm-none-eabi -mcpu=cortex-m4 -mfpu=fpv4-sp-d16 -mfloat-abi=hard -c-fno-rtti -funsigned-char -fno-exceptions-gdwarf-4 -O0 -ffunction-sections -Wno-packed -Wno-missing-variable-declarations -Wno-missing-prototypes -Wno-missing-noreturn -Wno-sign-conversion -Wno-nonportable-include-path -Wno-reserved-id-macro -Wno-unused-macros -Wno-documentation-unknown-command -Wno-documentation -Wno-license-management -Wno-parentheses-equality -Wno-reserved-identifier -I ../Core/Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I ../Middlewares/Third_Party/FreeRTOS/Source/include -I ../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2 -I ../Middlewares/Third_Party/FreeRTOS/Source/portable/RVDS/ARM_CM4F -I ../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I ../Drivers/CMSIS/Include -I ../User -I ../USB_DEVICE/App -I ../USB_DEVICE/Target -I ../Middlewares/ST/STM32_USB_Device_Library/Core/Inc -I ../Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Inc-I./RTE/_SG_GIMBAL_C_2025_2_7-IC:/Users/Administrator.DESKTOP-IAACAVF/AppData/Local/Arm/Packs/ARM/CMSIS/6.1.0/CMSIS/Core/Include-IC:/Users/Administrator.DESKTOP-IAACAVF/AppData/Local/Arm/Packs/Keil/STM32F4xx_DFP/2.17.1/Drivers/CMSIS/Device/ST/STM32F4xx/Include-D__UVISION_VERSION="537" -D_RTE_ -DSTM32F407xx -D_RTE_ -DUSE_HAL_DRIVER -DSTM32F407xx-o sg_gimbal_c_2025_2_7/heat_detector.o -MD)
-I (..\User\..\User\APP\Heat_Detector\Heat_Detector.hpp)(0x681402A0)
+I (..\User\APP\..\Algorithm\LADRC\Adrc.hpp)(0x6814EF3A)
+F (..\User\APP\Heat_Detector\Heat_Detector.cpp)(0x68152C74)(-xc++ -std=c++17 --target=arm-arm-none-eabi -mcpu=cortex-m4 -mfpu=fpv4-sp-d16 -mfloat-abi=hard -c-fno-rtti -funsigned-char -fno-exceptions-gdwarf-4 -O0 -ffunction-sections -Wno-packed -Wno-missing-variable-declarations -Wno-missing-prototypes -Wno-missing-noreturn -Wno-sign-conversion -Wno-nonportable-include-path -Wno-reserved-id-macro -Wno-unused-macros -Wno-documentation-unknown-command -Wno-documentation -Wno-license-management -Wno-parentheses-equality -Wno-reserved-identifier -I ../Core/Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I ../Middlewares/Third_Party/FreeRTOS/Source/include -I ../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2 -I ../Middlewares/Third_Party/FreeRTOS/Source/portable/RVDS/ARM_CM4F -I ../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I ../Drivers/CMSIS/Include -I ../User -I ../USB_DEVICE/App -I ../USB_DEVICE/Target -I ../Middlewares/ST/STM32_USB_Device_Library/Core/Inc -I ../Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Inc-I./RTE/_SG_GIMBAL_C_2025_2_7-IC:/Users/Administrator.DESKTOP-IAACAVF/AppData/Local/Arm/Packs/ARM/CMSIS/6.1.0/CMSIS/Core/Include-IC:/Users/Administrator.DESKTOP-IAACAVF/AppData/Local/Arm/Packs/Keil/STM32F4xx_DFP/2.17.1/Drivers/CMSIS/Device/ST/STM32F4xx/Include-D__UVISION_VERSION="537" -D_RTE_ -DSTM32F407xx -D_RTE_ -DUSE_HAL_DRIVER -DSTM32F407xx-o sg_gimbal_c_2025_2_7/heat_detector.o -MD)
+I (..\User\..\User\APP\Heat_Detector\Heat_Detector.hpp)(0x681526E2)
 I (..\User\..\User\Algorithm\FSM\alg_fsm.hpp)(0x68132801)
 I (D:\Keil5\ARM\ARMCLANG\include\libcxx\stdint.h)(0x625260D6)
 I (D:\Keil5\ARM\ARMCLANG\include\libcxx\__config)(0x625260CE)
 I (D:\Keil5\ARM\ARMCLANG\include\stdint.h)(0x625260D8)
-I (..\User\..\User\Algorithm\SlidingWindow\SlidingWindow.hpp)(0x681417BD)
-F (..\User\Task\CommunicationTask.cpp)(0x6813B872)(-xc++ -std=c++17 --target=arm-arm-none-eabi -mcpu=cortex-m4 -mfpu=fpv4-sp-d16 -mfloat-abi=hard -c-fno-rtti -funsigned-char -fno-exceptions-gdwarf-4 -O0 -ffunction-sections -Wno-packed -Wno-missing-variable-declarations -Wno-missing-prototypes -Wno-missing-noreturn -Wno-sign-conversion -Wno-nonportable-include-path -Wno-reserved-id-macro -Wno-unused-macros -Wno-documentation-unknown-command -Wno-documentation -Wno-license-management -Wno-parentheses-equality -Wno-reserved-identifier -I ../Core/Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I ../Middlewares/Third_Party/FreeRTOS/Source/include -I ../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2 -I ../Middlewares/Third_Party/FreeRTOS/Source/portable/RVDS/ARM_CM4F -I ../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I ../Drivers/CMSIS/Include -I ../User -I ../USB_DEVICE/App -I ../USB_DEVICE/Target -I ../Middlewares/ST/STM32_USB_Device_Library/Core/Inc -I ../Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Inc-I./RTE/_SG_GIMBAL_C_2025_2_7-IC:/Users/Administrator.DESKTOP-IAACAVF/AppData/Local/Arm/Packs/ARM/CMSIS/6.1.0/CMSIS/Core/Include-IC:/Users/Administrator.DESKTOP-IAACAVF/AppData/Local/Arm/Packs/Keil/STM32F4xx_DFP/2.17.1/Drivers/CMSIS/Device/ST/STM32F4xx/Include-D__UVISION_VERSION="537" -D_RTE_ -DSTM32F407xx -D_RTE_ -DUSE_HAL_DRIVER -DSTM32F407xx-o sg_gimbal_c_2025_2_7/communicationtask.o -MD)
-I (..\User\Task\..\Task\CommunicationTask.hpp)(0x6813908B)
-I (..\User\Task\..\APP\Tools.hpp)(0x6813908B)
+I (..\User\..\User\Algorithm\SlidingWindow\SlidingWindow.hpp)(0x68152C48)
+I (D:\Keil5\ARM\ARMCLANG\include\libcxx\cstdint)(0x625260D6)
+F (..\User\Task\CommunicationTask.cpp)(0x6814EF3A)(-xc++ -std=c++17 --target=arm-arm-none-eabi -mcpu=cortex-m4 -mfpu=fpv4-sp-d16 -mfloat-abi=hard -c-fno-rtti -funsigned-char -fno-exceptions-gdwarf-4 -O0 -ffunction-sections -Wno-packed -Wno-missing-variable-declarations -Wno-missing-prototypes -Wno-missing-noreturn -Wno-sign-conversion -Wno-nonportable-include-path -Wno-reserved-id-macro -Wno-unused-macros -Wno-documentation-unknown-command -Wno-documentation -Wno-license-management -Wno-parentheses-equality -Wno-reserved-identifier -I ../Core/Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I ../Middlewares/Third_Party/FreeRTOS/Source/include -I ../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2 -I ../Middlewares/Third_Party/FreeRTOS/Source/portable/RVDS/ARM_CM4F -I ../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I ../Drivers/CMSIS/Include -I ../User -I ../USB_DEVICE/App -I ../USB_DEVICE/Target -I ../Middlewares/ST/STM32_USB_Device_Library/Core/Inc -I ../Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Inc-I./RTE/_SG_GIMBAL_C_2025_2_7-IC:/Users/Administrator.DESKTOP-IAACAVF/AppData/Local/Arm/Packs/ARM/CMSIS/6.1.0/CMSIS/Core/Include-IC:/Users/Administrator.DESKTOP-IAACAVF/AppData/Local/Arm/Packs/Keil/STM32F4xx_DFP/2.17.1/Drivers/CMSIS/Device/ST/STM32F4xx/Include-D__UVISION_VERSION="537" -D_RTE_ -DSTM32F407xx -D_RTE_ -DUSE_HAL_DRIVER -DSTM32F407xx-o sg_gimbal_c_2025_2_7/communicationtask.o -MD)
+I (..\User\Task\..\Task\CommunicationTask.hpp)(0x6814EF3A)
+I (..\User\Task\..\APP\Tools.hpp)(0x6814EF3A)
 I (..\User\Task\..\APP\..\BSP\stdxxx.hpp)(0x678CD51B)
 I (D:\Keil5\ARM\ARMCLANG\include\libcxx\stdint.h)(0x625260D6)
 I (D:\Keil5\ARM\ARMCLANG\include\libcxx\__config)(0x625260CE)
@@ -3226,13 +3227,13 @@ I (D:\Keil5\ARM\ARMCLANG\include\libcxx\__algorithm\stable_sort.h)(0x625260B8)
 I (D:\Keil5\ARM\ARMCLANG\include\libcxx\__algorithm\transform.h)(0x625260B8)
 I (D:\Keil5\ARM\ARMCLANG\include\libcxx\__algorithm\unique.h)(0x625260B8)
 I (D:\Keil5\ARM\ARMCLANG\include\libcxx\__algorithm\unique_copy.h)(0x625260B8)
-I (..\User\Task\..\APP\Mod\RemoteModeManager.hpp)(0x6813ACEB)
-I (..\User\..\User\Task\CommunicationTask.hpp)(0x6813908B)
-I (..\User\Task\..\APP\Mod\IRemoteController.hpp)(0x6813D724)
-I (..\User\Task\..\APP\Mod\RemoteControl\DR16Controller.hpp)(0x6813D743)
-I (..\User\Task\..\APP\Mod\RemoteControl\..\IRemoteController.hpp)(0x6813D724)
+I (..\User\Task\..\APP\Mod\RemoteModeManager.hpp)(0x6814EF3A)
+I (..\User\..\User\Task\CommunicationTask.hpp)(0x6814EF3A)
+I (..\User\Task\..\APP\Mod\IRemoteController.hpp)(0x6814EF3A)
+I (..\User\Task\..\APP\Mod\RemoteControl\DR16Controller.hpp)(0x6814EF3A)
+I (..\User\Task\..\APP\Mod\RemoteControl\..\IRemoteController.hpp)(0x6814EF3A)
 I (..\User\..\User\BSP\Remote\Dbus\Dbus.hpp)(0x68132801)
-I (..\User\..\User\BSP\StaticTime.hpp)(0x6813908B)
+I (..\User\..\User\BSP\StaticTime.hpp)(0x6814EF3A)
 I (..\Drivers\STM32F4xx_HAL_Driver\Inc\stm32f4xx_hal.h)(0x66FB9B26)
 I (..\Core\Inc\stm32f4xx_hal_conf.h)(0x67CB3090)
 I (..\Drivers\STM32F4xx_HAL_Driver\Inc\stm32f4xx_hal_rcc.h)(0x66FB9B26)
@@ -3270,18 +3271,18 @@ I (..\User\Task\..\APP\..\BSP\..\BSP\Remote\Key.hpp)(0x67BEF1D9)
 I (..\Core\Inc\usart.h)(0x67A52C17)
 I (..\Core\Inc\main.h)(0x67A52C18)
 I (..\User\..\User\Task\EvenTask.hpp)(0x67C5981A)
-I (..\User\Task\..\APP\Mod\RemoteControl\MiniController.hpp)(0x6813D6F1)
+I (..\User\Task\..\APP\Mod\RemoteControl\MiniController.hpp)(0x6814EF3A)
 I (..\Core\Inc\..\..\User\BSP\Remote\Mini\Mini.hpp)(0x68132801)
 I (..\Core\Inc\..\..\User\BSP\SimpleKey\SimpleKey.hpp)(0x68132801)
-I (..\User\Task\..\BSP\IMU\HI12H3_IMU.hpp)(0x6813908B)
-I (..\User\Task\..\BSP\IMU\..\StaticTime.hpp)(0x6813908B)
+I (..\User\Task\..\BSP\IMU\HI12H3_IMU.hpp)(0x6814EF3A)
+I (..\User\Task\..\BSP\IMU\..\StaticTime.hpp)(0x6814EF3A)
 I (..\User\Task\..\BSP\IMU\..\stdxxx.hpp)(0x678CD51B)
-I (..\User\Task\..\BSP\Motor\DM\DmMotor.hpp)(0x6813908B)
+I (..\User\Task\..\BSP\Motor\DM\DmMotor.hpp)(0x6814EF3A)
 I (..\User\Task\..\BSP\Motor\DM\..\MotorBase.hpp)(0x680D1777)
 I (..\User\Task\..\BSP\Motor\DM\..\..\CAN\Bsp_Can.hpp)(0x67C31543)
 I (..\Core\Inc\can.h)(0x67A52C17)
-I (..\User\Task\..\BSP\Motor\DM\..\..\StaticTime.hpp)(0x6813908B)
-I (..\User\Task\..\BSP\Motor\Dji\DjiMotor.hpp)(0x6813E0A4)
+I (..\User\Task\..\BSP\Motor\DM\..\..\StaticTime.hpp)(0x6814EF3A)
+I (..\User\Task\..\BSP\Motor\Dji\DjiMotor.hpp)(0x6814EF3A)
 I (..\User\Task\..\BSP\Motor\Dji\..\MotorBase.hpp)(0x680D1777)
 I (..\User\Task\..\BSP\Remote\Dbus\Dbus.hpp)(0x68132801)
 I (..\USB_DEVICE\App\usbd_cdc_if.h)(0x680D1777)
@@ -3295,8 +3296,8 @@ I (..\Middlewares\ST\STM32_USB_Device_Library\Core\Inc\usbd_core.h)(0x66FB9B26)
 I (..\Middlewares\ST\STM32_USB_Device_Library\Core\Inc\usbd_ctlreq.h)(0x66FB9B26)
 I (..\Middlewares\Third_Party\FreeRTOS\Source\CMSIS_RTOS_V2\cmsis_os2.h)(0x66FB9AB3)
 I (..\Core\Inc\tim.h)(0x680D03F1)
-F (..\User\Task\CallBack.cpp)(0x6813AB6D)(-xc++ -std=c++17 --target=arm-arm-none-eabi -mcpu=cortex-m4 -mfpu=fpv4-sp-d16 -mfloat-abi=hard -c-fno-rtti -funsigned-char -fno-exceptions-gdwarf-4 -O0 -ffunction-sections -Wno-packed -Wno-missing-variable-declarations -Wno-missing-prototypes -Wno-missing-noreturn -Wno-sign-conversion -Wno-nonportable-include-path -Wno-reserved-id-macro -Wno-unused-macros -Wno-documentation-unknown-command -Wno-documentation -Wno-license-management -Wno-parentheses-equality -Wno-reserved-identifier -I ../Core/Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I ../Middlewares/Third_Party/FreeRTOS/Source/include -I ../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2 -I ../Middlewares/Third_Party/FreeRTOS/Source/portable/RVDS/ARM_CM4F -I ../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I ../Drivers/CMSIS/Include -I ../User -I ../USB_DEVICE/App -I ../USB_DEVICE/Target -I ../Middlewares/ST/STM32_USB_Device_Library/Core/Inc -I ../Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Inc-I./RTE/_SG_GIMBAL_C_2025_2_7-IC:/Users/Administrator.DESKTOP-IAACAVF/AppData/Local/Arm/Packs/ARM/CMSIS/6.1.0/CMSIS/Core/Include-IC:/Users/Administrator.DESKTOP-IAACAVF/AppData/Local/Arm/Packs/Keil/STM32F4xx_DFP/2.17.1/Drivers/CMSIS/Device/ST/STM32F4xx/Include-D__UVISION_VERSION="537" -D_RTE_ -DSTM32F407xx -D_RTE_ -DUSE_HAL_DRIVER -DSTM32F407xx-o sg_gimbal_c_2025_2_7/callback.o -MD)
-I (..\User\Task\..\Task\CallBack.hpp)(0x6813908B)
+F (..\User\Task\CallBack.cpp)(0x6814EF3A)(-xc++ -std=c++17 --target=arm-arm-none-eabi -mcpu=cortex-m4 -mfpu=fpv4-sp-d16 -mfloat-abi=hard -c-fno-rtti -funsigned-char -fno-exceptions-gdwarf-4 -O0 -ffunction-sections -Wno-packed -Wno-missing-variable-declarations -Wno-missing-prototypes -Wno-missing-noreturn -Wno-sign-conversion -Wno-nonportable-include-path -Wno-reserved-id-macro -Wno-unused-macros -Wno-documentation-unknown-command -Wno-documentation -Wno-license-management -Wno-parentheses-equality -Wno-reserved-identifier -I ../Core/Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I ../Middlewares/Third_Party/FreeRTOS/Source/include -I ../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2 -I ../Middlewares/Third_Party/FreeRTOS/Source/portable/RVDS/ARM_CM4F -I ../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I ../Drivers/CMSIS/Include -I ../User -I ../USB_DEVICE/App -I ../USB_DEVICE/Target -I ../Middlewares/ST/STM32_USB_Device_Library/Core/Inc -I ../Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Inc-I./RTE/_SG_GIMBAL_C_2025_2_7-IC:/Users/Administrator.DESKTOP-IAACAVF/AppData/Local/Arm/Packs/ARM/CMSIS/6.1.0/CMSIS/Core/Include-IC:/Users/Administrator.DESKTOP-IAACAVF/AppData/Local/Arm/Packs/Keil/STM32F4xx_DFP/2.17.1/Drivers/CMSIS/Device/ST/STM32F4xx/Include-D__UVISION_VERSION="537" -D_RTE_ -DSTM32F407xx -D_RTE_ -DUSE_HAL_DRIVER -DSTM32F407xx-o sg_gimbal_c_2025_2_7/callback.o -MD)
+I (..\User\Task\..\Task\CallBack.hpp)(0x6814EF3A)
 I (..\Core\Inc\can.h)(0x67A52C17)
 I (..\Core\Inc\main.h)(0x67A52C18)
 I (..\Drivers\STM32F4xx_HAL_Driver\Inc\stm32f4xx_hal.h)(0x66FB9B26)
@@ -3338,7 +3339,7 @@ I (..\Drivers\STM32F4xx_HAL_Driver\Inc\stm32f4xx_hal_pcd.h)(0x66FB9B26)
 I (..\Drivers\STM32F4xx_HAL_Driver\Inc\stm32f4xx_ll_usb.h)(0x66FB9B26)
 I (..\Drivers\STM32F4xx_HAL_Driver\Inc\stm32f4xx_hal_pcd_ex.h)(0x66FB9B26)
 I (..\Core\Inc\usart.h)(0x67A52C17)
-I (..\User\Task\..\APP\Variable.hpp)(0x6813908B)
+I (..\User\Task\..\APP\Variable.hpp)(0x6814EF3A)
 I (..\User\Task\..\APP\..\Algorithm\PID.hpp)(0x680CFADC)
 I (..\User\Task\..\APP\..\Algorithm\..\BSP\stdxxx.hpp)(0x678CD51B)
 I (D:\Keil5\ARM\ARMCLANG\include\libcxx\math.h)(0x625260D6)
@@ -3352,7 +3353,7 @@ I (D:\Keil5\ARM\ARMCLANG\include\libcxx\stdlib.h)(0x625260D6)
 I (D:\Keil5\ARM\ARMCLANG\include\stdlib.h)(0x625260D6)
 I (D:\Keil5\ARM\ARMCLANG\include\libcxx\string.h)(0x625260D6)
 I (D:\Keil5\ARM\ARMCLANG\include\string.h)(0x625260D6)
-I (..\User\Task\..\APP\..\Algorithm\Ude.hpp)(0x6813908B)
+I (..\User\Task\..\APP\..\Algorithm\Ude.hpp)(0x6814EF3A)
 I (..\User\Task\..\APP\..\Task\EvenTask.hpp)(0x67C5981A)
 I (D:\Keil5\ARM\ARMCLANG\include\libcxx\list)(0x625260D6)
 I (D:\Keil5\ARM\ARMCLANG\include\libcxx\__debug)(0x625260CA)
@@ -3638,26 +3639,26 @@ I (D:\Keil5\ARM\ARMCLANG\include\libcxx\__algorithm\stable_sort.h)(0x625260B8)
 I (D:\Keil5\ARM\ARMCLANG\include\libcxx\__algorithm\transform.h)(0x625260B8)
 I (D:\Keil5\ARM\ARMCLANG\include\libcxx\__algorithm\unique.h)(0x625260B8)
 I (D:\Keil5\ARM\ARMCLANG\include\libcxx\__algorithm\unique_copy.h)(0x625260B8)
-I (..\User\Task\..\APP\..\Algorithm\LADRC\Adrc.hpp)(0x6813D922)
-I (..\User\Task\..\BSP\IMU\HI12H3_IMU.hpp)(0x6813908B)
-I (..\User\Task\..\BSP\IMU\..\StaticTime.hpp)(0x6813908B)
+I (..\User\Task\..\APP\..\Algorithm\LADRC\Adrc.hpp)(0x6814EF3A)
+I (..\User\Task\..\BSP\IMU\HI12H3_IMU.hpp)(0x6814EF3A)
+I (..\User\Task\..\BSP\IMU\..\StaticTime.hpp)(0x6814EF3A)
 I (..\User\Task\..\APP\..\Algorithm\..\BSP\..\BSP\stdxxx.hpp)(0x678CD51B)
 I (..\User\Task\..\APP\..\Algorithm\..\BSP\..\BSP\Remote\Key.hpp)(0x67BEF1D9)
 I (..\User\Task\..\BSP\IMU\..\stdxxx.hpp)(0x678CD51B)
-I (..\User\Task\..\BSP\Motor\DM\DmMotor.hpp)(0x6813908B)
+I (..\User\Task\..\BSP\Motor\DM\DmMotor.hpp)(0x6814EF3A)
 I (..\User\Task\..\BSP\Motor\DM\..\MotorBase.hpp)(0x680D1777)
 I (..\User\Task\..\BSP\Motor\DM\..\..\CAN\Bsp_Can.hpp)(0x67C31543)
-I (..\User\Task\..\BSP\Motor\DM\..\..\StaticTime.hpp)(0x6813908B)
-I (..\User\Task\..\BSP\Motor\Dji\DjiMotor.hpp)(0x6813E0A4)
+I (..\User\Task\..\BSP\Motor\DM\..\..\StaticTime.hpp)(0x6814EF3A)
+I (..\User\Task\..\BSP\Motor\Dji\DjiMotor.hpp)(0x6814EF3A)
 I (..\User\Task\..\BSP\Motor\Dji\..\MotorBase.hpp)(0x680D1777)
 I (..\User\Task\..\BSP\Remote\Dbus\Dbus.hpp)(0x68132801)
-I (..\User\..\User\BSP\StaticTime.hpp)(0x6813908B)
+I (..\User\..\User\BSP\StaticTime.hpp)(0x6814EF3A)
 I (..\User\Task\..\BSP\Remote\Mini\Mini.hpp)(0x68132801)
 I (..\User\Task\..\HAL\My_HAL.hpp)(0x67BEF1D9)
 I (..\User\Task\..\HAL\..\BSP\CAN\Bsp_Can.hpp)(0x67C31543)
 I (..\Core\Inc\gpio.h)(0x67A52C15)
-F (..\User\Task\GimbalTask.cpp)(0x6814111C)(-xc++ -std=c++17 --target=arm-arm-none-eabi -mcpu=cortex-m4 -mfpu=fpv4-sp-d16 -mfloat-abi=hard -c-fno-rtti -funsigned-char -fno-exceptions-gdwarf-4 -O0 -ffunction-sections -Wno-packed -Wno-missing-variable-declarations -Wno-missing-prototypes -Wno-missing-noreturn -Wno-sign-conversion -Wno-nonportable-include-path -Wno-reserved-id-macro -Wno-unused-macros -Wno-documentation-unknown-command -Wno-documentation -Wno-license-management -Wno-parentheses-equality -Wno-reserved-identifier -I ../Core/Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I ../Middlewares/Third_Party/FreeRTOS/Source/include -I ../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2 -I ../Middlewares/Third_Party/FreeRTOS/Source/portable/RVDS/ARM_CM4F -I ../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I ../Drivers/CMSIS/Include -I ../User -I ../USB_DEVICE/App -I ../USB_DEVICE/Target -I ../Middlewares/ST/STM32_USB_Device_Library/Core/Inc -I ../Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Inc-I./RTE/_SG_GIMBAL_C_2025_2_7-IC:/Users/Administrator.DESKTOP-IAACAVF/AppData/Local/Arm/Packs/ARM/CMSIS/6.1.0/CMSIS/Core/Include-IC:/Users/Administrator.DESKTOP-IAACAVF/AppData/Local/Arm/Packs/Keil/STM32F4xx_DFP/2.17.1/Drivers/CMSIS/Device/ST/STM32F4xx/Include-D__UVISION_VERSION="537" -D_RTE_ -DSTM32F407xx -D_RTE_ -DUSE_HAL_DRIVER -DSTM32F407xx-o sg_gimbal_c_2025_2_7/gimbaltask.o -MD)
-I (..\User\Task\..\Task\GimbalTask.hpp)(0x6813D2FE)
+F (..\User\Task\GimbalTask.cpp)(0x68151310)(-xc++ -std=c++17 --target=arm-arm-none-eabi -mcpu=cortex-m4 -mfpu=fpv4-sp-d16 -mfloat-abi=hard -c-fno-rtti -funsigned-char -fno-exceptions-gdwarf-4 -O0 -ffunction-sections -Wno-packed -Wno-missing-variable-declarations -Wno-missing-prototypes -Wno-missing-noreturn -Wno-sign-conversion -Wno-nonportable-include-path -Wno-reserved-id-macro -Wno-unused-macros -Wno-documentation-unknown-command -Wno-documentation -Wno-license-management -Wno-parentheses-equality -Wno-reserved-identifier -I ../Core/Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I ../Middlewares/Third_Party/FreeRTOS/Source/include -I ../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2 -I ../Middlewares/Third_Party/FreeRTOS/Source/portable/RVDS/ARM_CM4F -I ../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I ../Drivers/CMSIS/Include -I ../User -I ../USB_DEVICE/App -I ../USB_DEVICE/Target -I ../Middlewares/ST/STM32_USB_Device_Library/Core/Inc -I ../Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Inc-I./RTE/_SG_GIMBAL_C_2025_2_7-IC:/Users/Administrator.DESKTOP-IAACAVF/AppData/Local/Arm/Packs/ARM/CMSIS/6.1.0/CMSIS/Core/Include-IC:/Users/Administrator.DESKTOP-IAACAVF/AppData/Local/Arm/Packs/Keil/STM32F4xx_DFP/2.17.1/Drivers/CMSIS/Device/ST/STM32F4xx/Include-D__UVISION_VERSION="537" -D_RTE_ -DSTM32F407xx -D_RTE_ -DUSE_HAL_DRIVER -DSTM32F407xx-o sg_gimbal_c_2025_2_7/gimbaltask.o -MD)
+I (..\User\Task\..\Task\GimbalTask.hpp)(0x6814EF3A)
 I (D:\Keil5\ARM\ARMCLANG\include\libcxx\memory)(0x625260D6)
 I (D:\Keil5\ARM\ARMCLANG\include\libcxx\__config)(0x625260CE)
 I (D:\Keil5\ARM\ARMCLANG\include\libcxx\__functional_base)(0x625260D4)
@@ -3972,21 +3973,21 @@ I (D:\Keil5\ARM\ARMCLANG\include\libcxx\ctype.h)(0x625260D6)
 I (D:\Keil5\ARM\ARMCLANG\include\ctype.h)(0x625260D6)
 I (D:\Keil5\ARM\ARMCLANG\include\libcxx\wctype.h)(0x625260D6)
 I (D:\Keil5\ARM\ARMCLANG\include\wctype.h)(0x625260D6)
-I (..\User\Task\..\Algorithm\LADRC\Adrc.hpp)(0x6813D922)
+I (..\User\Task\..\Algorithm\LADRC\Adrc.hpp)(0x6814EF3A)
 I (..\User\Task\..\Algorithm\PID.hpp)(0x680CFADC)
 I (..\User\Task\..\Algorithm\..\BSP\stdxxx.hpp)(0x678CD51B)
 I (..\User\Task\..\APP\Key\KeyBroad.hpp)(0x68139941)
-I (..\User\Task\..\APP\Data\GimbalData.hpp)(0x6813BA65)
-I (..\User\..\User\APP\Tools.hpp)(0x6813908B)
+I (..\User\Task\..\APP\Data\GimbalData.hpp)(0x6814EF3A)
+I (..\User\..\User\APP\Tools.hpp)(0x6814EF3A)
 I (..\User\..\User\APP\..\BSP\stdxxx.hpp)(0x678CD51B)
-I (..\User\Task\..\APP\Variable.hpp)(0x6813908B)
+I (..\User\Task\..\APP\Variable.hpp)(0x6814EF3A)
 I (..\User\..\User\APP\..\Algorithm\PID.hpp)(0x680CFADC)
-I (..\User\..\User\APP\..\Algorithm\Ude.hpp)(0x6813908B)
+I (..\User\..\User\APP\..\Algorithm\Ude.hpp)(0x6814EF3A)
 I (..\User\..\User\APP\..\Task\EvenTask.hpp)(0x67C5981A)
 I (D:\Keil5\ARM\ARMCLANG\include\libcxx\list)(0x625260D6)
-I (..\User\..\User\APP\..\Algorithm\LADRC\Adrc.hpp)(0x6813D922)
-I (..\User\Task\..\BSP\IMU\HI12H3_IMU.hpp)(0x6813908B)
-I (..\User\Task\..\BSP\IMU\..\StaticTime.hpp)(0x6813908B)
+I (..\User\..\User\APP\..\Algorithm\LADRC\Adrc.hpp)(0x6814EF3A)
+I (..\User\Task\..\BSP\IMU\HI12H3_IMU.hpp)(0x6814EF3A)
+I (..\User\Task\..\BSP\IMU\..\StaticTime.hpp)(0x6814EF3A)
 I (..\Drivers\STM32F4xx_HAL_Driver\Inc\stm32f4xx_hal.h)(0x66FB9B26)
 I (..\Core\Inc\stm32f4xx_hal_conf.h)(0x67CB3090)
 I (..\Drivers\STM32F4xx_HAL_Driver\Inc\stm32f4xx_hal_rcc.h)(0x66FB9B26)
@@ -4024,32 +4025,32 @@ I (..\User\Task\..\Algorithm\..\BSP\..\BSP\Remote\Key.hpp)(0x67BEF1D9)
 I (..\User\Task\..\BSP\IMU\..\stdxxx.hpp)(0x678CD51B)
 I (..\Core\Inc\usart.h)(0x67A52C17)
 I (..\Core\Inc\main.h)(0x67A52C18)
-I (..\User\Task\..\BSP\Motor\DM\DmMotor.hpp)(0x6813908B)
+I (..\User\Task\..\BSP\Motor\DM\DmMotor.hpp)(0x6814EF3A)
 I (..\User\Task\..\BSP\Motor\DM\..\MotorBase.hpp)(0x680D1777)
 I (..\User\Task\..\BSP\Motor\DM\..\..\CAN\Bsp_Can.hpp)(0x67C31543)
 I (..\Core\Inc\can.h)(0x67A52C17)
-I (..\User\Task\..\BSP\Motor\DM\..\..\StaticTime.hpp)(0x6813908B)
-I (..\User\Task\..\BSP\Motor\Dji\DjiMotor.hpp)(0x6813E0A4)
+I (..\User\Task\..\BSP\Motor\DM\..\..\StaticTime.hpp)(0x6814EF3A)
+I (..\User\Task\..\BSP\Motor\Dji\DjiMotor.hpp)(0x6814EF3A)
 I (..\User\Task\..\BSP\Motor\Dji\..\MotorBase.hpp)(0x680D1777)
 I (..\User\Task\..\BSP\Remote\Mini\Mini.hpp)(0x68132801)
-I (..\User\Task\..\Task\CommunicationTask.hpp)(0x6813908B)
-I (..\User\Task\..\APP\Tools.hpp)(0x6813908B)
+I (..\User\Task\..\Task\CommunicationTask.hpp)(0x6814EF3A)
+I (..\User\Task\..\APP\Tools.hpp)(0x6814EF3A)
 I (..\User\Task\..\BSP\stdxxx.hpp)(0x678CD51B)
 I (..\User\Task\..\Task\EvenTask.hpp)(0x67C5981A)
-I (..\User\Task\..\APP\Mod\RemoteModeManager.hpp)(0x6813ACEB)
-I (..\User\..\User\Task\CommunicationTask.hpp)(0x6813908B)
-I (..\User\Task\..\APP\Mod\IRemoteController.hpp)(0x6813D724)
-I (..\User\Task\..\APP\Mod\RemoteControl\DR16Controller.hpp)(0x6813D743)
-I (..\User\Task\..\APP\Mod\RemoteControl\..\IRemoteController.hpp)(0x6813D724)
+I (..\User\Task\..\APP\Mod\RemoteModeManager.hpp)(0x6814EF3A)
+I (..\User\..\User\Task\CommunicationTask.hpp)(0x6814EF3A)
+I (..\User\Task\..\APP\Mod\IRemoteController.hpp)(0x6814EF3A)
+I (..\User\Task\..\APP\Mod\RemoteControl\DR16Controller.hpp)(0x6814EF3A)
+I (..\User\Task\..\APP\Mod\RemoteControl\..\IRemoteController.hpp)(0x6814EF3A)
 I (..\User\..\User\BSP\Remote\Dbus\Dbus.hpp)(0x68132801)
-I (..\User\..\User\BSP\StaticTime.hpp)(0x6813908B)
+I (..\User\..\User\BSP\StaticTime.hpp)(0x6814EF3A)
 I (..\User\..\User\Task\EvenTask.hpp)(0x67C5981A)
-I (..\User\Task\..\APP\Mod\RemoteControl\MiniController.hpp)(0x6813D6F1)
+I (..\User\Task\..\APP\Mod\RemoteControl\MiniController.hpp)(0x6814EF3A)
 I (..\Core\Inc\..\..\User\BSP\Remote\Mini\Mini.hpp)(0x68132801)
 I (..\Core\Inc\..\..\User\BSP\SimpleKey\SimpleKey.hpp)(0x68132801)
 I (..\User\Task\..\BSP\DWT\DWT.hpp)(0x68132801)
 I (..\Middlewares\Third_Party\FreeRTOS\Source\CMSIS_RTOS_V2\cmsis_os2.h)(0x66FB9AB3)
-F (..\User\Task\EvenTask.cpp)(0x6813908B)(-xc++ -std=c++17 --target=arm-arm-none-eabi -mcpu=cortex-m4 -mfpu=fpv4-sp-d16 -mfloat-abi=hard -c-fno-rtti -funsigned-char -fno-exceptions-gdwarf-4 -O0 -ffunction-sections -Wno-packed -Wno-missing-variable-declarations -Wno-missing-prototypes -Wno-missing-noreturn -Wno-sign-conversion -Wno-nonportable-include-path -Wno-reserved-id-macro -Wno-unused-macros -Wno-documentation-unknown-command -Wno-documentation -Wno-license-management -Wno-parentheses-equality -Wno-reserved-identifier -I ../Core/Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I ../Middlewares/Third_Party/FreeRTOS/Source/include -I ../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2 -I ../Middlewares/Third_Party/FreeRTOS/Source/portable/RVDS/ARM_CM4F -I ../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I ../Drivers/CMSIS/Include -I ../User -I ../USB_DEVICE/App -I ../USB_DEVICE/Target -I ../Middlewares/ST/STM32_USB_Device_Library/Core/Inc -I ../Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Inc-I./RTE/_SG_GIMBAL_C_2025_2_7-IC:/Users/Administrator.DESKTOP-IAACAVF/AppData/Local/Arm/Packs/ARM/CMSIS/6.1.0/CMSIS/Core/Include-IC:/Users/Administrator.DESKTOP-IAACAVF/AppData/Local/Arm/Packs/Keil/STM32F4xx_DFP/2.17.1/Drivers/CMSIS/Device/ST/STM32F4xx/Include-D__UVISION_VERSION="537" -D_RTE_ -DSTM32F407xx -D_RTE_ -DUSE_HAL_DRIVER -DSTM32F407xx-o sg_gimbal_c_2025_2_7/eventask.o -MD)
+F (..\User\Task\EvenTask.cpp)(0x6814EF3A)(-xc++ -std=c++17 --target=arm-arm-none-eabi -mcpu=cortex-m4 -mfpu=fpv4-sp-d16 -mfloat-abi=hard -c-fno-rtti -funsigned-char -fno-exceptions-gdwarf-4 -O0 -ffunction-sections -Wno-packed -Wno-missing-variable-declarations -Wno-missing-prototypes -Wno-missing-noreturn -Wno-sign-conversion -Wno-nonportable-include-path -Wno-reserved-id-macro -Wno-unused-macros -Wno-documentation-unknown-command -Wno-documentation -Wno-license-management -Wno-parentheses-equality -Wno-reserved-identifier -I ../Core/Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I ../Middlewares/Third_Party/FreeRTOS/Source/include -I ../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2 -I ../Middlewares/Third_Party/FreeRTOS/Source/portable/RVDS/ARM_CM4F -I ../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I ../Drivers/CMSIS/Include -I ../User -I ../USB_DEVICE/App -I ../USB_DEVICE/Target -I ../Middlewares/ST/STM32_USB_Device_Library/Core/Inc -I ../Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Inc-I./RTE/_SG_GIMBAL_C_2025_2_7-IC:/Users/Administrator.DESKTOP-IAACAVF/AppData/Local/Arm/Packs/ARM/CMSIS/6.1.0/CMSIS/Core/Include-IC:/Users/Administrator.DESKTOP-IAACAVF/AppData/Local/Arm/Packs/Keil/STM32F4xx_DFP/2.17.1/Drivers/CMSIS/Device/ST/STM32F4xx/Include-D__UVISION_VERSION="537" -D_RTE_ -DSTM32F407xx -D_RTE_ -DUSE_HAL_DRIVER -DSTM32F407xx-o sg_gimbal_c_2025_2_7/eventask.o -MD)
 I (..\User\Task\..\Task\EvenTask.hpp)(0x67C5981A)
 I (D:\Keil5\ARM\ARMCLANG\include\libcxx\list)(0x625260D6)
 I (D:\Keil5\ARM\ARMCLANG\include\libcxx\__config)(0x625260CE)
@@ -4352,18 +4353,18 @@ I (D:\Keil5\ARM\ARMCLANG\include\libcxx\__algorithm\stable_sort.h)(0x625260B8)
 I (D:\Keil5\ARM\ARMCLANG\include\libcxx\__algorithm\transform.h)(0x625260B8)
 I (D:\Keil5\ARM\ARMCLANG\include\libcxx\__algorithm\unique.h)(0x625260B8)
 I (D:\Keil5\ARM\ARMCLANG\include\libcxx\__algorithm\unique_copy.h)(0x625260B8)
-I (..\User\Task\..\Algorithm\LADRC\Adrc.hpp)(0x6813D922)
+I (..\User\Task\..\Algorithm\LADRC\Adrc.hpp)(0x6814EF3A)
 I (..\User\Task\..\APP\Buzzer.hpp)(0x67BEF1D9)
 I (..\User\Task\..\APP\..\BSP\stdxxx.hpp)(0x678CD51B)
 I (..\User\Task\..\APP\..\Task\EvenTask.hpp)(0x67C5981A)
 I (..\User\Task\..\APP\LED.hpp)(0x67C5995C)
-I (..\User\Task\..\APP\Variable.hpp)(0x6813908B)
+I (..\User\Task\..\APP\Variable.hpp)(0x6814EF3A)
 I (..\User\Task\..\APP\..\Algorithm\PID.hpp)(0x680CFADC)
 I (..\User\Task\..\APP\..\Algorithm\..\BSP\stdxxx.hpp)(0x678CD51B)
-I (..\User\Task\..\APP\..\Algorithm\Ude.hpp)(0x6813908B)
-I (..\User\Task\..\APP\..\Algorithm\LADRC\Adrc.hpp)(0x6813D922)
-I (..\User\Task\..\BSP\IMU\HI12H3_IMU.hpp)(0x6813908B)
-I (..\User\Task\..\BSP\IMU\..\StaticTime.hpp)(0x6813908B)
+I (..\User\Task\..\APP\..\Algorithm\Ude.hpp)(0x6814EF3A)
+I (..\User\Task\..\APP\..\Algorithm\LADRC\Adrc.hpp)(0x6814EF3A)
+I (..\User\Task\..\BSP\IMU\HI12H3_IMU.hpp)(0x6814EF3A)
+I (..\User\Task\..\BSP\IMU\..\StaticTime.hpp)(0x6814EF3A)
 I (..\Drivers\STM32F4xx_HAL_Driver\Inc\stm32f4xx_hal.h)(0x66FB9B26)
 I (..\Core\Inc\stm32f4xx_hal_conf.h)(0x67CB3090)
 I (..\Drivers\STM32F4xx_HAL_Driver\Inc\stm32f4xx_hal_rcc.h)(0x66FB9B26)
@@ -4402,28 +4403,29 @@ I (..\User\Task\..\BSP\IMU\..\stdxxx.hpp)(0x678CD51B)
 I (..\Core\Inc\usart.h)(0x67A52C17)
 I (..\Core\Inc\main.h)(0x67A52C18)
 I (..\User\Task\..\BSP\Remote\Dbus\Dbus.hpp)(0x68132801)
-I (..\User\..\User\BSP\StaticTime.hpp)(0x6813908B)
+I (..\User\..\User\BSP\StaticTime.hpp)(0x6814EF3A)
 I (..\User\Task\..\BSP\CAN\Bsp_Can.hpp)(0x67C31543)
 I (..\Core\Inc\can.h)(0x67A52C17)
 I (..\User\Task\..\BSP\Init.hpp)(0x67906222)
-I (..\User\Task\..\BSP\Motor\DM\DmMotor.hpp)(0x6813908B)
+I (..\User\Task\..\BSP\Motor\DM\DmMotor.hpp)(0x6814EF3A)
 I (..\User\Task\..\BSP\Motor\DM\..\MotorBase.hpp)(0x680D1777)
 I (..\User\Task\..\BSP\Motor\DM\..\..\CAN\Bsp_Can.hpp)(0x67C31543)
-I (..\User\Task\..\BSP\Motor\DM\..\..\StaticTime.hpp)(0x6813908B)
-I (..\User\Task\..\BSP\Motor\Dji\DjiMotor.hpp)(0x6813E0A4)
+I (..\User\Task\..\BSP\Motor\DM\..\..\StaticTime.hpp)(0x6814EF3A)
+I (..\User\Task\..\BSP\Motor\Dji\DjiMotor.hpp)(0x6814EF3A)
 I (..\User\Task\..\BSP\Motor\Dji\..\MotorBase.hpp)(0x680D1777)
 I (..\Middlewares\Third_Party\FreeRTOS\Source\CMSIS_RTOS_V2\cmsis_os2.h)(0x66FB9AB3)
 I (..\Core\Inc\tim.h)(0x680D03F1)
-F (..\User\Task\ShootTask.cpp)(0x6814163A)(-xc++ -std=c++17 --target=arm-arm-none-eabi -mcpu=cortex-m4 -mfpu=fpv4-sp-d16 -mfloat-abi=hard -c-fno-rtti -funsigned-char -fno-exceptions-gdwarf-4 -O0 -ffunction-sections -Wno-packed -Wno-missing-variable-declarations -Wno-missing-prototypes -Wno-missing-noreturn -Wno-sign-conversion -Wno-nonportable-include-path -Wno-reserved-id-macro -Wno-unused-macros -Wno-documentation-unknown-command -Wno-documentation -Wno-license-management -Wno-parentheses-equality -Wno-reserved-identifier -I ../Core/Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I ../Middlewares/Third_Party/FreeRTOS/Source/include -I ../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2 -I ../Middlewares/Third_Party/FreeRTOS/Source/portable/RVDS/ARM_CM4F -I ../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I ../Drivers/CMSIS/Include -I ../User -I ../USB_DEVICE/App -I ../USB_DEVICE/Target -I ../Middlewares/ST/STM32_USB_Device_Library/Core/Inc -I ../Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Inc-I./RTE/_SG_GIMBAL_C_2025_2_7-IC:/Users/Administrator.DESKTOP-IAACAVF/AppData/Local/Arm/Packs/ARM/CMSIS/6.1.0/CMSIS/Core/Include-IC:/Users/Administrator.DESKTOP-IAACAVF/AppData/Local/Arm/Packs/Keil/STM32F4xx_DFP/2.17.1/Drivers/CMSIS/Device/ST/STM32F4xx/Include-D__UVISION_VERSION="537" -D_RTE_ -DSTM32F407xx -D_RTE_ -DUSE_HAL_DRIVER -DSTM32F407xx-o sg_gimbal_c_2025_2_7/shoottask.o -MD)
-I (..\User\Task\..\Task\ShootTask.hpp)(0x6813FE7B)
-I (..\User\Task\..\APP\Heat_Detector\Heat_Detector.hpp)(0x681402A0)
+F (..\User\Task\ShootTask.cpp)(0x681517A2)(-xc++ -std=c++17 --target=arm-arm-none-eabi -mcpu=cortex-m4 -mfpu=fpv4-sp-d16 -mfloat-abi=hard -c-fno-rtti -funsigned-char -fno-exceptions-gdwarf-4 -O0 -ffunction-sections -Wno-packed -Wno-missing-variable-declarations -Wno-missing-prototypes -Wno-missing-noreturn -Wno-sign-conversion -Wno-nonportable-include-path -Wno-reserved-id-macro -Wno-unused-macros -Wno-documentation-unknown-command -Wno-documentation -Wno-license-management -Wno-parentheses-equality -Wno-reserved-identifier -I ../Core/Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I ../Middlewares/Third_Party/FreeRTOS/Source/include -I ../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2 -I ../Middlewares/Third_Party/FreeRTOS/Source/portable/RVDS/ARM_CM4F -I ../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I ../Drivers/CMSIS/Include -I ../User -I ../USB_DEVICE/App -I ../USB_DEVICE/Target -I ../Middlewares/ST/STM32_USB_Device_Library/Core/Inc -I ../Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Inc-I./RTE/_SG_GIMBAL_C_2025_2_7-IC:/Users/Administrator.DESKTOP-IAACAVF/AppData/Local/Arm/Packs/ARM/CMSIS/6.1.0/CMSIS/Core/Include-IC:/Users/Administrator.DESKTOP-IAACAVF/AppData/Local/Arm/Packs/Keil/STM32F4xx_DFP/2.17.1/Drivers/CMSIS/Device/ST/STM32F4xx/Include-D__UVISION_VERSION="537" -D_RTE_ -DSTM32F407xx -D_RTE_ -DUSE_HAL_DRIVER -DSTM32F407xx-o sg_gimbal_c_2025_2_7/shoottask.o -MD)
+I (..\User\Task\..\Task\ShootTask.hpp)(0x68151310)
+I (..\User\Task\..\APP\Heat_Detector\Heat_Detector.hpp)(0x681526E2)
 I (..\User\..\User\Algorithm\FSM\alg_fsm.hpp)(0x68132801)
 I (D:\Keil5\ARM\ARMCLANG\include\libcxx\stdint.h)(0x625260D6)
 I (D:\Keil5\ARM\ARMCLANG\include\libcxx\__config)(0x625260CE)
 I (D:\Keil5\ARM\ARMCLANG\include\stdint.h)(0x625260D8)
-I (..\User\..\User\Algorithm\SlidingWindow\SlidingWindow.hpp)(0x681417BD)
+I (..\User\..\User\Algorithm\SlidingWindow\SlidingWindow.hpp)(0x68152C48)
+I (D:\Keil5\ARM\ARMCLANG\include\libcxx\cstdint)(0x625260D6)
 I (..\User\Task\..\Algorithm\FSM\alg_fsm.hpp)(0x68132801)
-I (..\User\Task\..\Algorithm\LADRC\Adrc.hpp)(0x6813D922)
+I (..\User\Task\..\Algorithm\LADRC\Adrc.hpp)(0x6814EF3A)
 I (D:\Keil5\ARM\ARMCLANG\include\libcxx\cmath)(0x625260D6)
 I (D:\Keil5\ARM\ARMCLANG\include\libcxx\math.h)(0x625260D6)
 I (D:\Keil5\ARM\ARMCLANG\include\math.h)(0x625260D6)
@@ -4446,8 +4448,8 @@ I (D:\Keil5\ARM\ARMCLANG\include\libcxx\__mbstate_t.h)(0x625260D4)
 I (D:\Keil5\ARM\ARMCLANG\include\libcxx\wchar.h)(0x625260D6)
 I (D:\Keil5\ARM\ARMCLANG\include\libcxx\stddef.h)(0x625260D6)
 I (D:\Keil5\ARM\ARMCLANG\include\wchar.h)(0x625260D6)
-I (..\User\Task\..\Task\CommunicationTask.hpp)(0x6813908B)
-I (..\User\Task\..\APP\Tools.hpp)(0x6813908B)
+I (..\User\Task\..\Task\CommunicationTask.hpp)(0x6814EF3A)
+I (..\User\Task\..\APP\Tools.hpp)(0x6814EF3A)
 I (..\User\Task\..\APP\..\BSP\stdxxx.hpp)(0x678CD51B)
 I (D:\Keil5\ARM\ARMCLANG\include\libcxx\string.h)(0x625260D6)
 I (D:\Keil5\ARM\ARMCLANG\include\string.h)(0x625260D6)
@@ -4514,7 +4516,6 @@ I (D:\Keil5\ARM\ARMCLANG\include\libcxx\__memory\allocator_arg_t.h)(0x625260BC)
 I (D:\Keil5\ARM\ARMCLANG\include\libcxx\__memory\uses_allocator.h)(0x62526072)
 I (D:\Keil5\ARM\ARMCLANG\include\libcxx\new)(0x625260D6)
 I (D:\Keil5\ARM\ARMCLANG\include\libcxx\typeinfo)(0x625260D6)
-I (D:\Keil5\ARM\ARMCLANG\include\libcxx\cstdint)(0x625260D6)
 I (D:\Keil5\ARM\ARMCLANG\include\libcxx\utility)(0x625260D6)
 I (D:\Keil5\ARM\ARMCLANG\include\libcxx\__utility\as_const.h)(0x625260C0)
 I (D:\Keil5\ARM\ARMCLANG\include\libcxx\__utility\auto_cast.h)(0x6252609A)
@@ -4727,13 +4728,13 @@ I (D:\Keil5\ARM\ARMCLANG\include\libcxx\__algorithm\stable_sort.h)(0x625260B8)
 I (D:\Keil5\ARM\ARMCLANG\include\libcxx\__algorithm\transform.h)(0x625260B8)
 I (D:\Keil5\ARM\ARMCLANG\include\libcxx\__algorithm\unique.h)(0x625260B8)
 I (D:\Keil5\ARM\ARMCLANG\include\libcxx\__algorithm\unique_copy.h)(0x625260B8)
-I (..\User\Task\..\APP\Mod\RemoteModeManager.hpp)(0x6813ACEB)
-I (..\User\..\User\Task\CommunicationTask.hpp)(0x6813908B)
-I (..\User\Task\..\APP\Mod\IRemoteController.hpp)(0x6813D724)
-I (..\User\Task\..\APP\Mod\RemoteControl\DR16Controller.hpp)(0x6813D743)
-I (..\User\Task\..\APP\Mod\RemoteControl\..\IRemoteController.hpp)(0x6813D724)
+I (..\User\Task\..\APP\Mod\RemoteModeManager.hpp)(0x6814EF3A)
+I (..\User\..\User\Task\CommunicationTask.hpp)(0x6814EF3A)
+I (..\User\Task\..\APP\Mod\IRemoteController.hpp)(0x6814EF3A)
+I (..\User\Task\..\APP\Mod\RemoteControl\DR16Controller.hpp)(0x6814EF3A)
+I (..\User\Task\..\APP\Mod\RemoteControl\..\IRemoteController.hpp)(0x6814EF3A)
 I (..\User\..\User\BSP\Remote\Dbus\Dbus.hpp)(0x68132801)
-I (..\User\..\User\BSP\StaticTime.hpp)(0x6813908B)
+I (..\User\..\User\BSP\StaticTime.hpp)(0x6814EF3A)
 I (..\Drivers\STM32F4xx_HAL_Driver\Inc\stm32f4xx_hal.h)(0x66FB9B26)
 I (..\Core\Inc\stm32f4xx_hal_conf.h)(0x67CB3090)
 I (..\Drivers\STM32F4xx_HAL_Driver\Inc\stm32f4xx_hal_rcc.h)(0x66FB9B26)
@@ -4771,14 +4772,14 @@ I (..\User\Task\..\APP\..\BSP\..\BSP\Remote\Key.hpp)(0x67BEF1D9)
 I (..\Core\Inc\usart.h)(0x67A52C17)
 I (..\Core\Inc\main.h)(0x67A52C18)
 I (..\User\..\User\Task\EvenTask.hpp)(0x67C5981A)
-I (..\User\Task\..\APP\Mod\RemoteControl\MiniController.hpp)(0x6813D6F1)
+I (..\User\Task\..\APP\Mod\RemoteControl\MiniController.hpp)(0x6814EF3A)
 I (..\Core\Inc\..\..\User\BSP\Remote\Mini\Mini.hpp)(0x68132801)
 I (..\Core\Inc\..\..\User\BSP\SimpleKey\SimpleKey.hpp)(0x68132801)
-I (..\User\Task\..\BSP\Motor\Dji\DjiMotor.hpp)(0x6813E0A4)
+I (..\User\Task\..\BSP\Motor\Dji\DjiMotor.hpp)(0x6814EF3A)
 I (..\User\Task\..\BSP\Motor\Dji\..\MotorBase.hpp)(0x680D1777)
 I (..\User\Task\..\BSP\Motor\Dji\..\..\CAN\Bsp_Can.hpp)(0x67C31543)
 I (..\Core\Inc\can.h)(0x67A52C17)
-I (..\User\Task\..\BSP\Motor\Dji\..\..\StaticTime.hpp)(0x6813908B)
+I (..\User\Task\..\BSP\Motor\Dji\..\..\StaticTime.hpp)(0x6814EF3A)
 I (..\Middlewares\Third_Party\FreeRTOS\Source\CMSIS_RTOS_V2\cmsis_os2.h)(0x66FB9AB3)
 F (..\User\Algorithm\PID.cpp)(0x680CFADC)(-xc++ -std=c++17 --target=arm-arm-none-eabi -mcpu=cortex-m4 -mfpu=fpv4-sp-d16 -mfloat-abi=hard -c-fno-rtti -funsigned-char -fno-exceptions-gdwarf-4 -O0 -ffunction-sections -Wno-packed -Wno-missing-variable-declarations -Wno-missing-prototypes -Wno-missing-noreturn -Wno-sign-conversion -Wno-nonportable-include-path -Wno-reserved-id-macro -Wno-unused-macros -Wno-documentation-unknown-command -Wno-documentation -Wno-license-management -Wno-parentheses-equality -Wno-reserved-identifier -I ../Core/Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I ../Middlewares/Third_Party/FreeRTOS/Source/include -I ../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2 -I ../Middlewares/Third_Party/FreeRTOS/Source/portable/RVDS/ARM_CM4F -I ../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I ../Drivers/CMSIS/Include -I ../User -I ../USB_DEVICE/App -I ../USB_DEVICE/Target -I ../Middlewares/ST/STM32_USB_Device_Library/Core/Inc -I ../Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Inc-I./RTE/_SG_GIMBAL_C_2025_2_7-IC:/Users/Administrator.DESKTOP-IAACAVF/AppData/Local/Arm/Packs/ARM/CMSIS/6.1.0/CMSIS/Core/Include-IC:/Users/Administrator.DESKTOP-IAACAVF/AppData/Local/Arm/Packs/Keil/STM32F4xx_DFP/2.17.1/Drivers/CMSIS/Device/ST/STM32F4xx/Include-D__UVISION_VERSION="537" -D_RTE_ -DSTM32F407xx -D_RTE_ -DUSE_HAL_DRIVER -DSTM32F407xx-o sg_gimbal_c_2025_2_7/pid.o -MD)
 I (..\User\Algorithm\PID.hpp)(0x680CFADC)
@@ -4799,8 +4800,8 @@ I (D:\Keil5\ARM\ARMCLANG\include\libcxx\stdlib.h)(0x625260D6)
 I (D:\Keil5\ARM\ARMCLANG\include\stdlib.h)(0x625260D6)
 I (D:\Keil5\ARM\ARMCLANG\include\libcxx\string.h)(0x625260D6)
 I (D:\Keil5\ARM\ARMCLANG\include\string.h)(0x625260D6)
-F (..\User\Algorithm\LADRC\Adrc.cpp)(0x6813908B)(-xc++ -std=c++17 --target=arm-arm-none-eabi -mcpu=cortex-m4 -mfpu=fpv4-sp-d16 -mfloat-abi=hard -c-fno-rtti -funsigned-char -fno-exceptions-gdwarf-4 -O0 -ffunction-sections -Wno-packed -Wno-missing-variable-declarations -Wno-missing-prototypes -Wno-missing-noreturn -Wno-sign-conversion -Wno-nonportable-include-path -Wno-reserved-id-macro -Wno-unused-macros -Wno-documentation-unknown-command -Wno-documentation -Wno-license-management -Wno-parentheses-equality -Wno-reserved-identifier -I ../Core/Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I ../Middlewares/Third_Party/FreeRTOS/Source/include -I ../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2 -I ../Middlewares/Third_Party/FreeRTOS/Source/portable/RVDS/ARM_CM4F -I ../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I ../Drivers/CMSIS/Include -I ../User -I ../USB_DEVICE/App -I ../USB_DEVICE/Target -I ../Middlewares/ST/STM32_USB_Device_Library/Core/Inc -I ../Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Inc-I./RTE/_SG_GIMBAL_C_2025_2_7-IC:/Users/Administrator.DESKTOP-IAACAVF/AppData/Local/Arm/Packs/ARM/CMSIS/6.1.0/CMSIS/Core/Include-IC:/Users/Administrator.DESKTOP-IAACAVF/AppData/Local/Arm/Packs/Keil/STM32F4xx_DFP/2.17.1/Drivers/CMSIS/Device/ST/STM32F4xx/Include-D__UVISION_VERSION="537" -D_RTE_ -DSTM32F407xx -D_RTE_ -DUSE_HAL_DRIVER -DSTM32F407xx-o sg_gimbal_c_2025_2_7/adrc.o -MD)
-I (..\User\..\User\Algorithm\LADRC\Adrc.hpp)(0x6813D922)
+F (..\User\Algorithm\LADRC\Adrc.cpp)(0x6814EF3A)(-xc++ -std=c++17 --target=arm-arm-none-eabi -mcpu=cortex-m4 -mfpu=fpv4-sp-d16 -mfloat-abi=hard -c-fno-rtti -funsigned-char -fno-exceptions-gdwarf-4 -O0 -ffunction-sections -Wno-packed -Wno-missing-variable-declarations -Wno-missing-prototypes -Wno-missing-noreturn -Wno-sign-conversion -Wno-nonportable-include-path -Wno-reserved-id-macro -Wno-unused-macros -Wno-documentation-unknown-command -Wno-documentation -Wno-license-management -Wno-parentheses-equality -Wno-reserved-identifier -I ../Core/Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I ../Middlewares/Third_Party/FreeRTOS/Source/include -I ../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2 -I ../Middlewares/Third_Party/FreeRTOS/Source/portable/RVDS/ARM_CM4F -I ../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I ../Drivers/CMSIS/Include -I ../User -I ../USB_DEVICE/App -I ../USB_DEVICE/Target -I ../Middlewares/ST/STM32_USB_Device_Library/Core/Inc -I ../Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Inc-I./RTE/_SG_GIMBAL_C_2025_2_7-IC:/Users/Administrator.DESKTOP-IAACAVF/AppData/Local/Arm/Packs/ARM/CMSIS/6.1.0/CMSIS/Core/Include-IC:/Users/Administrator.DESKTOP-IAACAVF/AppData/Local/Arm/Packs/Keil/STM32F4xx_DFP/2.17.1/Drivers/CMSIS/Device/ST/STM32F4xx/Include-D__UVISION_VERSION="537" -D_RTE_ -DSTM32F407xx -D_RTE_ -DUSE_HAL_DRIVER -DSTM32F407xx-o sg_gimbal_c_2025_2_7/adrc.o -MD)
+I (..\User\..\User\Algorithm\LADRC\Adrc.hpp)(0x6814EF3A)
 I (D:\Keil5\ARM\ARMCLANG\include\libcxx\cmath)(0x625260D6)
 I (D:\Keil5\ARM\ARMCLANG\include\libcxx\__config)(0x625260CE)
 I (D:\Keil5\ARM\ARMCLANG\include\libcxx\math.h)(0x625260D6)
