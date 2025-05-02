@@ -15,7 +15,7 @@ class Gimbal_to_Chassis
 
     uint8_t head = 0xA5; // 帧头
 
-    int16_t Init_Angle = 225.0f;
+    int16_t Init_Angle = 190.0f;
     int16_t target_offset_angle = 0;
 
     struct __attribute__((packed)) Direction // 方向结构体

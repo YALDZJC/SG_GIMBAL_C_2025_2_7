@@ -96,6 +96,12 @@ class Adrc
         return target_;
     }
 
+	void clear()
+	{
+		u = 0;
+		target_ = feedback_;
+	}
+	
   private:
     float Kp_;
     float z1, z2;

@@ -61,7 +61,7 @@ class GimbalData
 
     float pitch_gravity_ff = -1.2; // pitch重力前馈
     float Pitch_final_out;
-
+	float pitch_limit = 25.0;
     uint32_t shoot_time_ms;
     uint32_t shoot_time;
 
@@ -153,7 +153,7 @@ class Gimbal_Task::VisionHandler : public StateHandler
 
         // pitch期望值计算
         gimbal_data.tar_pitch -= BSP::Remote::dr16.remoteRight().y * 0.1;
-        gimbal_data.tar_pitch = Tools.clamp(gimbal_data.tar_pitch, 23, -8);
+        gimbal_data.tar_pitch = Tools.clamp(gimbal_data.tar_pitch, gimbal_data.pitch_limit, -25);
 
         auto vision_target = Communicat::Vision_Data.rx_target;
         if (fabs(vision_target.pitch_angle) > 0 && fabs(vision_target.yaw_angle) > 0)
@@ -224,7 +224,7 @@ class Gimbal_Task::KeyBoardHandler : public StateHandler
         // yaw期望值计算
         gimbal_data.tar_yaw -= mouse_vel.x * 100;
         // pitch限幅
-        gimbal_data.tar_pitch = Tools.clamp(gimbal_data.tar_pitch, 23, -8);
+        gimbal_data.tar_pitch = Tools.clamp(gimbal_data.tar_pitch, gimbal_data.pitch_limit, -25);
 
         APP::Key::keyBroad.UpKey(APP::Key::keyBroad.X, key.x);
         if (APP::Key::keyBroad.getFallingKey(APP::Key::keyBroad.X))
@@ -392,7 +392,7 @@ void Gimbal_Task::TargetUpdata()
     gimbal_data.send_ms++;
     // pitch期望值计算
     gimbal_data.tar_pitch -= BSP::Remote::dr16.remoteRight().y * 0.1;
-    gimbal_data.tar_pitch = Tools.clamp(gimbal_data.tar_pitch, 23, -8);
+    gimbal_data.tar_pitch = Tools.clamp(gimbal_data.tar_pitch, gimbal_data.pitch_limit, -25);
 
     // yaw期望值计算
     if (gimbal_data.is_sin == 0)
@@ -430,7 +430,7 @@ float out, last_out;
 float kp = 150, kd, p_out, tar1;
 float step, err;
 
-Alg::LADRC::Adrc adrc_yaw_vel(Alg::LADRC::TDquadratic(100, 0.005), 10, 30, 0.1, 0.005, 16384);
+Alg::LADRC::Adrc adrc_yaw_vel(Alg::LADRC::TDquadratic(100, 0.005), 8, 30, 0.1, 0.005, 16384);
 void LadrcDemo()
 {
     auto yaw_angle = BSP::IMU::imu.getAddYaw();
@@ -646,8 +646,8 @@ void Gimbal_Task::CanSend()
     //                   BSP::IMU::imu.getAddYaw(), tar_yaw.x1);
 
     // Pitch调参
-    Tools.vofaSend(gimbal_data.tar_pitch, adrc_yaw_vel.getFeedback(), BSP::Motor::DM::Motor4310.getAddAngleDeg(1), 0, 0,
-                   0);
+//    Tools.vofaSend(gimbal_data.tar_pitch, adrc_yaw_vel.getFeedback(), BSP::Motor::DM::Motor4310.getAddAngleDeg(1), 0, 0,
+//                   0);
 }
 
 void Gimbal_Task::Stop()
@@ -670,7 +670,7 @@ void Gimbal_Task::Stop()
     pid_Dial_pos_vel.clearPID();
     yaw_ude.clear();
 
-    u = 0;
+    adrc_yaw_vel.clear();
 
     Launch();
 
