@@ -85,6 +85,11 @@ class DR16RemoteController : public IRemoteController
         return dr16.mouseVel().y;
     }
 
+    float getSw() const override
+    {
+        return dr16.sw();
+    }
+
     void update() override
     {
         // DR16没有需要额外更新的内容

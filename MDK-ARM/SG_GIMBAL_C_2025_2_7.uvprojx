@@ -837,6 +837,11 @@
               <FileType>8</FileType>
               <FilePath>..\User\APP\Variable.cpp</FilePath>
             </File>
+            <File>
+              <FileName>Heat_Detector.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>..\User\APP\Heat_Detector\Heat_Detector.cpp</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>

@@ -8,12 +8,11 @@ namespace Alg::SW
 
 /**
  * @brief 滑动窗口，用于检测数据是否超过阈值
- * 
+ *
  * @tparam Type     数据类型
  * @tparam Max_Size 最大窗口大小
  */
-template <typename Type, uint32_t Max_Size = 200> 
-class SlidingWindowDetector
+template <typename Type, uint32_t Max_Size = 200> class SlidingWindowDetector
 {
   private:
     Type data[Max_Size]; // 数据数组
@@ -53,22 +52,24 @@ class SlidingWindowDetector
      * @param value 新的数据值
      * @return 是否触发阈值
      */
-    bool addValue(float value)
+    bool addValue(Type value)
     {
         // 添加新值到队列
-        data[tail] = value;
         tail = (tail + 1) % capacity;
-        sum += value;
+			  data[tail] = value;
+
+        sum += value / capacity;
 
         // 增加队列大小，如果已满则移除最早的值
         if (size < capacity)
         {
             size++;
         }
-        else
+        if(size > capacity)
         {
             sum -= data[head];
             head = (head + 1) % capacity;
+            size--;
         }
 
         // 检测是否超过阈值
@@ -111,8 +112,8 @@ class SlidingWindowDetector
 
     /**
      * @brief 设置阈值
-     * 
-     * @param newThreshold  新的阈值 
+     *
+     * @param newThreshold  新的阈值
      */
     void setThreshold(Type newThreshold)
     {

@@ -1,15 +1,12 @@
 #pragma once
 
+#include "../APP/Heat_Detector/Heat_Detector.hpp"
 #include "../Algorithm/FSM/alg_fsm.hpp"
 #include "../Algorithm/LADRC/Adrc.hpp"
 
 namespace TASK::Shoot
 {
 using namespace Alg::LADRC;
-// 发射机构控制模式
-Adrc adrc_friction_L_vel(TDquadratic(300, 0), 0.0, 0.0, 0, 1.0f);
-Adrc adrc_friction_R_vel(TDquadratic(300, 0), 0.0, 0.0, 0, 1.0f);
-Adrc adrc_Dail_vel(TDquadratic(300, 0), 0.0, 0.0, 0, 1.0f);
 
 enum Booster_Status
 {
@@ -40,7 +37,7 @@ class Class_JammingFSM : public Class_FSM
 {
   private:
     // 堵转力矩
-    static constexpr float stall_torque = 9.5f;
+    static constexpr float stall_torque = 0.5f;
     // 堵转时间阈值，超过则为堵转
     static constexpr uint32_t stall_time = 500;
     // 从堵转停止时间阈值，超过则停止堵转
@@ -60,6 +57,9 @@ class Class_ShootFSM : public Class_FSM
 {
 
   public:
+    // 显式声明构造函数
+    Class_ShootFSM();
+
     // ADRC控制器
     void Control(void);
 
@@ -79,19 +79,24 @@ class Class_ShootFSM : public Class_FSM
 
     // 拨盘控制
 
-    // CAN设置
-    void CAN_Set(void);
     // CAN发送
     void CAN_Send(void);
+    void HeatLimit();
 
   private:
     float target_Dail_torque = 0;
     float target_friction_L_torque = 0;
     float target_friction_R_torque = 0;
 
-    float target_friction_omega = 0;
+    float target_friction_omega = 6000;
     float target_dail_omega = 0;
     Class_JammingFSM JammingFMS;
+
+    APP::Heat_Detector::Class_FSM_Heat_Limit Heat_Limit;
+    // 发射机构控制模式
+    Adrc adrc_friction_L_vel;
+    Adrc adrc_friction_R_vel;
+    Adrc adrc_Dail_vel;
 };
 } // namespace TASK::Shoot
 

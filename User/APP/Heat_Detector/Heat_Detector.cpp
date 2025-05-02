@@ -7,7 +7,7 @@ void Class_FSM_Heat_Limit::UpData()
 {
     Status[Now_Status_Serial].Count_Time++;
 
-    auto vel = (friction_L_vel - friction_R_vel) * 0.9f;
+    auto vel = (friction_L_vel - friction_R_vel) * 0.6f;
 
     switch (Now_Status_Serial)
     {

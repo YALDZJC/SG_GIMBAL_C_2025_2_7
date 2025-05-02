@@ -39,6 +39,16 @@ class Class_FSM_Heat_Limit : public Class_FSM
 
   public:
     /**
+     * @brief 构造函数
+     * @param windowSize 窗口大小（建议 <= 100）
+     * @param threshold 检测阈值
+     */
+    explicit Class_FSM_Heat_Limit(uint32_t windowSize, float threshold) : Current_Detector(windowSize, threshold)
+    {
+        // 其他初始化逻辑（如果有）
+    }
+
+    /**
      * @brief 设置摩擦轮反馈转速，用来判断是否使能热量检测
      *
      * @param vel_L 左摩擦轮转速
@@ -87,6 +97,16 @@ class Class_FSM_Heat_Limit : public Class_FSM
     float getNowFire()
     {
         return now_fire;
+    }
+
+    float getCurSum()
+    {
+        return Current_Detector.getSum();
+    }
+
+    float getFireNum()
+    {
+        return fire_num;
     }
 
     void UpData(void);

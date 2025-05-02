@@ -3,9 +3,9 @@
 
 #include "../APP/Mod/RemoteModeManager.hpp"
 
-#include "../APP/Heat_Detector/Heat_Detector.hpp"
 #include "../APP/Tools.hpp"
 #include "../App/Mod/RemoteModeManager.hpp"
+
 #include "../BSP/Motor/Dji/DjiMotor.hpp"
 
 #include "cmsis_os2.h"
@@ -25,6 +25,16 @@ void ShootTask(void *argument)
 
 namespace TASK::Shoot
 {
+// 构造函数定义，使用初始化列表
+Class_ShootFSM::Class_ShootFSM()
+    : adrc_friction_L_vel(Alg::LADRC::TDquadratic(200, 0.001), 10, 25, 1, 0.001, 16384),
+      adrc_friction_R_vel(Alg::LADRC::TDquadratic(200, 0.001), 10, 25, 1, 0.001, 16384),
+      adrc_Dail_vel(Alg::LADRC::TDquadratic(200, 0.001), 5, 40, 0.9, 0.001, 16384),
+      Heat_Limit(50, 10.0f) // 示例参数：窗口大小50，阈值10.0
+{
+    // 其他初始化逻辑（如果有）
+}
+
 void Class_JammingFSM::UpState()
 {
     Status[Now_Status_Serial].Count_Time++;
@@ -85,10 +95,11 @@ void Class_ShootFSM::UpState()
     }
     case (Booster_Status::STOP): {
         // 停止状态，拨盘期望值为0
-        adrc_friction_L_vel.setTarget(target_friction_omega);
-        adrc_friction_R_vel.setTarget(-target_friction_omega);
+        //        adrc_friction_L_vel.setTarget(target_friction_omega);
+        //        adrc_friction_R_vel.setTarget(-target_friction_omega);
 
-        adrc_Dail_vel.setTarget(0.0f);
+        adrc_Dail_vel.setTarget(0);
+
         break;
     }
     case (Booster_Status::ONLY): {
@@ -99,6 +110,10 @@ void Class_ShootFSM::UpState()
         // 连发模式
         adrc_friction_L_vel.setTarget(target_friction_omega);
         adrc_friction_R_vel.setTarget(-target_friction_omega);
+
+        auto *remote = Mode::RemoteModeManager::Instance().getActiveController();
+        target_dail_omega = remote->getSw() * 400.0f;
+
         adrc_Dail_vel.setTarget(target_dail_omega);
 
         break;
@@ -110,28 +125,65 @@ void Class_ShootFSM::Control(void)
 {
     auto *remote = Mode::RemoteModeManager::Instance().getActiveController();
 
-    auto velL = BSP::Motor::Dji::Motor3508.getVelocityRads(1);
-    auto velR = BSP::Motor::Dji::Motor3508.getVelocityRads(2);
-    auto DailVel = BSP::Motor::Dji::Motor2006.getVelocityRads(1);
+    auto velL = BSP::Motor::Dji::Motor3508.getVelocityRpm(1);
+    auto velR = BSP::Motor::Dji::Motor3508.getVelocityRpm(2);
+    auto DailVel = BSP::Motor::Dji::Motor2006.getVelocityRpm(1);
 
-//    if (remote->isLaunchMode())
-//    {
-//        Now_Status_Serial = Booster_Status::STOP;
-//    }
+    if (remote->isStopMode())
+    {
+        Now_Status_Serial = Booster_Status::DISABLE;
+    }
+    else if (remote->isLaunchMode())
+    {
+        Now_Status_Serial = Booster_Status::AUTO;
+    }
+    else
+    {
+        Now_Status_Serial = Booster_Status::STOP;
+    }
 
     UpState();
-    JammingFMS.UpState();
 
     // 控制摩擦轮
     adrc_friction_L_vel.UpData(velL);
     adrc_friction_R_vel.UpData(velR);
     adrc_Dail_vel.UpData(DailVel);
 
-    CAN_Set();
+    target_Dail_torque = adrc_Dail_vel.getU();
+
+    JammingFMS.UpState();
+    HeatLimit();
+
+    // 拨盘发送
+    //  Tools.vofaSend(adrc_Dail_vel.getZ1(), adrc_Dail_vel.getTarget(), adrc_Dail_vel.getFeedback(), 0, 0, 0);
+    // 摩擦轮发送
+    // Tools.vofaSend(adrc_friction_L_vel.getZ1(), adrc_friction_L_vel.getTarget(), adrc_friction_L_vel.getFeedback(),
+    //                adrc_friction_R_vel.getZ1(), adrc_friction_R_vel.getTarget(), adrc_friction_R_vel.getFeedback());
+
+    // 火控
+    Tools.vofaSend(BSP::Motor::Dji::Motor3508.getTorque(1), BSP::Motor::Dji::Motor3508.getTorque(2),
+                   Heat_Limit.getCurSum(), Heat_Limit.getFireNum(), 0, 0);
+
     CAN_Send();
 }
 
-void Class_ShootFSM::CAN_Set(void)
+void Class_ShootFSM::HeatLimit()
+{
+    auto CurL = BSP::Motor::Dji::Motor3508.getTorque(1);
+    auto CurR = BSP::Motor::Dji::Motor3508.getTorque(2);
+
+    auto velL = BSP::Motor::Dji::Motor3508.getVelocityRpm(1);
+    auto velR = BSP::Motor::Dji::Motor3508.getVelocityRpm(2);
+
+    Heat_Limit.setBoosterHeat(100, 10);
+    Heat_Limit.setFrictionCurrent(CurL, CurR);
+    Heat_Limit.setFrictionVel(velL, velR);
+    // Heat_Limit.setTargetFire();
+
+    Heat_Limit.UpData();
+}
+
+void Class_ShootFSM::CAN_Send(void)
 {
     auto Motor_Friction = BSP::Motor::Dji::Motor3508;
     auto Motor_Dail = BSP::Motor::Dji::Motor2006;
@@ -139,13 +191,7 @@ void Class_ShootFSM::CAN_Set(void)
     BSP::Motor::Dji::Motor3508.setCAN(adrc_friction_L_vel.getU(), 2);
     BSP::Motor::Dji::Motor3508.setCAN(adrc_friction_R_vel.getU(), 3);
 
-    //    BSP::Motor::Dji::Motor3508.setCAN(adrc_Dail_vel.getU(), 1);
-}
-
-void Class_ShootFSM::CAN_Send(void)
-{
-    auto Motor_Friction = BSP::Motor::Dji::Motor3508;
-    auto Motor_Dail = BSP::Motor::Dji::Motor2006;
+    BSP::Motor::Dji::Motor3508.setCAN(target_Dail_torque, 1);
 
     Motor_Friction.sendCAN(&hcan1, 1);
     //    Motor_Dail.sendCAN(&hcan1, 1);

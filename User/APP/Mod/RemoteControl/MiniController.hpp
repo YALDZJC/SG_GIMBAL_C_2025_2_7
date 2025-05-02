@@ -120,6 +120,12 @@ class MiniRemoteController : public IRemoteController
         return remote.mouseVel().y;
     }
 
+    float getSw() const override
+    {
+        auto &remote = Mini::Instance();
+        return remote.sw().x;
+    }
+
     void update() override
     {
         auto &remote = Mini::Instance();

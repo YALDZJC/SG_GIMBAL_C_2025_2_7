@@ -34,6 +34,8 @@ class IRemoteController
     virtual float getMouseVelX() const = 0;
     virtual float getMouseVelY() const = 0;
 
+    virtual float getSw() const = 0;
+
     // 更新状态
     virtual void update() = 0;
 };

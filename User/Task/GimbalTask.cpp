@@ -24,17 +24,17 @@ void GimbalTask(void *argument)
         auto *remote = Mode::RemoteModeManager::Instance().getActiveController();
         remote->update();
         gimbal.upDate();
-        osDelay(1);
+        osDelay(5);
     }
 }
 
 // 构造函数定义，使用初始化列表
 Gimbal::Gimbal()
-    : adrc_yaw_vel(Alg::LADRC::TDquadratic(100, 0.001), 0, 0, 0.4, 0.001, 16384),
+    : adrc_yaw_vel(Alg::LADRC::TDquadratic(100, 0.005), 12, 40, 0.15, 0.005, 16384),
       // 速度pid的积分
       pid_yaw_angle{0, 0}, pid_yaw_vel{0, 0},
       // pid的k值
-      kpid_yaw_angle{0, 0, 0}, kpid_yaw_vel{0, 0, 0},
+      kpid_yaw_angle{5, 0, 0}, kpid_yaw_vel{0, 0, 0},
       // 滤波器初始化
       td_yaw_vel{200, 0.001}
 {
@@ -47,6 +47,8 @@ void Gimbal::upDate()
     yawControl();
 
     pitchControl();
+
+    sendCan();
 }
 
 void Gimbal::modSwitch()
@@ -55,25 +57,13 @@ void Gimbal::modSwitch()
 
     auto *remote = Mode::RemoteModeManager::Instance().getActiveController();
 
-    if (remote == nullptr)
-    {
-        // 处理无遥控器的情况
-        return;
-    }
-
     auto remote_rx = remote->getRightX();
     auto remote_ry = remote->getRightY();
 
     //  赋值
-    filter_tar_yaw += remote_rx * 0.01f;
-    filter_tar_pitch += remote_ry * 0.01f;
+    filter_tar_yaw += remote_rx * 0.1f;
+    filter_tar_pitch += remote_ry * 0.1f;
 
-    // 设置模式
-    if (remote->isStopMode())
-    {
-        filter_tar_yaw = BSP::Motor::Dji::Motor6020.getAddAngleDeg(1);
-        filter_tar_pitch = BSP::Motor::DM::Motor4310.getAddAngleDeg(1);
-    }
     if (remote->isVisionMode())
     {
         filter_tar_yaw = Communicat::vision.get_vision_yaw();
@@ -85,20 +75,28 @@ void Gimbal::modSwitch()
         filter_tar_pitch = remote->getMouseVelY();
     }
 
-    // 期望值滤波
-    tar_yaw.Calc(filter_tar_yaw);
-    tar_pitch.Calc(filter_tar_pitch);
-
     if (is_sin == 0)
     {
         gimbal_data.setTarYaw(tar_yaw.x1);
     }
     else if (is_sin == 1)
     {
-        sin_val = sinf(2 * 3.1415926f * HAL_GetTick() / 1000.0f * sin_hz) * b;
+        sin_val = sinf(2 * 3.1415926f * HAL_GetTick() / 500.0f * sin_hz) * b;
 
-        gimbal_data.setTarYaw(sin_val);
+        filter_tar_yaw = sin_val;
     }
+    // 期望值滤波
+
+    if (remote->isStopMode())
+    {
+        filter_tar_yaw = BSP::IMU::imu.getAddYaw();
+        filter_tar_pitch = BSP::Motor::DM::Motor4310.getAddAngleDeg(1);
+    }
+    tar_yaw.Calc(filter_tar_yaw);
+    tar_pitch.Calc(filter_tar_pitch);
+
+    gimbal_data.setTarYaw(tar_yaw.x1);
+    gimbal_data.setTarPitch(tar_pitch.x1);
 }
 
 void Gimbal::yawControl()
@@ -109,30 +107,55 @@ void Gimbal::yawControl()
     auto cur_angle = BSP::IMU::imu.getAddYaw();
     auto cur_vel = BSP::IMU::imu.getGyroZ();
 
-//    // 获取当前角度值
-//    auto cur_angle = BSP::Motor::Dji::Motor6020.getAddAngleDeg(1);
-//    auto cur_vel = BSP::Motor::Dji::Motor6020.getVelocityRads(1);
+    //    // 获取当前角度值
+    //    auto cur_angle = BSP::Motor::Dji::Motor6020.getAddAngleDeg(1);
+    //    auto cur_vel = BSP::Motor::Dji::Motor6020.getVelocityRads(1);
 
-    td_yaw_vel.Calc(cur_vel);
+    // 设置模式
+    auto *remote = Mode::RemoteModeManager::Instance().getActiveController();
+
+    if (remote->isStopMode())
+    {
+        filter_tar_yaw = BSP::IMU::imu.getAddYaw();
+        filter_tar_pitch = BSP::Motor::DM::Motor4310.getAddAngleDeg(1);
+    }
 
     // PID更新
-    pid_yaw_angle.GetPidPos(kpid_yaw_angle, gimbal_data.getTarYaw(), cur_angle, 35.0f);
+    pid_yaw_angle.GetPidPos(kpid_yaw_angle, gimbal_data.getTarYaw(), cur_angle, 16384.0f);
+    float feedford = tar_yaw.x2 * yaw_feedford;
     // ADRC更新
-    adrc_yaw_vel.setTarget(pid_yaw_angle.getOut()); // 设置目标值
-    adrc_yaw_vel.UpData(cur_vel);                   // 更新adrc
+    adrc_yaw_vel.setTarget(pid_yaw_angle.getOut() + feedford); // 设置目标值
+    adrc_yaw_vel.UpData(cur_vel);                              // 更新adrc
 
-    BSP::Motor::Dji::Motor6020.setCAN(adrc_yaw_vel.getU(), 1); // 设置电机扭矩
-
-    BSP::Motor::Dji::Motor6020.sendCAN(&hcan1, 0); // 发送数据
-
-    Tools.vofaSend(adrc_yaw_vel.getZ1(), cur_vel, gimbal_data.getTarYaw(), cur_angle, pid_yaw_angle.getOut(), 0);
+    // Tools.vofaSend(adrc_yaw_vel.getZ1(), cur_vel, pid_yaw_angle.getOut(), cur_angle, gimbal_data.getTarYaw(), 0);
 }
 
 void Gimbal::pitchControl()
 {
     using namespace APP::Data;
 
-    //    BSP::Motor::DM::Motor4310.ctrl_Motor(&hcan1, 1, 0, 0, gimbal_data.getDmKp(), gimbal_data.getDmKd(), 0);
+    auto *remote = Mode::RemoteModeManager::Instance().getActiveController();
+    if (remote->isStopMode())
+    {
 
-    BSP::Motor::DM::Motor4310.ctrl_Motor(&hcan2, 1, 0, 0, 0, 0, 0);
+    }
+    else
+    {
+        BSP::Motor::DM::Motor4310.ctrl_Motor(&hcan2, 1, tar_pitch.x1 * 0.0174532f, 0, 100, 3, 0);
+    }
+
+}
+
+void Gimbal::sendCan()
+{
+    auto *remote = Mode::RemoteModeManager::Instance().getActiveController();
+
+    if (remote->isStopMode())
+    {
+        adrc_yaw_vel.reSet();
+    }
+
+    BSP::Motor::Dji::Motor6020.setCAN(adrc_yaw_vel.getU(), 1); // 设置电机扭矩
+    BSP::Motor::Dji::Motor6020.sendCAN(&hcan1, 0);             // 发送数据
+
 }

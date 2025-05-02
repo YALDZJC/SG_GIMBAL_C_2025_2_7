@@ -50,11 +50,9 @@ class TDquadratic
 class Adrc
 {
   public:
-    Adrc(TDquadratic td = TDquadratic(1, 0), float Kp = 0, float wc = 0, float b0 = 1,
-         float h = 0.001f, float max = 0)
+    Adrc(TDquadratic td = TDquadratic(1, 0), float Kp = 0, float wc = 0, float b0 = 1, float h = 0.001f, float max = 0)
         : td_(td), Kp_(Kp), wc_(wc), b0_(b0), h_(h), max_(max)
     {
-
     }
 
     /**
@@ -76,6 +74,16 @@ class Adrc
         feedback_ = feedback;
     }
 
+    float getTarget()
+    {
+        return target_;
+    }
+
+    float getFeedback()
+    {
+        return feedback_;
+    }
+
     float getU()
     {
         return u;
@@ -86,16 +94,22 @@ class Adrc
         return z1;
     }
 
+    void reSet()
+    {
+        u = 0;
+        target_ = feedback_;
+    }
+
   private:
     float Kp_;
     float z1, z2;
-    float wc_; // 观测器带宽
+    float wc_;                   // 观测器带宽
     float target_, feedback_, e; // 反馈值和误差
-    float u;                       // 控制器输出
-    float b0_ = 1;                 // 控制器增益（调节单位用）
-    float beta1, beta2;     // ESO增益
-    float h_ = 0.001f;             // 采样周期
-		float max_;
+    float u;                     // 控制器输出
+    float b0_ = 1;               // 控制器增益（调节单位用）
+    float beta1, beta2;          // ESO增益
+    float h_ = 0.001f;           // 采样周期
+    float max_;
     /**
      * @brief 二阶线性扩张状态观测器（ESO）
      *

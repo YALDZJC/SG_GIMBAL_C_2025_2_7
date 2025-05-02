@@ -21,15 +21,18 @@ class Gimbal
     void pitchControl();
     void yawControl();
 
+    void sendCan();
+
     float filter_tar_yaw;
     float filter_tar_pitch;
 
     uint8_t is_sin;
     float sin_val;
     float sin_hz;
-		float b;
-	
-		uint32_t task_tick;
+    float b;
+    float yaw_feedford = 0.12;
+
+    uint32_t task_tick;
     PID pid_yaw_angle;
     Kpid_t kpid_yaw_angle;
 

@@ -2911,7 +2911,14 @@ I (D:\Keil5\ARM\ARMCLANG\include\libcxx\__algorithm\stable_sort.h)(0x625260B8)
 I (D:\Keil5\ARM\ARMCLANG\include\libcxx\__algorithm\transform.h)(0x625260B8)
 I (D:\Keil5\ARM\ARMCLANG\include\libcxx\__algorithm\unique.h)(0x625260B8)
 I (D:\Keil5\ARM\ARMCLANG\include\libcxx\__algorithm\unique_copy.h)(0x625260B8)
-I (..\User\APP\..\Algorithm\LADRC\Adrc.hpp)(0x6813908B)
+I (..\User\APP\..\Algorithm\LADRC\Adrc.hpp)(0x6813D922)
+F (..\User\APP\Heat_Detector\Heat_Detector.cpp)(0x681416BC)(-xc++ -std=c++17 --target=arm-arm-none-eabi -mcpu=cortex-m4 -mfpu=fpv4-sp-d16 -mfloat-abi=hard -c-fno-rtti -funsigned-char -fno-exceptions-gdwarf-4 -O0 -ffunction-sections -Wno-packed -Wno-missing-variable-declarations -Wno-missing-prototypes -Wno-missing-noreturn -Wno-sign-conversion -Wno-nonportable-include-path -Wno-reserved-id-macro -Wno-unused-macros -Wno-documentation-unknown-command -Wno-documentation -Wno-license-management -Wno-parentheses-equality -Wno-reserved-identifier -I ../Core/Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I ../Middlewares/Third_Party/FreeRTOS/Source/include -I ../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2 -I ../Middlewares/Third_Party/FreeRTOS/Source/portable/RVDS/ARM_CM4F -I ../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I ../Drivers/CMSIS/Include -I ../User -I ../USB_DEVICE/App -I ../USB_DEVICE/Target -I ../Middlewares/ST/STM32_USB_Device_Library/Core/Inc -I ../Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Inc-I./RTE/_SG_GIMBAL_C_2025_2_7-IC:/Users/Administrator.DESKTOP-IAACAVF/AppData/Local/Arm/Packs/ARM/CMSIS/6.1.0/CMSIS/Core/Include-IC:/Users/Administrator.DESKTOP-IAACAVF/AppData/Local/Arm/Packs/Keil/STM32F4xx_DFP/2.17.1/Drivers/CMSIS/Device/ST/STM32F4xx/Include-D__UVISION_VERSION="537" -D_RTE_ -DSTM32F407xx -D_RTE_ -DUSE_HAL_DRIVER -DSTM32F407xx-o sg_gimbal_c_2025_2_7/heat_detector.o -MD)
+I (..\User\..\User\APP\Heat_Detector\Heat_Detector.hpp)(0x681402A0)
+I (..\User\..\User\Algorithm\FSM\alg_fsm.hpp)(0x68132801)
+I (D:\Keil5\ARM\ARMCLANG\include\libcxx\stdint.h)(0x625260D6)
+I (D:\Keil5\ARM\ARMCLANG\include\libcxx\__config)(0x625260CE)
+I (D:\Keil5\ARM\ARMCLANG\include\stdint.h)(0x625260D8)
+I (..\User\..\User\Algorithm\SlidingWindow\SlidingWindow.hpp)(0x681417BD)
 F (..\User\Task\CommunicationTask.cpp)(0x6813B872)(-xc++ -std=c++17 --target=arm-arm-none-eabi -mcpu=cortex-m4 -mfpu=fpv4-sp-d16 -mfloat-abi=hard -c-fno-rtti -funsigned-char -fno-exceptions-gdwarf-4 -O0 -ffunction-sections -Wno-packed -Wno-missing-variable-declarations -Wno-missing-prototypes -Wno-missing-noreturn -Wno-sign-conversion -Wno-nonportable-include-path -Wno-reserved-id-macro -Wno-unused-macros -Wno-documentation-unknown-command -Wno-documentation -Wno-license-management -Wno-parentheses-equality -Wno-reserved-identifier -I ../Core/Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I ../Middlewares/Third_Party/FreeRTOS/Source/include -I ../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2 -I ../Middlewares/Third_Party/FreeRTOS/Source/portable/RVDS/ARM_CM4F -I ../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I ../Drivers/CMSIS/Include -I ../User -I ../USB_DEVICE/App -I ../USB_DEVICE/Target -I ../Middlewares/ST/STM32_USB_Device_Library/Core/Inc -I ../Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Inc-I./RTE/_SG_GIMBAL_C_2025_2_7-IC:/Users/Administrator.DESKTOP-IAACAVF/AppData/Local/Arm/Packs/ARM/CMSIS/6.1.0/CMSIS/Core/Include-IC:/Users/Administrator.DESKTOP-IAACAVF/AppData/Local/Arm/Packs/Keil/STM32F4xx_DFP/2.17.1/Drivers/CMSIS/Device/ST/STM32F4xx/Include-D__UVISION_VERSION="537" -D_RTE_ -DSTM32F407xx -D_RTE_ -DUSE_HAL_DRIVER -DSTM32F407xx-o sg_gimbal_c_2025_2_7/communicationtask.o -MD)
 I (..\User\Task\..\Task\CommunicationTask.hpp)(0x6813908B)
 I (..\User\Task\..\APP\Tools.hpp)(0x6813908B)
@@ -3221,9 +3228,9 @@ I (D:\Keil5\ARM\ARMCLANG\include\libcxx\__algorithm\unique.h)(0x625260B8)
 I (D:\Keil5\ARM\ARMCLANG\include\libcxx\__algorithm\unique_copy.h)(0x625260B8)
 I (..\User\Task\..\APP\Mod\RemoteModeManager.hpp)(0x6813ACEB)
 I (..\User\..\User\Task\CommunicationTask.hpp)(0x6813908B)
-I (..\User\Task\..\APP\Mod\IRemoteController.hpp)(0x6813908B)
-I (..\User\Task\..\APP\Mod\RemoteControl\DR16Controller.hpp)(0x6813B76B)
-I (..\User\Task\..\APP\Mod\RemoteControl\..\IRemoteController.hpp)(0x6813908B)
+I (..\User\Task\..\APP\Mod\IRemoteController.hpp)(0x6813D724)
+I (..\User\Task\..\APP\Mod\RemoteControl\DR16Controller.hpp)(0x6813D743)
+I (..\User\Task\..\APP\Mod\RemoteControl\..\IRemoteController.hpp)(0x6813D724)
 I (..\User\..\User\BSP\Remote\Dbus\Dbus.hpp)(0x68132801)
 I (..\User\..\User\BSP\StaticTime.hpp)(0x6813908B)
 I (..\Drivers\STM32F4xx_HAL_Driver\Inc\stm32f4xx_hal.h)(0x66FB9B26)
@@ -3263,7 +3270,7 @@ I (..\User\Task\..\APP\..\BSP\..\BSP\Remote\Key.hpp)(0x67BEF1D9)
 I (..\Core\Inc\usart.h)(0x67A52C17)
 I (..\Core\Inc\main.h)(0x67A52C18)
 I (..\User\..\User\Task\EvenTask.hpp)(0x67C5981A)
-I (..\User\Task\..\APP\Mod\RemoteControl\MiniController.hpp)(0x6813908B)
+I (..\User\Task\..\APP\Mod\RemoteControl\MiniController.hpp)(0x6813D6F1)
 I (..\Core\Inc\..\..\User\BSP\Remote\Mini\Mini.hpp)(0x68132801)
 I (..\Core\Inc\..\..\User\BSP\SimpleKey\SimpleKey.hpp)(0x68132801)
 I (..\User\Task\..\BSP\IMU\HI12H3_IMU.hpp)(0x6813908B)
@@ -3274,7 +3281,7 @@ I (..\User\Task\..\BSP\Motor\DM\..\MotorBase.hpp)(0x680D1777)
 I (..\User\Task\..\BSP\Motor\DM\..\..\CAN\Bsp_Can.hpp)(0x67C31543)
 I (..\Core\Inc\can.h)(0x67A52C17)
 I (..\User\Task\..\BSP\Motor\DM\..\..\StaticTime.hpp)(0x6813908B)
-I (..\User\Task\..\BSP\Motor\Dji\DjiMotor.hpp)(0x6813908B)
+I (..\User\Task\..\BSP\Motor\Dji\DjiMotor.hpp)(0x6813E0A4)
 I (..\User\Task\..\BSP\Motor\Dji\..\MotorBase.hpp)(0x680D1777)
 I (..\User\Task\..\BSP\Remote\Dbus\Dbus.hpp)(0x68132801)
 I (..\USB_DEVICE\App\usbd_cdc_if.h)(0x680D1777)
@@ -3631,7 +3638,7 @@ I (D:\Keil5\ARM\ARMCLANG\include\libcxx\__algorithm\stable_sort.h)(0x625260B8)
 I (D:\Keil5\ARM\ARMCLANG\include\libcxx\__algorithm\transform.h)(0x625260B8)
 I (D:\Keil5\ARM\ARMCLANG\include\libcxx\__algorithm\unique.h)(0x625260B8)
 I (D:\Keil5\ARM\ARMCLANG\include\libcxx\__algorithm\unique_copy.h)(0x625260B8)
-I (..\User\Task\..\APP\..\Algorithm\LADRC\Adrc.hpp)(0x6813908B)
+I (..\User\Task\..\APP\..\Algorithm\LADRC\Adrc.hpp)(0x6813D922)
 I (..\User\Task\..\BSP\IMU\HI12H3_IMU.hpp)(0x6813908B)
 I (..\User\Task\..\BSP\IMU\..\StaticTime.hpp)(0x6813908B)
 I (..\User\Task\..\APP\..\Algorithm\..\BSP\..\BSP\stdxxx.hpp)(0x678CD51B)
@@ -3641,7 +3648,7 @@ I (..\User\Task\..\BSP\Motor\DM\DmMotor.hpp)(0x6813908B)
 I (..\User\Task\..\BSP\Motor\DM\..\MotorBase.hpp)(0x680D1777)
 I (..\User\Task\..\BSP\Motor\DM\..\..\CAN\Bsp_Can.hpp)(0x67C31543)
 I (..\User\Task\..\BSP\Motor\DM\..\..\StaticTime.hpp)(0x6813908B)
-I (..\User\Task\..\BSP\Motor\Dji\DjiMotor.hpp)(0x6813908B)
+I (..\User\Task\..\BSP\Motor\Dji\DjiMotor.hpp)(0x6813E0A4)
 I (..\User\Task\..\BSP\Motor\Dji\..\MotorBase.hpp)(0x680D1777)
 I (..\User\Task\..\BSP\Remote\Dbus\Dbus.hpp)(0x68132801)
 I (..\User\..\User\BSP\StaticTime.hpp)(0x6813908B)
@@ -3649,8 +3656,8 @@ I (..\User\Task\..\BSP\Remote\Mini\Mini.hpp)(0x68132801)
 I (..\User\Task\..\HAL\My_HAL.hpp)(0x67BEF1D9)
 I (..\User\Task\..\HAL\..\BSP\CAN\Bsp_Can.hpp)(0x67C31543)
 I (..\Core\Inc\gpio.h)(0x67A52C15)
-F (..\User\Task\GimbalTask.cpp)(0x6813BA9A)(-xc++ -std=c++17 --target=arm-arm-none-eabi -mcpu=cortex-m4 -mfpu=fpv4-sp-d16 -mfloat-abi=hard -c-fno-rtti -funsigned-char -fno-exceptions-gdwarf-4 -O0 -ffunction-sections -Wno-packed -Wno-missing-variable-declarations -Wno-missing-prototypes -Wno-missing-noreturn -Wno-sign-conversion -Wno-nonportable-include-path -Wno-reserved-id-macro -Wno-unused-macros -Wno-documentation-unknown-command -Wno-documentation -Wno-license-management -Wno-parentheses-equality -Wno-reserved-identifier -I ../Core/Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I ../Middlewares/Third_Party/FreeRTOS/Source/include -I ../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2 -I ../Middlewares/Third_Party/FreeRTOS/Source/portable/RVDS/ARM_CM4F -I ../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I ../Drivers/CMSIS/Include -I ../User -I ../USB_DEVICE/App -I ../USB_DEVICE/Target -I ../Middlewares/ST/STM32_USB_Device_Library/Core/Inc -I ../Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Inc-I./RTE/_SG_GIMBAL_C_2025_2_7-IC:/Users/Administrator.DESKTOP-IAACAVF/AppData/Local/Arm/Packs/ARM/CMSIS/6.1.0/CMSIS/Core/Include-IC:/Users/Administrator.DESKTOP-IAACAVF/AppData/Local/Arm/Packs/Keil/STM32F4xx_DFP/2.17.1/Drivers/CMSIS/Device/ST/STM32F4xx/Include-D__UVISION_VERSION="537" -D_RTE_ -DSTM32F407xx -D_RTE_ -DUSE_HAL_DRIVER -DSTM32F407xx-o sg_gimbal_c_2025_2_7/gimbaltask.o -MD)
-I (..\User\Task\..\Task\GimbalTask.hpp)(0x6813908B)
+F (..\User\Task\GimbalTask.cpp)(0x6814111C)(-xc++ -std=c++17 --target=arm-arm-none-eabi -mcpu=cortex-m4 -mfpu=fpv4-sp-d16 -mfloat-abi=hard -c-fno-rtti -funsigned-char -fno-exceptions-gdwarf-4 -O0 -ffunction-sections -Wno-packed -Wno-missing-variable-declarations -Wno-missing-prototypes -Wno-missing-noreturn -Wno-sign-conversion -Wno-nonportable-include-path -Wno-reserved-id-macro -Wno-unused-macros -Wno-documentation-unknown-command -Wno-documentation -Wno-license-management -Wno-parentheses-equality -Wno-reserved-identifier -I ../Core/Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I ../Middlewares/Third_Party/FreeRTOS/Source/include -I ../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2 -I ../Middlewares/Third_Party/FreeRTOS/Source/portable/RVDS/ARM_CM4F -I ../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I ../Drivers/CMSIS/Include -I ../User -I ../USB_DEVICE/App -I ../USB_DEVICE/Target -I ../Middlewares/ST/STM32_USB_Device_Library/Core/Inc -I ../Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Inc-I./RTE/_SG_GIMBAL_C_2025_2_7-IC:/Users/Administrator.DESKTOP-IAACAVF/AppData/Local/Arm/Packs/ARM/CMSIS/6.1.0/CMSIS/Core/Include-IC:/Users/Administrator.DESKTOP-IAACAVF/AppData/Local/Arm/Packs/Keil/STM32F4xx_DFP/2.17.1/Drivers/CMSIS/Device/ST/STM32F4xx/Include-D__UVISION_VERSION="537" -D_RTE_ -DSTM32F407xx -D_RTE_ -DUSE_HAL_DRIVER -DSTM32F407xx-o sg_gimbal_c_2025_2_7/gimbaltask.o -MD)
+I (..\User\Task\..\Task\GimbalTask.hpp)(0x6813D2FE)
 I (D:\Keil5\ARM\ARMCLANG\include\libcxx\memory)(0x625260D6)
 I (D:\Keil5\ARM\ARMCLANG\include\libcxx\__config)(0x625260CE)
 I (D:\Keil5\ARM\ARMCLANG\include\libcxx\__functional_base)(0x625260D4)
@@ -3965,7 +3972,7 @@ I (D:\Keil5\ARM\ARMCLANG\include\libcxx\ctype.h)(0x625260D6)
 I (D:\Keil5\ARM\ARMCLANG\include\ctype.h)(0x625260D6)
 I (D:\Keil5\ARM\ARMCLANG\include\libcxx\wctype.h)(0x625260D6)
 I (D:\Keil5\ARM\ARMCLANG\include\wctype.h)(0x625260D6)
-I (..\User\Task\..\Algorithm\LADRC\Adrc.hpp)(0x6813908B)
+I (..\User\Task\..\Algorithm\LADRC\Adrc.hpp)(0x6813D922)
 I (..\User\Task\..\Algorithm\PID.hpp)(0x680CFADC)
 I (..\User\Task\..\Algorithm\..\BSP\stdxxx.hpp)(0x678CD51B)
 I (..\User\Task\..\APP\Key\KeyBroad.hpp)(0x68139941)
@@ -3977,7 +3984,7 @@ I (..\User\..\User\APP\..\Algorithm\PID.hpp)(0x680CFADC)
 I (..\User\..\User\APP\..\Algorithm\Ude.hpp)(0x6813908B)
 I (..\User\..\User\APP\..\Task\EvenTask.hpp)(0x67C5981A)
 I (D:\Keil5\ARM\ARMCLANG\include\libcxx\list)(0x625260D6)
-I (..\User\..\User\APP\..\Algorithm\LADRC\Adrc.hpp)(0x6813908B)
+I (..\User\..\User\APP\..\Algorithm\LADRC\Adrc.hpp)(0x6813D922)
 I (..\User\Task\..\BSP\IMU\HI12H3_IMU.hpp)(0x6813908B)
 I (..\User\Task\..\BSP\IMU\..\StaticTime.hpp)(0x6813908B)
 I (..\Drivers\STM32F4xx_HAL_Driver\Inc\stm32f4xx_hal.h)(0x66FB9B26)
@@ -4022,7 +4029,7 @@ I (..\User\Task\..\BSP\Motor\DM\..\MotorBase.hpp)(0x680D1777)
 I (..\User\Task\..\BSP\Motor\DM\..\..\CAN\Bsp_Can.hpp)(0x67C31543)
 I (..\Core\Inc\can.h)(0x67A52C17)
 I (..\User\Task\..\BSP\Motor\DM\..\..\StaticTime.hpp)(0x6813908B)
-I (..\User\Task\..\BSP\Motor\Dji\DjiMotor.hpp)(0x6813908B)
+I (..\User\Task\..\BSP\Motor\Dji\DjiMotor.hpp)(0x6813E0A4)
 I (..\User\Task\..\BSP\Motor\Dji\..\MotorBase.hpp)(0x680D1777)
 I (..\User\Task\..\BSP\Remote\Mini\Mini.hpp)(0x68132801)
 I (..\User\Task\..\Task\CommunicationTask.hpp)(0x6813908B)
@@ -4031,13 +4038,13 @@ I (..\User\Task\..\BSP\stdxxx.hpp)(0x678CD51B)
 I (..\User\Task\..\Task\EvenTask.hpp)(0x67C5981A)
 I (..\User\Task\..\APP\Mod\RemoteModeManager.hpp)(0x6813ACEB)
 I (..\User\..\User\Task\CommunicationTask.hpp)(0x6813908B)
-I (..\User\Task\..\APP\Mod\IRemoteController.hpp)(0x6813908B)
-I (..\User\Task\..\APP\Mod\RemoteControl\DR16Controller.hpp)(0x6813B76B)
-I (..\User\Task\..\APP\Mod\RemoteControl\..\IRemoteController.hpp)(0x6813908B)
+I (..\User\Task\..\APP\Mod\IRemoteController.hpp)(0x6813D724)
+I (..\User\Task\..\APP\Mod\RemoteControl\DR16Controller.hpp)(0x6813D743)
+I (..\User\Task\..\APP\Mod\RemoteControl\..\IRemoteController.hpp)(0x6813D724)
 I (..\User\..\User\BSP\Remote\Dbus\Dbus.hpp)(0x68132801)
 I (..\User\..\User\BSP\StaticTime.hpp)(0x6813908B)
 I (..\User\..\User\Task\EvenTask.hpp)(0x67C5981A)
-I (..\User\Task\..\APP\Mod\RemoteControl\MiniController.hpp)(0x6813908B)
+I (..\User\Task\..\APP\Mod\RemoteControl\MiniController.hpp)(0x6813D6F1)
 I (..\Core\Inc\..\..\User\BSP\Remote\Mini\Mini.hpp)(0x68132801)
 I (..\Core\Inc\..\..\User\BSP\SimpleKey\SimpleKey.hpp)(0x68132801)
 I (..\User\Task\..\BSP\DWT\DWT.hpp)(0x68132801)
@@ -4345,7 +4352,7 @@ I (D:\Keil5\ARM\ARMCLANG\include\libcxx\__algorithm\stable_sort.h)(0x625260B8)
 I (D:\Keil5\ARM\ARMCLANG\include\libcxx\__algorithm\transform.h)(0x625260B8)
 I (D:\Keil5\ARM\ARMCLANG\include\libcxx\__algorithm\unique.h)(0x625260B8)
 I (D:\Keil5\ARM\ARMCLANG\include\libcxx\__algorithm\unique_copy.h)(0x625260B8)
-I (..\User\Task\..\Algorithm\LADRC\Adrc.hpp)(0x6813908B)
+I (..\User\Task\..\Algorithm\LADRC\Adrc.hpp)(0x6813D922)
 I (..\User\Task\..\APP\Buzzer.hpp)(0x67BEF1D9)
 I (..\User\Task\..\APP\..\BSP\stdxxx.hpp)(0x678CD51B)
 I (..\User\Task\..\APP\..\Task\EvenTask.hpp)(0x67C5981A)
@@ -4354,7 +4361,7 @@ I (..\User\Task\..\APP\Variable.hpp)(0x6813908B)
 I (..\User\Task\..\APP\..\Algorithm\PID.hpp)(0x680CFADC)
 I (..\User\Task\..\APP\..\Algorithm\..\BSP\stdxxx.hpp)(0x678CD51B)
 I (..\User\Task\..\APP\..\Algorithm\Ude.hpp)(0x6813908B)
-I (..\User\Task\..\APP\..\Algorithm\LADRC\Adrc.hpp)(0x6813908B)
+I (..\User\Task\..\APP\..\Algorithm\LADRC\Adrc.hpp)(0x6813D922)
 I (..\User\Task\..\BSP\IMU\HI12H3_IMU.hpp)(0x6813908B)
 I (..\User\Task\..\BSP\IMU\..\StaticTime.hpp)(0x6813908B)
 I (..\Drivers\STM32F4xx_HAL_Driver\Inc\stm32f4xx_hal.h)(0x66FB9B26)
@@ -4403,17 +4410,20 @@ I (..\User\Task\..\BSP\Motor\DM\DmMotor.hpp)(0x6813908B)
 I (..\User\Task\..\BSP\Motor\DM\..\MotorBase.hpp)(0x680D1777)
 I (..\User\Task\..\BSP\Motor\DM\..\..\CAN\Bsp_Can.hpp)(0x67C31543)
 I (..\User\Task\..\BSP\Motor\DM\..\..\StaticTime.hpp)(0x6813908B)
-I (..\User\Task\..\BSP\Motor\Dji\DjiMotor.hpp)(0x6813908B)
+I (..\User\Task\..\BSP\Motor\Dji\DjiMotor.hpp)(0x6813E0A4)
 I (..\User\Task\..\BSP\Motor\Dji\..\MotorBase.hpp)(0x680D1777)
 I (..\Middlewares\Third_Party\FreeRTOS\Source\CMSIS_RTOS_V2\cmsis_os2.h)(0x66FB9AB3)
 I (..\Core\Inc\tim.h)(0x680D03F1)
-F (..\User\Task\ShootTask.cpp)(0x6813A47A)(-xc++ -std=c++17 --target=arm-arm-none-eabi -mcpu=cortex-m4 -mfpu=fpv4-sp-d16 -mfloat-abi=hard -c-fno-rtti -funsigned-char -fno-exceptions-gdwarf-4 -O0 -ffunction-sections -Wno-packed -Wno-missing-variable-declarations -Wno-missing-prototypes -Wno-missing-noreturn -Wno-sign-conversion -Wno-nonportable-include-path -Wno-reserved-id-macro -Wno-unused-macros -Wno-documentation-unknown-command -Wno-documentation -Wno-license-management -Wno-parentheses-equality -Wno-reserved-identifier -I ../Core/Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I ../Middlewares/Third_Party/FreeRTOS/Source/include -I ../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2 -I ../Middlewares/Third_Party/FreeRTOS/Source/portable/RVDS/ARM_CM4F -I ../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I ../Drivers/CMSIS/Include -I ../User -I ../USB_DEVICE/App -I ../USB_DEVICE/Target -I ../Middlewares/ST/STM32_USB_Device_Library/Core/Inc -I ../Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Inc-I./RTE/_SG_GIMBAL_C_2025_2_7-IC:/Users/Administrator.DESKTOP-IAACAVF/AppData/Local/Arm/Packs/ARM/CMSIS/6.1.0/CMSIS/Core/Include-IC:/Users/Administrator.DESKTOP-IAACAVF/AppData/Local/Arm/Packs/Keil/STM32F4xx_DFP/2.17.1/Drivers/CMSIS/Device/ST/STM32F4xx/Include-D__UVISION_VERSION="537" -D_RTE_ -DSTM32F407xx -D_RTE_ -DUSE_HAL_DRIVER -DSTM32F407xx-o sg_gimbal_c_2025_2_7/shoottask.o -MD)
-I (..\User\Task\..\Task\ShootTask.hpp)(0x6813908B)
-I (..\User\Task\..\Algorithm\FSM\alg_fsm.hpp)(0x68132801)
+F (..\User\Task\ShootTask.cpp)(0x6814163A)(-xc++ -std=c++17 --target=arm-arm-none-eabi -mcpu=cortex-m4 -mfpu=fpv4-sp-d16 -mfloat-abi=hard -c-fno-rtti -funsigned-char -fno-exceptions-gdwarf-4 -O0 -ffunction-sections -Wno-packed -Wno-missing-variable-declarations -Wno-missing-prototypes -Wno-missing-noreturn -Wno-sign-conversion -Wno-nonportable-include-path -Wno-reserved-id-macro -Wno-unused-macros -Wno-documentation-unknown-command -Wno-documentation -Wno-license-management -Wno-parentheses-equality -Wno-reserved-identifier -I ../Core/Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I ../Middlewares/Third_Party/FreeRTOS/Source/include -I ../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2 -I ../Middlewares/Third_Party/FreeRTOS/Source/portable/RVDS/ARM_CM4F -I ../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I ../Drivers/CMSIS/Include -I ../User -I ../USB_DEVICE/App -I ../USB_DEVICE/Target -I ../Middlewares/ST/STM32_USB_Device_Library/Core/Inc -I ../Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Inc-I./RTE/_SG_GIMBAL_C_2025_2_7-IC:/Users/Administrator.DESKTOP-IAACAVF/AppData/Local/Arm/Packs/ARM/CMSIS/6.1.0/CMSIS/Core/Include-IC:/Users/Administrator.DESKTOP-IAACAVF/AppData/Local/Arm/Packs/Keil/STM32F4xx_DFP/2.17.1/Drivers/CMSIS/Device/ST/STM32F4xx/Include-D__UVISION_VERSION="537" -D_RTE_ -DSTM32F407xx -D_RTE_ -DUSE_HAL_DRIVER -DSTM32F407xx-o sg_gimbal_c_2025_2_7/shoottask.o -MD)
+I (..\User\Task\..\Task\ShootTask.hpp)(0x6813FE7B)
+I (..\User\Task\..\APP\Heat_Detector\Heat_Detector.hpp)(0x681402A0)
+I (..\User\..\User\Algorithm\FSM\alg_fsm.hpp)(0x68132801)
 I (D:\Keil5\ARM\ARMCLANG\include\libcxx\stdint.h)(0x625260D6)
 I (D:\Keil5\ARM\ARMCLANG\include\libcxx\__config)(0x625260CE)
 I (D:\Keil5\ARM\ARMCLANG\include\stdint.h)(0x625260D8)
-I (..\User\Task\..\Algorithm\LADRC\Adrc.hpp)(0x6813908B)
+I (..\User\..\User\Algorithm\SlidingWindow\SlidingWindow.hpp)(0x681417BD)
+I (..\User\Task\..\Algorithm\FSM\alg_fsm.hpp)(0x68132801)
+I (..\User\Task\..\Algorithm\LADRC\Adrc.hpp)(0x6813D922)
 I (D:\Keil5\ARM\ARMCLANG\include\libcxx\cmath)(0x625260D6)
 I (D:\Keil5\ARM\ARMCLANG\include\libcxx\math.h)(0x625260D6)
 I (D:\Keil5\ARM\ARMCLANG\include\math.h)(0x625260D6)
@@ -4719,9 +4729,9 @@ I (D:\Keil5\ARM\ARMCLANG\include\libcxx\__algorithm\unique.h)(0x625260B8)
 I (D:\Keil5\ARM\ARMCLANG\include\libcxx\__algorithm\unique_copy.h)(0x625260B8)
 I (..\User\Task\..\APP\Mod\RemoteModeManager.hpp)(0x6813ACEB)
 I (..\User\..\User\Task\CommunicationTask.hpp)(0x6813908B)
-I (..\User\Task\..\APP\Mod\IRemoteController.hpp)(0x6813908B)
-I (..\User\Task\..\APP\Mod\RemoteControl\DR16Controller.hpp)(0x6813B76B)
-I (..\User\Task\..\APP\Mod\RemoteControl\..\IRemoteController.hpp)(0x6813908B)
+I (..\User\Task\..\APP\Mod\IRemoteController.hpp)(0x6813D724)
+I (..\User\Task\..\APP\Mod\RemoteControl\DR16Controller.hpp)(0x6813D743)
+I (..\User\Task\..\APP\Mod\RemoteControl\..\IRemoteController.hpp)(0x6813D724)
 I (..\User\..\User\BSP\Remote\Dbus\Dbus.hpp)(0x68132801)
 I (..\User\..\User\BSP\StaticTime.hpp)(0x6813908B)
 I (..\Drivers\STM32F4xx_HAL_Driver\Inc\stm32f4xx_hal.h)(0x66FB9B26)
@@ -4761,13 +4771,10 @@ I (..\User\Task\..\APP\..\BSP\..\BSP\Remote\Key.hpp)(0x67BEF1D9)
 I (..\Core\Inc\usart.h)(0x67A52C17)
 I (..\Core\Inc\main.h)(0x67A52C18)
 I (..\User\..\User\Task\EvenTask.hpp)(0x67C5981A)
-I (..\User\Task\..\APP\Mod\RemoteControl\MiniController.hpp)(0x6813908B)
+I (..\User\Task\..\APP\Mod\RemoteControl\MiniController.hpp)(0x6813D6F1)
 I (..\Core\Inc\..\..\User\BSP\Remote\Mini\Mini.hpp)(0x68132801)
 I (..\Core\Inc\..\..\User\BSP\SimpleKey\SimpleKey.hpp)(0x68132801)
-I (..\User\Task\..\APP\Heat_Detector\Heat_Detector.hpp)(0x68132801)
-I (..\User\..\User\Algorithm\FSM\alg_fsm.hpp)(0x68132801)
-I (..\User\..\User\Algorithm\SlidingWindow\SlidingWindow.hpp)(0x68132801)
-I (..\User\Task\..\BSP\Motor\Dji\DjiMotor.hpp)(0x6813908B)
+I (..\User\Task\..\BSP\Motor\Dji\DjiMotor.hpp)(0x6813E0A4)
 I (..\User\Task\..\BSP\Motor\Dji\..\MotorBase.hpp)(0x680D1777)
 I (..\User\Task\..\BSP\Motor\Dji\..\..\CAN\Bsp_Can.hpp)(0x67C31543)
 I (..\Core\Inc\can.h)(0x67A52C17)
@@ -4793,7 +4800,7 @@ I (D:\Keil5\ARM\ARMCLANG\include\stdlib.h)(0x625260D6)
 I (D:\Keil5\ARM\ARMCLANG\include\libcxx\string.h)(0x625260D6)
 I (D:\Keil5\ARM\ARMCLANG\include\string.h)(0x625260D6)
 F (..\User\Algorithm\LADRC\Adrc.cpp)(0x6813908B)(-xc++ -std=c++17 --target=arm-arm-none-eabi -mcpu=cortex-m4 -mfpu=fpv4-sp-d16 -mfloat-abi=hard -c-fno-rtti -funsigned-char -fno-exceptions-gdwarf-4 -O0 -ffunction-sections -Wno-packed -Wno-missing-variable-declarations -Wno-missing-prototypes -Wno-missing-noreturn -Wno-sign-conversion -Wno-nonportable-include-path -Wno-reserved-id-macro -Wno-unused-macros -Wno-documentation-unknown-command -Wno-documentation -Wno-license-management -Wno-parentheses-equality -Wno-reserved-identifier -I ../Core/Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I ../Middlewares/Third_Party/FreeRTOS/Source/include -I ../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2 -I ../Middlewares/Third_Party/FreeRTOS/Source/portable/RVDS/ARM_CM4F -I ../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I ../Drivers/CMSIS/Include -I ../User -I ../USB_DEVICE/App -I ../USB_DEVICE/Target -I ../Middlewares/ST/STM32_USB_Device_Library/Core/Inc -I ../Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Inc-I./RTE/_SG_GIMBAL_C_2025_2_7-IC:/Users/Administrator.DESKTOP-IAACAVF/AppData/Local/Arm/Packs/ARM/CMSIS/6.1.0/CMSIS/Core/Include-IC:/Users/Administrator.DESKTOP-IAACAVF/AppData/Local/Arm/Packs/Keil/STM32F4xx_DFP/2.17.1/Drivers/CMSIS/Device/ST/STM32F4xx/Include-D__UVISION_VERSION="537" -D_RTE_ -DSTM32F407xx -D_RTE_ -DUSE_HAL_DRIVER -DSTM32F407xx-o sg_gimbal_c_2025_2_7/adrc.o -MD)
-I (..\User\..\User\Algorithm\LADRC\Adrc.hpp)(0x6813908B)
+I (..\User\..\User\Algorithm\LADRC\Adrc.hpp)(0x6813D922)
 I (D:\Keil5\ARM\ARMCLANG\include\libcxx\cmath)(0x625260D6)
 I (D:\Keil5\ARM\ARMCLANG\include\libcxx\__config)(0x625260CE)
 I (D:\Keil5\ARM\ARMCLANG\include\libcxx\math.h)(0x625260D6)
