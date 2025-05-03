@@ -1,5 +1,4 @@
 #include "../Task/GimbalTask.hpp"
-#include "../APP/Key/KeyBroad.hpp"
 
 #include "../APP/Data/GimbalData.hpp"
 #include "../APP/Variable.hpp"
@@ -21,8 +20,8 @@ void GimbalTask(void *argument)
 {
     for (;;)
     {
-        auto *remote = Mode::RemoteModeManager::Instance().getActiveController();
-        remote->update();
+
+
         gimbal.upDate();
         osDelay(5);
     }
@@ -32,9 +31,9 @@ void GimbalTask(void *argument)
 Gimbal::Gimbal()
     : adrc_yaw_vel(Alg::LADRC::TDquadratic(100, 0.005), 12, 40, 0.15, 0.005, 16384),
       // 速度pid的积分
-      pid_yaw_angle{0, 0}, pid_yaw_vel{0, 0},
+      pid_yaw_angle{0, 0},
       // pid的k值
-      kpid_yaw_angle{5, 0, 0}, kpid_yaw_vel{0, 0, 0},
+      kpid_yaw_angle{5, 0, 0},
       // 滤波器初始化
       td_yaw_vel{200, 0.001}
 {
@@ -61,7 +60,7 @@ void Gimbal::modSwitch()
     auto remote_ry = remote->getRightY();
 
     //  赋值
-    filter_tar_yaw += remote_rx * 0.1f;
+    filter_tar_yaw += remote_rx;
     filter_tar_pitch += remote_ry * 0.1f;
 
     if (remote->isVisionMode())
@@ -92,6 +91,9 @@ void Gimbal::modSwitch()
         filter_tar_yaw = BSP::IMU::imu.getAddYaw();
         filter_tar_pitch = BSP::Motor::DM::Motor4310.getAddAngleDeg(1);
     }
+
+    filter_tar_pitch = Tools.clamp(filter_tar_pitch, 19.0f, -13.0f);
+
     tar_yaw.Calc(filter_tar_yaw);
     tar_pitch.Calc(filter_tar_pitch);
 
@@ -137,13 +139,11 @@ void Gimbal::pitchControl()
     auto *remote = Mode::RemoteModeManager::Instance().getActiveController();
     if (remote->isStopMode())
     {
-
     }
     else
     {
         BSP::Motor::DM::Motor4310.ctrl_Motor(&hcan2, 1, tar_pitch.x1 * 0.0174532f, 0, 100, 3, 0);
     }
-
 }
 
 void Gimbal::sendCan()
@@ -157,5 +157,4 @@ void Gimbal::sendCan()
 
     BSP::Motor::Dji::Motor6020.setCAN(adrc_yaw_vel.getU(), 1); // 设置电机扭矩
     BSP::Motor::Dji::Motor6020.sendCAN(&hcan1, 0);             // 发送数据
-
 }

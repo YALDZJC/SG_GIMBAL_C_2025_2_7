@@ -2,6 +2,7 @@
 
 #include "../IRemoteController.hpp"
 #include "../User/BSP/Remote/Dbus/Dbus.hpp"
+#include "../User/Task/CommunicationTask.hpp"
 #include "../User/Task/EvenTask.hpp"
 
 namespace Mode
@@ -21,7 +22,8 @@ class DR16RemoteController : public IRemoteController
 
     bool isVisionMode() const override
     {
-        return (dr16.switchLeft() != Dr16::Switch::MIDDLE) && (dr16.switchRight() == Dr16::Switch::MIDDLE);
+        return (dr16.switchLeft() != Dr16::Switch::MIDDLE) && (dr16.switchRight() == Dr16::Switch::MIDDLE) &&
+               (Communicat::vision.getVisionReady() == true);
     }
 
     bool isLaunchMode() const override
@@ -88,6 +90,11 @@ class DR16RemoteController : public IRemoteController
     float getSw() const override
     {
         return dr16.sw();
+    }
+
+    BSP::Remote::Keyboard getKeybroad() const override
+    {
+        return dr16.keyBoard();
     }
 
     void update() override

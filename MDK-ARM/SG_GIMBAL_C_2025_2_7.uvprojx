@@ -872,6 +872,11 @@
               <FileType>8</FileType>
               <FilePath>..\User\Task\ShootTask.cpp</FilePath>
             </File>
+            <File>
+              <FileName>RemoteSwitchTask.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>..\User\Task\RemoteSwitch\RemoteSwitchTask.cpp</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>

@@ -24,121 +24,6 @@ namespace SW
 {
 
 /**
- * @brief 滑动窗口积分计算类
- *
- * 该类用于计算固定大小窗口内数据的积分，
- * 只对窗口内的数据进行积分计算，当窗口满时会自动移除最旧的数据。
- * 适合在定时器中调用，如在1000Hz的定时器中使用大小为100的滑动窗口可实现100ms的积分。
- *
- * @tparam T 数据类型
- * @tparam Max_Size 滑动窗口大小
- */
-template <typename T = float, uint32_t Max_Size = 200> class Class_SlidingWindow
-{
-  public:
-    /**
-     * @brief 初始化滑动窗口
-     */
-    void Init()
-    {
-        Front = 0;
-        Rear = 0;
-        Length = 0;
-        Integral = 0;
-    }
-
-    /**
-     * @brief 添加数据点并更新积分
-     *
-     * @param __Value 数据值
-     */
-    void Push(T __Value)
-    {
-        // 如果队列已满，移除最旧的数据
-        if (Length == Max_Size)
-        {
-            Integral -= Queue[Front];
-            Front = (Front + 1) % Max_Size;
-            Length--;
-        }
-
-        // 添加新数据到队列
-        if (Length == 0)
-        {
-            Front = 0;
-            Rear = 0;
-        }
-        else
-        {
-            Rear = (Rear + 1) % Max_Size;
-        }
-
-        Queue[Rear] = __Value;
-        Length++;
-
-        // 更新积分值
-        Integral += __Value;
-    }
-
-    /**
-     * @brief 获取当前窗口内数据的积分值
-     *
-     * @return 积分值
-     */
-    inline T Get_Integral() const
-    {
-        return Integral;
-    }
-
-    /**
-     * @brief 清空队列
-     */
-    inline void Clear()
-    {
-        Front = 0;
-        Rear = 0;
-        Length = 0;
-        Integral = 0;
-    }
-
-    /**
-     * @brief 获取窗口内数据点数量
-     *
-     * @return 数据点数量
-     */
-    inline uint32_t Get_Size() const
-    {
-        return Length;
-    }
-
-    /**
-     * @brief 检查窗口是否为空
-     *
-     * @return 若窗口为空则返回true，否则返回false
-     */
-    inline bool Is_Empty() const
-    {
-        return Length == 0;
-    }
-
-  private:
-    // 数据队列，直接存储值
-    T Queue[Max_Size];
-
-    // 队首位置
-    uint32_t Front = 0;
-
-    // 队尾位置
-    uint32_t Rear = 0;
-
-    // 当前队列长度
-    uint32_t Length = 0;
-
-    // 当前窗口积分值
-    T Integral = 0;
-};
-
-/**
  * @brief 滑动窗口检测器类
  *
  * 用于检测固定大小窗口内数据的累积值是否超过阈值
@@ -214,7 +99,6 @@ template <typename T, uint32_t MaxSize = 100> class SlidingWindowDetector
         tail_ = 0;
         count_ = 0;
         sum_ = 0;
-
     }
 
   private:

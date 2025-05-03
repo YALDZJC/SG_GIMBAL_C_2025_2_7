@@ -5,6 +5,7 @@
 #include "../../User/BSP/Remote/Mini/Mini.hpp"
 #include "../../User/BSP/SimpleKey/SimpleKey.hpp"
 #include "../IRemoteController.hpp"
+#include "../User/Task/CommunicationTask.hpp"
 
 namespace Mode
 {
@@ -35,7 +36,7 @@ class MiniRemoteController : public IRemoteController
     bool isVisionMode() const override
     {
         auto &remote = Mini::Instance();
-        return (remote.trigger() == Mini::Switch::UP);
+        return ((remote.trigger() == Mini::Switch::UP) && (Communicat::vision.getVisionReady() == true));
     }
 
     bool isLaunchMode() const override
@@ -54,12 +55,21 @@ class MiniRemoteController : public IRemoteController
         // 因为getClick不能在const成员函数中调用，我们需要创建一个非const的副本
         MiniRemoteController *nonConstThis = const_cast<MiniRemoteController *>(this);
 
-        // 短按返回true，长按返回false
+        // 如果检测到长按，解锁停止模式
         if (key_paused.getLongPress())
         {
-            return false; // 长按返回0
+            nonConstThis->key_paused.update(false); // 重置状态
+            return false;
         }
-        return nonConstThis->key_paused.getClick(); // 短按返回1
+
+        // 检查是否有点击事件发生，如果有则切换停止模式状态
+        if (nonConstThis->key_paused.getClick())
+        {
+            nonConstThis->stop_mode_active = !nonConstThis->stop_mode_active;
+        }
+
+        // 返回当前停止模式状态
+        return stop_mode_active;
     }
 
     bool isUniversalMode() const override
@@ -126,6 +136,12 @@ class MiniRemoteController : public IRemoteController
         return remote.sw().x;
     }
 
+    BSP::Remote::Keyboard getKeybroad() const override
+    {
+        auto &remote = Mini::Instance();
+        return remote.keyBoard();
+    }
+
     void update() override
     {
         auto &remote = Mini::Instance();
@@ -138,6 +154,8 @@ class MiniRemoteController : public IRemoteController
     APP::Key::SimpleKey key_paused;
     APP::Key::SimpleKey key_fn_left;
     APP::Key::SimpleKey key_fn_right;
+    
+    bool stop_mode_active = false; // 添加成员变量跟踪停止模式状态
 };
 
 } // namespace Mode

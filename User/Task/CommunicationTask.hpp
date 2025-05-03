@@ -175,6 +175,11 @@ class Vision
         return pitch_angle_ = rx_target.pitch_angle;
     }
 
+    bool getVisionReady()
+    {
+        return rx_other.vision_ready;
+    }
+
     void get_fire_num(int32_t *tar)
     {
         if (rx_other.fire == 1 && fire_flag == false)

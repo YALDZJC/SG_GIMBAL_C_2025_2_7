@@ -20,13 +20,17 @@ class SimpleKey
         lastKey = nowKey;
         nowKey = keyValue;
 
+        // 检测边沿
+        risingEdge = (nowKey && !lastKey);
+        fallingEdge = (!nowKey && lastKey);
+
         // 按下瞬间
-        if (nowKey && !lastKey)
+        if (risingEdge)
         {
             onKeyPress();
         }
         // 释放瞬间
-        else if (!nowKey && lastKey)
+        else if (fallingEdge)
         {
             onKeyRelease();
         }
@@ -52,6 +56,16 @@ class SimpleKey
     bool getToggleState() const
     {
         return toggleState;
+    }
+
+    bool getRisingEdge() const
+    {
+        return risingEdge;
+    }
+
+    bool getFallingEdge() const
+    {
+        return fallingEdge;
     }
 
   private:
@@ -95,6 +109,8 @@ class SimpleKey
     bool isLongPressDetected; // 长按检测标志
     bool toggleState;         // 开关状态
     bool isClick;             // 点击标志
+    bool risingEdge;          // 上升沿
+    bool fallingEdge;         // 下降沿
 };
 
-} // namespace BSP::Key
+} // namespace APP::Key

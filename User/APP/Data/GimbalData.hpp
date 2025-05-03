@@ -34,7 +34,6 @@ class GimbalData
 
     float getTarPitch()
     {
-        tar_pitch = Tools.clamp(tar_pitch, 23.0f, -8.0f);
 
         return tar_pitch;
     }

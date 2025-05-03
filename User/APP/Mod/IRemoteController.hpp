@@ -1,4 +1,5 @@
 #pragma once
+#include "../../BSP/Remote/Dbus/Dbus.hpp"
 
 namespace Mode
 {
@@ -33,6 +34,9 @@ class IRemoteController
     // 获取鼠标值
     virtual float getMouseVelX() const = 0;
     virtual float getMouseVelY() const = 0;
+
+    // 获取键盘值
+    virtual BSP::Remote::Keyboard getKeybroad() const = 0;
 
     virtual float getSw() const = 0;
 

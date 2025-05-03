@@ -33,14 +33,13 @@ class Gimbal
     float yaw_feedford = 0.12;
 
     uint32_t task_tick;
-    PID pid_yaw_angle;
-    Kpid_t kpid_yaw_angle;
 
-    PID pid_yaw_vel;
-    Kpid_t kpid_yaw_vel;
+    Kpid_t kpid_yaw_angle; // yaw轴pid增益
+
+    PID pid_yaw_angle; // yaw轴pid计算
 
     Alg::LADRC::TDquadratic td_yaw_vel;
-    Alg::LADRC::Adrc adrc_yaw_vel;
+    Alg::LADRC::Adrc adrc_yaw_vel; // adrc的速度环
 };
 
 // 将RTOS任务引至.c文件

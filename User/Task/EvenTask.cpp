@@ -7,10 +7,13 @@
 #include "../BSP/IMU/HI12H3_IMU.hpp"
 #include "../BSP/Remote/Dbus/Dbus.hpp"
 
+#include "../APP/KeyBorad/KeyBroad.hpp"
+#include "../APP/Mod/RemoteModeManager.hpp"
 #include "../BSP/CAN/Bsp_Can.hpp"
 #include "../BSP/Init.hpp"
 #include "../BSP/Motor/DM/DmMotor.hpp"
 #include "../BSP/Motor/Dji/DjiMotor.hpp"
+
 #include "cmsis_os2.h"
 #include "tim.h"
 
@@ -26,8 +29,10 @@ void EventTask(void *argument)
 
     for (;;)
     {
+
         Dir_Event.UpEvent();
-        osDelay(1);
+
+        osDelay(5);
     }
 }
 
@@ -53,7 +58,7 @@ bool Dir::Dir_Pitch()
     bool Dir = BSP::Motor::DM::Motor4310.ISDir();
 
     DirData.Pitch = BSP::Motor::DM::Motor4310.GetDir(1);
-	
+
     if (Dir == true)
     {
         BSP::Motor::DM::Motor4310.On(&hcan2, 1);

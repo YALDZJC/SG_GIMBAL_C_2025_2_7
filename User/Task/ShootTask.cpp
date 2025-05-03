@@ -1,5 +1,5 @@
 #include "../Task/ShootTask.hpp"
-#include "../Task/CommunicationTask.hpp"
+// #include "../Task/CommunicationTask.hpp"
 
 #include "../APP/Mod/RemoteModeManager.hpp"
 
@@ -113,8 +113,8 @@ void Class_ShootFSM::UpState()
 
         auto *remote = Mode::RemoteModeManager::Instance().getActiveController();
 
-        target_dail_omega = remote->getSw() * 20.0f; // 单位为20hz发弹频率
-        target_dail_omega = rpm_to_hz(target_dail_omega);
+        target_dail_omega = remote->getSw() * 20.0f;      // 单位为20hz发弹频率
+        target_dail_omega = rpm_to_hz(target_dail_omega); // 转换单位这里的单位是转轴转一圈的rpm
 
         HeatLimit();
         target_dail_omega = Heat_Limit.getNowFire();
@@ -183,8 +183,6 @@ void Class_ShootFSM::HeatLimit()
     Heat_Limit.setTargetFire(target_dail_omega);
 
     Heat_Limit.UpData();
-
-    // target_dail_omega = Heat_Limit.getNowFire();
 }
 
 void Class_ShootFSM::CAN_Send(void)
