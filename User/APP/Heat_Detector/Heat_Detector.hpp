@@ -29,8 +29,8 @@ class Class_FSM_Heat_Limit : public Class_FSM
 
     uint32_t fire_num; // 发射次数
 
-    float target_fire; // 期望发射量
-    float now_fire;    // 限制后的发射量
+    float target_fire = 15.0f; // 期望发射量
+    float now_fire = 15.0f;    // 限制后的发射量
 
     float heat_limit_snubber = 50.0f; // 热量缓冲阈值,避免热量过快上升,超过阈值会慢慢减少发射频率
     float heat_limit_stop = 20.0f;    // 停火阈值，超过会直接停止射击
@@ -89,11 +89,16 @@ class Class_FSM_Heat_Limit : public Class_FSM
      *
      * @param num
      */
-    void setTargetFire(float num)
+    void setTargetFire(float target)
     {
-        target_fire = num;
+        target_fire = target;
     }
 
+    /**
+     * @brief 获取限制后的发射速度
+     *
+     * @return float
+     */
     float getNowFire()
     {
         return now_fire;
@@ -107,6 +112,16 @@ class Class_FSM_Heat_Limit : public Class_FSM
     float getFireNum()
     {
         return fire_num;
+    }
+
+    float getNowHeat()
+    {
+        return now_heat;
+    }
+
+    float getMaxHeat()
+    {
+        return heat_limit;
     }
 
     void UpData(void);

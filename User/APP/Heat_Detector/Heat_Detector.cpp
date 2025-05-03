@@ -34,7 +34,7 @@ void Class_FSM_Heat_Limit::UpData()
             fire_num++;
         }
 
-        // 运行频率1000hz，后续可以考虑用变量
+        // 运行频率1000hz
         now_heat -= static_cast<float>(booster_heat_cd) * 0.001;
         if (now_heat < 0.0f)
             now_heat = 0.0f;

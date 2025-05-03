@@ -83,6 +83,9 @@ class Class_ShootFSM : public Class_FSM
     void CAN_Send(void);
     void HeatLimit();
 
+    //将期望发射频率转化为rpm(转轴)
+    float rpm_to_hz(float tar_hz);
+
   private:
     float target_Dail_torque = 0;
     float target_friction_L_torque = 0;

@@ -30,7 +30,7 @@ Class_ShootFSM::Class_ShootFSM()
     : adrc_friction_L_vel(Alg::LADRC::TDquadratic(200, 0.001), 10, 25, 1, 0.001, 16384),
       adrc_friction_R_vel(Alg::LADRC::TDquadratic(200, 0.001), 10, 25, 1, 0.001, 16384),
       adrc_Dail_vel(Alg::LADRC::TDquadratic(200, 0.001), 5, 40, 0.9, 0.001, 16384),
-      Heat_Limit(100, 10.0f) // 示例参数：窗口大小50，阈值10.0
+      Heat_Limit(100, 65.0f) // 示例参数：窗口大小50，阈值10.0
 {
     // 其他初始化逻辑（如果有）
 }
@@ -112,8 +112,12 @@ void Class_ShootFSM::UpState()
         adrc_friction_R_vel.setTarget(-target_friction_omega);
 
         auto *remote = Mode::RemoteModeManager::Instance().getActiveController();
-        target_dail_omega = remote->getSw() * 400.0f;
 
+        target_dail_omega = remote->getSw() * 20.0f; // 单位为20hz发弹频率
+        target_dail_omega = rpm_to_hz(target_dail_omega);
+
+        HeatLimit();
+        target_dail_omega = Heat_Limit.getNowFire();
         adrc_Dail_vel.setTarget(target_dail_omega);
 
         break;
@@ -152,7 +156,6 @@ void Class_ShootFSM::Control(void)
     target_Dail_torque = adrc_Dail_vel.getU();
 
     JammingFMS.UpState();
-    HeatLimit();
 
     // 拨盘发送
     //  Tools.vofaSend(adrc_Dail_vel.getZ1(), adrc_Dail_vel.getTarget(), adrc_Dail_vel.getFeedback(), 0, 0, 0);
@@ -161,8 +164,7 @@ void Class_ShootFSM::Control(void)
     //                adrc_friction_R_vel.getZ1(), adrc_friction_R_vel.getTarget(), adrc_friction_R_vel.getFeedback());
 
     // 火控
-    Tools.vofaSend(BSP::Motor::Dji::Motor3508.getTorque(1), BSP::Motor::Dji::Motor3508.getTorque(2),
-                   Heat_Limit.getCurSum(), Heat_Limit.getFireNum(), 0, 0);
+    Tools.vofaSend(Heat_Limit.getFireNum(), Heat_Limit.getNowHeat(), Heat_Limit.getMaxHeat(), 0, 0, 0);
 
     CAN_Send();
 }
@@ -178,9 +180,11 @@ void Class_ShootFSM::HeatLimit()
     Heat_Limit.setBoosterHeat(100, 10);
     Heat_Limit.setFrictionCurrent(CurL, CurR);
     Heat_Limit.setFrictionVel(velL, velR);
-    // Heat_Limit.setTargetFire();
+    Heat_Limit.setTargetFire(target_dail_omega);
 
     Heat_Limit.UpData();
+
+    // target_dail_omega = Heat_Limit.getNowFire();
 }
 
 void Class_ShootFSM::CAN_Send(void)
@@ -195,5 +199,19 @@ void Class_ShootFSM::CAN_Send(void)
 
     Motor_Friction.sendCAN(&hcan1, 1);
     //    Motor_Dail.sendCAN(&hcan1, 1);
+}
+
+float Class_ShootFSM::rpm_to_hz(float tar_hz)
+{
+    const int slots_per_rotation = 9;       // 拨盘每转一圈的槽位数
+    const double seconds_per_minute = 60.0; // 每分钟的秒数
+
+    // 计算每秒需要的转数
+    double rotations_per_second = tar_hz / slots_per_rotation;
+
+    // 转换为每分钟转数（RPM）
+    double rpm = rotations_per_second * seconds_per_minute;
+
+    return rpm;
 }
 } // namespace TASK::Shoot
