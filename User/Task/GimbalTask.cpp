@@ -20,8 +20,6 @@ void GimbalTask(void *argument)
 {
     for (;;)
     {
-
-
         gimbal.upDate();
         osDelay(5);
     }
@@ -65,13 +63,13 @@ void Gimbal::modSwitch()
 
     if (remote->isVisionMode())
     {
-        filter_tar_yaw = Communicat::vision.get_vision_yaw();
-        filter_tar_pitch = Communicat::vision.get_vision_pitch();
+        filter_tar_yaw = Communicat::vision.getTarYaw();
+        filter_tar_pitch = Communicat::vision.getTarPitch();
     }
     else if (remote->isKeyboardMode())
     {
-        filter_tar_yaw = remote->getMouseVelX();
-        filter_tar_pitch = remote->getMouseVelY();
+        filter_tar_yaw -= remote->getMouseVelX() * 100;
+        filter_tar_pitch -= remote->getMouseVelY() * 100;
     }
 
     if (is_sin == 0)
@@ -84,8 +82,8 @@ void Gimbal::modSwitch()
 
         filter_tar_yaw = sin_val;
     }
-    // 期望值滤波
 
+    // 期望值滤波
     if (remote->isStopMode())
     {
         filter_tar_yaw = BSP::IMU::imu.getAddYaw();

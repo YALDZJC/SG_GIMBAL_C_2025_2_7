@@ -82,10 +82,10 @@ const osThreadAttr_t shootTask_attributes = {
   .stack_size = 1024 * 4,
   .priority = (osPriority_t) osPriorityLow,
 };
-/* Definitions for RemoteSwitchTas */
-osThreadId_t RemoteSwitchTasHandle;
-const osThreadAttr_t RemoteSwitchTas_attributes = {
-  .name = "RemoteSwitchTas",
+/* Definitions for remoteSwitch */
+osThreadId_t remoteSwitchHandle;
+const osThreadAttr_t remoteSwitch_attributes = {
+  .name = "remoteSwitch",
   .stack_size = 128 * 4,
   .priority = (osPriority_t) osPriorityLow,
 };
@@ -100,7 +100,7 @@ extern void GimbalTask(void *argument);
 extern void CommunicationTask(void *argument);
 extern void EventTask(void *argument);
 extern void ShootTask(void *argument);
-extern void StartTask06(void *argument);
+extern void RemoteSwitchTask(void *argument);
 
 extern void MX_USB_DEVICE_Init(void);
 void MX_FREERTOS_Init(void); /* (MISRA C 2004 rule 8.1) */
@@ -147,8 +147,8 @@ void MX_FREERTOS_Init(void) {
   /* creation of shootTask */
   shootTaskHandle = osThreadNew(ShootTask, NULL, &shootTask_attributes);
 
-  /* creation of RemoteSwitchTas */
-  RemoteSwitchTasHandle = osThreadNew(StartTask06, NULL, &RemoteSwitchTas_attributes);
+  /* creation of remoteSwitch */
+  remoteSwitchHandle = osThreadNew(RemoteSwitchTask, NULL, &remoteSwitch_attributes);
 
   /* USER CODE BEGIN RTOS_THREADS */
   /* add threads, ... */

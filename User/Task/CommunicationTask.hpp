@@ -122,6 +122,7 @@ class Vision
     {
         float pitch_angle;
         float yaw_angle;
+
         float time;
     };
 
@@ -156,6 +157,7 @@ class Vision
     void Data_send();
     void dataReceive();
     void time_demo();
+
     float set_pitch_angle(float yaw_angle)
     {
         return yaw_angle_ = yaw_angle;
@@ -166,13 +168,13 @@ class Vision
         return pitch_angle_ = pitch_angle;
     }
 
-    float get_vision_yaw()
+    float getTarYaw()
     {
-        return yaw_angle_ = rx_target.yaw_angle;
+        return yaw_angle_;
     }
-    float get_vision_pitch()
+    float getTarPitch()
     {
-        return pitch_angle_ = rx_target.pitch_angle;
+        return pitch_angle_;
     }
 
     bool getVisionReady()

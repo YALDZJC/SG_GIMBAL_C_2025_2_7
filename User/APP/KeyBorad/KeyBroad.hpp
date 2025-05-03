@@ -58,7 +58,7 @@ class KeyBroad
     KeyBroad() = default;
 
     // 所有按键对象
-    SimpleKey keys_[KEY_COUNT];
+    BSP::Key::SimpleKey keys_[KEY_COUNT];
 };
 
 } // namespace APP::Key

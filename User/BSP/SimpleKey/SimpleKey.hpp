@@ -1,7 +1,7 @@
 #pragma once
 #include "stm32f4xx_hal.h"
 
-namespace APP::Key
+namespace BSP::Key
 {
 // 简化版按键处理类，每个实例只处理一个按键
 class SimpleKey
@@ -9,7 +9,8 @@ class SimpleKey
   public:
     // 构造函数
     SimpleKey()
-        : nowKey(false), lastKey(false), pressTime(0), isLongPressDetected(false), toggleState(false), isClick(false)
+        : nowKey(false), lastKey(false), pressTime(0), isLongPressDetected(false), toggleState(false), isClick(false),
+          clickState(false)
     {
     }
 
@@ -23,6 +24,9 @@ class SimpleKey
         // 检测边沿
         risingEdge = (nowKey && !lastKey);
         fallingEdge = (!nowKey && lastKey);
+
+        // 存储之前的点击状态
+        clickState = isClick;
 
         // 按下瞬间
         if (risingEdge)
@@ -41,28 +45,51 @@ class SimpleKey
         }
     }
 
-    // 获取点击状态（读取后自动清零）
-    bool getClick()
+    // 获取点击状态
+    bool getClick() const
     {
-        bool temp = isClick;
-        isClick = false;
-        return temp;
+        return clickState;
     }
 
+    /**
+     * @brief 获取长按状态（读取后自动清零）
+     *
+     * @return true
+     * @return false
+     */
     bool getLongPress() const
     {
         return isLongPressDetected;
     }
+
+    /**
+     * @brief 获取翻转状态
+     *
+     * @return true
+     * @return false
+     */
     bool getToggleState() const
     {
         return toggleState;
     }
 
+    /**
+     * @brief 获取上升沿状态
+     *
+     * @return true
+     * @return false
+     */
     bool getRisingEdge() const
     {
         return risingEdge;
     }
 
+    /**
+     * @brief 获取下降按键状态
+     *
+     * @return true
+     * @return false
+     */
     bool getFallingEdge() const
     {
         return fallingEdge;
@@ -108,9 +135,10 @@ class SimpleKey
     // 功能状态
     bool isLongPressDetected; // 长按检测标志
     bool toggleState;         // 开关状态
-    bool isClick;             // 点击标志
+    bool isClick;             // 点击标志（内部使用）
+    bool clickState;          // 点击状态（外部读取）
     bool risingEdge;          // 上升沿
     bool fallingEdge;         // 下降沿
 };
 
-} // namespace APP::Key
+} // namespace BSP::Key

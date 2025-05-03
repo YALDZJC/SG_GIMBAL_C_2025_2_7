@@ -842,6 +842,11 @@
               <FileType>8</FileType>
               <FilePath>..\User\APP\Heat_Detector\Heat_Detector.cpp</FilePath>
             </File>
+            <File>
+              <FileName>KeyBroad.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>..\User\APP\KeyBorad\KeyBroad.cpp</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>

@@ -133,11 +133,7 @@ void Class_ShootFSM::Control(void)
     auto velR = BSP::Motor::Dji::Motor3508.getVelocityRpm(2);
     auto DailVel = BSP::Motor::Dji::Motor2006.getVelocityRpm(1);
 
-    if (remote->isStopMode())
-    {
-        Now_Status_Serial = Booster_Status::DISABLE;
-    }
-    else if (remote->isLaunchMode())
+    if (remote->isLaunchMode())
     {
         Now_Status_Serial = Booster_Status::AUTO;
     }
@@ -146,7 +142,11 @@ void Class_ShootFSM::Control(void)
         Now_Status_Serial = Booster_Status::STOP;
     }
 
-    UpState();
+    if (remote->isStopMode())
+    {
+        Now_Status_Serial = Booster_Status::DISABLE;
+    }
+
 
     // 控制摩擦轮
     adrc_friction_L_vel.UpData(velL);
@@ -154,7 +154,8 @@ void Class_ShootFSM::Control(void)
     adrc_Dail_vel.UpData(DailVel);
 
     target_Dail_torque = adrc_Dail_vel.getU();
-
+    
+    UpState();
     JammingFMS.UpState();
 
     // 拨盘发送

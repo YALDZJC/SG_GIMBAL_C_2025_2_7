@@ -1,6 +1,6 @@
 #pragma once
-#ifndef APP_MINI_CONTROLLER_HPP
-#define APP_MINI_CONTROLLER_HPP
+#ifndef BSP_MINI_CONTROLLER_HPP
+#define BSP_MINI_CONTROLLER_HPP
 
 #include "../../User/BSP/Remote/Mini/Mini.hpp"
 #include "../../User/BSP/SimpleKey/SimpleKey.hpp"
@@ -19,10 +19,10 @@ class MiniRemoteController : public IRemoteController
   public:
     MiniRemoteController()
     {
-        // 初始化APP::Key::SimpleKey类
-        key_paused = APP::Key::SimpleKey();
-        key_fn_left = APP::Key::SimpleKey();
-        key_fn_right = APP::Key::SimpleKey();
+        // 初始化BSP::Key::SimpleKey类
+        key_paused = BSP::Key::SimpleKey();
+        key_fn_left = BSP::Key::SimpleKey();
+        key_fn_right = BSP::Key::SimpleKey();
     }
 
     bool isConnected() const override
@@ -33,6 +33,14 @@ class MiniRemoteController : public IRemoteController
         return remote.gear() != Mini::Gear::UNKNOWN;
     }
 
+    /**
+     * @brief 视觉模式为扳机键
+     * 并且视觉准备标志位要为true
+     * 并且视觉发送的绝对值大于0
+     *
+     * @return true
+     * @return false
+     */
     bool isVisionMode() const override
     {
         auto &remote = Mini::Instance();
@@ -52,20 +60,17 @@ class MiniRemoteController : public IRemoteController
 
     bool isStopMode() const override
     {
-        // 因为getClick不能在const成员函数中调用，我们需要创建一个非const的副本
-        MiniRemoteController *nonConstThis = const_cast<MiniRemoteController *>(this);
-
-        // 如果检测到长按，解锁停止模式
+        // 如果检测到长按，解锁停止模式并保持解锁状态
         if (key_paused.getLongPress())
         {
-            nonConstThis->key_paused.update(false); // 重置状态
+            stop_mode_active = false; // 长按解锁，更新状态变量
             return false;
         }
 
-        // 检查是否有点击事件发生，如果有则切换停止模式状态
-        if (nonConstThis->key_paused.getClick())
+        // 检查是否有点击事件发生，如果有则切换停止模式
+        if (key_paused.getClick())
         {
-            nonConstThis->stop_mode_active = !nonConstThis->stop_mode_active;
+            stop_mode_active = true; // 点击进入停止模式，更新状态变量
         }
 
         // 返回当前停止模式状态
@@ -151,13 +156,13 @@ class MiniRemoteController : public IRemoteController
     }
 
   private:
-    APP::Key::SimpleKey key_paused;
-    APP::Key::SimpleKey key_fn_left;
-    APP::Key::SimpleKey key_fn_right;
-    
-    bool stop_mode_active = false; // 添加成员变量跟踪停止模式状态
+    BSP::Key::SimpleKey key_paused;
+    BSP::Key::SimpleKey key_fn_left;
+    BSP::Key::SimpleKey key_fn_right;
+
+    mutable bool stop_mode_active = false; // 添加成员变量跟踪停止模式状态
 };
 
 } // namespace Mode
 
-#endif // APP_MINI_CONTROLLER_HPP
+#endif // BSP_MINI_CONTROLLER_HPP

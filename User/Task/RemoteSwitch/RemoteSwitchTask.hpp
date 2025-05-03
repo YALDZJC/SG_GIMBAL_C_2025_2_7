@@ -4,7 +4,7 @@ extern "C"
 {
 #endif
 
-    void ShootTask(void *argument);
+    void RemoteSwitchTask(void *argument);
 
 #ifdef __cplusplus
 }

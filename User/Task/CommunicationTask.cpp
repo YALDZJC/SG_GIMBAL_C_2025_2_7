@@ -186,9 +186,11 @@ void Vision::dataReceive()
     memcpy_safe(rx_target);
     memcpy_safe(rx_other);
 
-    rx_target.pitch_angle =
-        __builtin_bswap32(rx_target.pitch_angle) / 100.0f + BSP::Motor::DM::Motor4310.getAngleDeg(1);
-    rx_target.yaw_angle = __builtin_bswap32(rx_target.yaw_angle) / 100.0f + BSP::IMU::imu.getAddYaw();
+    rx_target.pitch_angle = __builtin_bswap32(rx_target.yaw_angle) / 100.0f;
+    rx_target.yaw_angle = __builtin_bswap32(rx_target.pitch_angle) / 100.0f;
+
+    yaw_angle_ = rx_target.yaw_angle + BSP::IMU::imu.getAddYaw();
+    pitch_angle_ = rx_target.pitch_angle + BSP::Motor::DM::Motor4310.getAddAngleDeg(1);
 
     if (rx_other.vision_ready != 1)
     {

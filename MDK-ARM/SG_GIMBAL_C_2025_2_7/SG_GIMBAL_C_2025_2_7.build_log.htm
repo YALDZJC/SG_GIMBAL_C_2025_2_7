@@ -27,25 +27,15 @@ Project File Date:  05/04/2025
 <h2>Output:</h2>
 *** Using Compiler 'V6.18', folder: 'D:\Keil5\ARM\ARMCLANG\Bin'
 Build target 'SG_GIMBAL_C_2025_2_7'
-../USB_DEVICE/App/usbd_cdc_if.c(127): error: static declaration of 'CDC_Receive_FS' follows non-static declaration
-static int8_t CDC_Receive_FS(uint8_t* pbuf, uint32_t *Len);
-              ^
-../USB_DEVICE/App/usbd_cdc_if.h(111): note: previous declaration is here
-int8_t CDC_Receive_FS(uint8_t* Buf, uint32_t *Len);
-       ^
-../USB_DEVICE/App/usbd_cdc_if.c(261): error: static declaration of 'CDC_Receive_FS' follows non-static declaration
-static int8_t CDC_Receive_FS(uint8_t* Buf, uint32_t *Len)
-              ^
-../USB_DEVICE/App/usbd_cdc_if.h(111): note: previous declaration is here
-int8_t CDC_Receive_FS(uint8_t* Buf, uint32_t *Len);
-       ^
-2 errors generated.
-compiling usbd_cdc_if.c...
 compiling RemoteSwitchTask.cpp...
-compiling CallBack.cpp...
-compiling EvenTask.cpp...
+compiling ShootTask.cpp...
 compiling CommunicationTask.cpp...
-"SG_GIMBAL_C_2025_2_7\SG_GIMBAL_C_2025_2_7.axf" - 2 Error(s), 0 Warning(s).
+compiling EvenTask.cpp...
+compiling GimbalTask.cpp...
+linking...
+Program Size: Code=87820 RO-data=1876 RW-data=260 ZI-data=32844  
+FromELF: creating hex file...
+"SG_GIMBAL_C_2025_2_7\SG_GIMBAL_C_2025_2_7.axf" - 0 Error(s), 0 Warning(s).
 
 <h2>Software Packages used:</h2>
 
@@ -69,7 +59,6 @@ Package Vendor: Keil
 
    * Component: ARM::CMSIS:CORE:6.1.0
       Include file:  CMSIS/Core/Include/tz_context.h
-Target not created.
 Build Time Elapsed:  00:00:03
 </pre>
 </body>

@@ -2,6 +2,7 @@
 
 #include "../User/APP/KeyBorad/KeyBroad.hpp"
 #include "../User/APP/Mod/RemoteModeManager.hpp"
+#include "../User/BSP/SimpleKey/SimpleKey.hpp"
 
 #include "cmsis_os2.h"
 
@@ -22,5 +23,7 @@ void RemoteSwitchTask(void *argument)
         APP::Key::KeyBroad::Instance().Update(remote->getKeybroad());
 
         osDelay(14); // 遥控器更新频率为70hz
+
+        
     }
 }
