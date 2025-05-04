@@ -61,7 +61,8 @@ void Gimbal::modSwitch()
     filter_tar_yaw += remote_rx;
     filter_tar_pitch += remote_ry * 0.1f;
 
-    if (remote->isVisionMode())
+    // 启动视觉模式，并且视觉标志位为true
+    if (remote->isVisionMode() && Communicat::vision.getVisionFlag() == true)
     {
         filter_tar_yaw = Communicat::vision.getTarYaw();
         filter_tar_pitch = Communicat::vision.getTarPitch();

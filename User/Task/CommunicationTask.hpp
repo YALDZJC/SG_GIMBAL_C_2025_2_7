@@ -153,6 +153,8 @@ class Vision
     bool fire_flag;
     uint32_t fire_num;
 
+    bool vision_flag; // 超过一定范围就置1
+
   public:
     void Data_send();
     void dataReceive();
@@ -209,6 +211,11 @@ class Vision
     uint8_t getAimY()
     {
         return rx_other.aim_y;
+    }
+
+    bool getVisionFlag()
+    {
+        return vision_flag;
     }
 };
 

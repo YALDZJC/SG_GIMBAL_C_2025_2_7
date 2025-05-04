@@ -4,7 +4,6 @@
 #include "../APP/Mod/RemoteModeManager.hpp"
 
 #include "../APP/Tools.hpp"
-#include "../App/Mod/RemoteModeManager.hpp"
 
 #include "../BSP/Motor/Dji/DjiMotor.hpp"
 
@@ -16,8 +15,8 @@ void ShootTask(void *argument)
 {
     for (;;)
     {
-        // hz_send += 0.001;
-        // Communicat::Vision_Data.time_demo();
+//        hz_send += 0.001;
+//        Communicat::Vision_Data.time_demo();
         shoot_fsm.Control();
         osDelay(1);
     }

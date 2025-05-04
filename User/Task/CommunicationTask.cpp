@@ -198,6 +198,11 @@ void Vision::dataReceive()
         rx_target.pitch_angle = 0;
     }
 
+    if ((fabs(rx_target.yaw_angle) > 25 && fabs(rx_target.pitch_angle) > 25) || (rx_other.vision_ready == false))
+        vision_flag = false;
+    else
+        vision_flag = true;
+
     rx_target.pitch_angle *= -1.0; // 每台方向不同
 
     if (fabs(rx_target.yaw_angle) > 25.0) // 超过25°置零（异常值）

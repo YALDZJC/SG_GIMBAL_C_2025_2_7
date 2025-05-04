@@ -7,6 +7,8 @@
 #include "../IRemoteController.hpp"
 #include "../User/Task/CommunicationTask.hpp"
 
+inline uint32_t time12fasf;
+
 namespace Mode
 {
 using namespace BSP::Remote;
@@ -71,6 +73,7 @@ class MiniRemoteController : public IRemoteController
         if (key_paused.getClick())
         {
             stop_mode_active = true; // 点击进入停止模式，更新状态变量
+            return true;
         }
 
         // 返回当前停止模式状态

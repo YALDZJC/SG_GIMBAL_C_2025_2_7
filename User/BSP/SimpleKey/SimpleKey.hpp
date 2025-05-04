@@ -25,8 +25,9 @@ class SimpleKey
         risingEdge = (nowKey && !lastKey);
         fallingEdge = (!nowKey && lastKey);
 
-        // 存储之前的点击状态
+        // 存储之前的点击状态，并重置点击标志
         clickState = isClick;
+        isClick = false; // 重置点击标志，防止多次触发
 
         // 按下瞬间
         if (risingEdge)
@@ -112,7 +113,8 @@ class SimpleKey
         {
             isClick = true;
         }
-        isLongPressDetected = false;
+        // 不重置长按状态，保持到下一次按下
+        // isLongPressDetected = false;  // 注释掉这一行，防止长按后立即触发点击
     }
 
     // 检查是否达到长按时间
