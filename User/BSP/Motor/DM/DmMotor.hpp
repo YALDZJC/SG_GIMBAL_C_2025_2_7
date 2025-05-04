@@ -193,6 +193,12 @@ template <uint8_t N> class DMMotorBase : public MotorBase<N>
     void ctrl_Motor(CAN_HandleTypeDef *hcan, uint8_t motor_index, float _pos, float _vel, float _KP, float _KD,
                     float _torq)
     {
+        if (ISDir())
+        {
+            On(hcan, motor_index);
+            return;
+        }
+
         uint16_t pos_tmp, vel_tmp, kp_tmp, kd_tmp, tor_tmp;
         pos_tmp = float_to_uint(_pos, params_.P_MIN, params_.P_MAX, 16);
         vel_tmp = float_to_uint(_vel, params_.V_MIN, params_.V_MAX, 12);
@@ -222,6 +228,12 @@ template <uint8_t N> class DMMotorBase : public MotorBase<N>
      */
     void ctrl_Motor(CAN_HandleTypeDef *hcan, uint8_t motor_index, float _vel, float _pos)
     {
+        if (ISDir())
+        {
+            On(hcan, motor_index);
+            return;
+        }
+
         DM_VelPos posvel;
         posvel.vel_tmp = _vel;
         posvel.pos_tmp = _pos;
@@ -238,6 +250,12 @@ template <uint8_t N> class DMMotorBase : public MotorBase<N>
      */
     void ctrl_Motor(CAN_HandleTypeDef *hcan, uint8_t motor_index, float _vel)
     {
+        if (ISDir())
+        {
+            On(hcan, motor_index);
+            return;
+        }
+
         DM_Vel vel;
         vel.vel_tmp = _vel;
 
@@ -286,7 +304,7 @@ template <uint8_t N> class DMMotorBase : public MotorBase<N>
         bool is_dir = false;
         for (uint8_t i = 0; i < N; i++)
         {
-            is_dir |= this->runTime_[i].Dir_Flag = this->runTime_[i].dirTime.ISDir(100);
+            is_dir |= this->runTime_[i].Dir_Flag = this->runTime_[i].dirTime.ISDir(10);
             this->runTime_[i].Dir_Flag = is_dir;
         }
 
@@ -325,7 +343,6 @@ template <uint8_t N> class DMMotorBase : public MotorBase<N>
     DMMotorfeedback feedback_[N]; // 国际单位数据
     Parameters params_;           // 转国际单位参数列表
     uint8_t send_data[8];
-
 };
 
 template <uint8_t N> class J4310 : public DMMotorBase<N>

@@ -99,7 +99,8 @@ void Class_ShootFSM::UpState()
 
         // 检测触发条件(使用开火标志位)
         static bool fired = false;
-        static uint32_t fire_time = 0;
+
+        key_fire.update(Heat_Limit.getFireNum());
 
         if (fire_flag == 1)
         {
@@ -115,7 +116,6 @@ void Class_ShootFSM::UpState()
 
                 adrc_Dail_vel.setTarget(-target_dail_omega); // 方向相反
                 fired = true;
-                fire_time = Status[Now_Status_Serial].Count_Time;
             }
         }
         else
@@ -124,13 +124,10 @@ void Class_ShootFSM::UpState()
             fired = false;
         }
 
-        // 发射一定时间后停止
-        if (fired && Status[Now_Status_Serial].Count_Time - fire_time > 50)
+        // 检测到子弹发射后停止
+        if (fired && key_fire.getRisingEdge())
         {
-            if (Heat_Limit.getFireNum())
-            {
-                adrc_Dail_vel.setTarget(0.0f);
-            }
+            adrc_Dail_vel.setTarget(0.0f);
             // 自动复位开火标志位
             fire_flag = 0;
         }
@@ -233,9 +230,4 @@ float Class_ShootFSM::rpm_to_hz(float tar_hz)
     return rpm;
 }
 
-// 添加设置开火标志位的方法
-void Class_ShootFSM::setFireFlag(uint8_t flag)
-{
-    fire_flag = flag;
-}
 } // namespace TASK::Shoot

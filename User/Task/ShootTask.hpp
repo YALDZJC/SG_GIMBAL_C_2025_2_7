@@ -1,6 +1,7 @@
 #pragma once
 
 #include "../APP/Heat_Detector/Heat_Detector.hpp"
+#include "../BSP/SimpleKey/SimpleKey.hpp"
 #include "../Algorithm/FSM/alg_fsm.hpp"
 #include "../Algorithm/LADRC/Adrc.hpp"
 
@@ -76,7 +77,7 @@ class Class_ShootFSM : public Class_FSM
     }
 
     // 设置开火标志位
-    void setFireFlag(uint8_t flag)
+    void setFireFlag(bool flag)
     {
         fire_flag = flag;
     }
@@ -115,6 +116,9 @@ class Class_ShootFSM : public Class_FSM
     Adrc adrc_friction_L_vel;
     Adrc adrc_friction_R_vel;
     Adrc adrc_Dail_vel;
+
+    //用于单发检测，获取上升沿判断是否击发子弹
+    BSP::Key::SimpleKey key_fire;
 };
 inline Class_ShootFSM shoot_fsm;
 } // namespace TASK::Shoot

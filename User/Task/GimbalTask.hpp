@@ -3,18 +3,31 @@
 #include <memory>
 #include <string>
 
+#include "../Algorithm/FSM/alg_fsm.hpp"
 #include "../Algorithm/LADRC/Adrc.hpp"
 #include "../Algorithm/PID.hpp"
-class Gimbal
+
+namespace TASK::GIMBAL
 {
-  public:
+
+enum Gimbal_Status
+{
+    DISABLE,
+    NORMOL,
+    VISION,
+    KEYBOARD
+};
+
+class Gimbal : public Class_FSM
+{
+
   public:
     // 构造函数声明
     Gimbal();
     void upDate();
 
   private:
-    void modSwitch();
+    void UpState();
 
     void filter();
 
@@ -38,10 +51,9 @@ class Gimbal
 
     PID pid_yaw_angle; // yaw轴pid计算
 
-    Alg::LADRC::TDquadratic td_yaw_vel;
     Alg::LADRC::Adrc adrc_yaw_vel; // adrc的速度环
 };
-
+} // namespace TASK::GIMBAL
 // 将RTOS任务引至.c文件
 #ifdef __cplusplus
 extern "C"

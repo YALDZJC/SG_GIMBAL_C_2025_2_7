@@ -12,6 +12,7 @@
  * @param argument
  */
 void keyBoradUpdata();
+void BoosterUpState();
 void RemoteSwitchTask(void *argument)
 {
     for (;;)
@@ -23,8 +24,8 @@ void RemoteSwitchTask(void *argument)
         // 更新按键状态
         APP::Key::KeyBroad::Instance().Update(remote->getKeybroad());
         keyBoradUpdata();
-        BoosterUpdata();
-        
+        BoosterUpState();
+
         osDelay(14); // 遥控器更新频率为70hz
     }
 }
@@ -102,7 +103,7 @@ void keyBoradUpdata()
         TASK::Shoot::shoot_fsm.setNowStatus(TASK::Shoot::Booster_Status::DISABLE);
 }
 
-void BoosterUpdata()
+void BoosterState()
 {
     auto *remote = Mode::RemoteModeManager::Instance().getActiveController();
 
@@ -114,9 +115,20 @@ void BoosterUpdata()
     {
         TASK::Shoot::shoot_fsm.setNowStatus(TASK::Shoot::Booster_Status::ONLY);
     }
+    else
+    {
+        TASK::Shoot::shoot_fsm.setNowStatus(TASK::Shoot::Booster_Status::STOP);
+    }
 
     if (remote->isStopMode())
     {
         TASK::Shoot::shoot_fsm.setNowStatus(TASK::Shoot::Booster_Status::STOP);
     }
+}
+
+void GimbalUpState()
+{
+    auto *remote = Mode::RemoteModeManager::Instance().getActiveController();
+
+    // if(remote->is)
 }

@@ -15,7 +15,8 @@ class SimpleKey
     }
 
     // 更新按键状态
-    void update(bool keyValue)
+    // 因为可以检测不仅限于布尔量，任何有变化的值都可以所以用uint16_t
+    void update(uint16_t keyValue)
     {
         // 更新按键状态
         lastKey = nowKey;
