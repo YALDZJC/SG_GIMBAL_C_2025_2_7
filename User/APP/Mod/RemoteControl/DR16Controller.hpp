@@ -36,6 +36,17 @@ class DR16RemoteController : public IRemoteController
         return (dr16.switchLeft() == Dr16::Switch::MIDDLE) && (dr16.switchRight() == Dr16::Switch::MIDDLE);
     }
 
+    /**
+     * @brief 将开火交给视觉控制
+     * 当视觉模式启动并且左击开火时启动视觉开火
+     * @return true
+     * @return false
+     */
+    bool isVisionFireMode() const override
+    {
+        return isVisionMode() && dr16.mouse().left;
+    }
+
     bool isStopMode() const override
     {
         return (dr16.switchLeft() == Dr16::Switch::DOWN) && (dr16.switchRight() == Dr16::Switch::DOWN) ||
@@ -90,6 +101,16 @@ class DR16RemoteController : public IRemoteController
     float getSw() const override
     {
         return dr16.sw();
+    }
+
+    bool getMouseKeyLeft() const override
+    {
+        return dr16.mouse().right;
+    }
+
+    bool getMouseKeyRight() const override
+    {
+        return dr16.mouse().right;
     }
 
     BSP::Remote::Keyboard getKeybroad() const override

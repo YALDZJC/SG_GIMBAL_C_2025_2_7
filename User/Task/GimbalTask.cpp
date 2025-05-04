@@ -69,8 +69,8 @@ void Gimbal::modSwitch()
     }
     else if (remote->isKeyboardMode())
     {
-        filter_tar_yaw -= remote->getMouseVelX() * 100;
-        filter_tar_pitch -= remote->getMouseVelY() * 100;
+        filter_tar_yaw += remote->getMouseVelX() * 100;
+        filter_tar_pitch += remote->getMouseVelY() * 100;
     }
 
     if (is_sin == 0)
@@ -103,17 +103,12 @@ void Gimbal::modSwitch()
 void Gimbal::yawControl()
 {
     using namespace APP::Data;
+    // 设置模式
+    auto *remote = Mode::RemoteModeManager::Instance().getActiveController();
 
     // 获取当前角度值
     auto cur_angle = BSP::IMU::imu.getAddYaw();
     auto cur_vel = BSP::IMU::imu.getGyroZ();
-
-    //    // 获取当前角度值
-    //    auto cur_angle = BSP::Motor::Dji::Motor6020.getAddAngleDeg(1);
-    //    auto cur_vel = BSP::Motor::Dji::Motor6020.getVelocityRads(1);
-
-    // 设置模式
-    auto *remote = Mode::RemoteModeManager::Instance().getActiveController();
 
     if (remote->isStopMode())
     {

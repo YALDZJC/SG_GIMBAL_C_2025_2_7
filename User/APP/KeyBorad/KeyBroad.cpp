@@ -58,7 +58,7 @@ bool KeyBroad::getRisingEdge(KeyType key)
     if (key >= 0 && key < KEY_COUNT)
     {
         return keys_[key].getRisingEdge();
-    }   
+    }
     return false;
 }
 
@@ -70,5 +70,15 @@ bool KeyBroad::getFallingEdge(KeyType key)
     }
     return false;
 }
+
+bool KeyBroad::getPress(KeyType key)
+{
+    if (key >= 0 && key < KEY_COUNT)
+    {
+        return keys_[key].getPress();
+    }
+    return false;
+}
+
 
 } // namespace APP::Key

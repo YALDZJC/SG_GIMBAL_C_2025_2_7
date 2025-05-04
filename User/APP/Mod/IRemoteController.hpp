@@ -18,6 +18,7 @@ class IRemoteController
     virtual bool isVisionMode() const = 0;
     virtual bool isLaunchMode() const = 0;
     virtual bool isKeyboardMode() const = 0;
+    virtual bool isVisionFireMode() const = 0;
     virtual bool isStopMode() const = 0;
 
     // 底盘模式
@@ -37,6 +38,10 @@ class IRemoteController
 
     // 获取键盘值
     virtual BSP::Remote::Keyboard getKeybroad() const = 0;
+
+    virtual bool getMouseKeyLeft() const = 0;
+
+    virtual bool getMouseKeyRight() const = 0;
 
     virtual float getSw() const = 0;
 

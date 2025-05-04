@@ -53,6 +53,8 @@ class KeyBroad
 
     bool getFallingEdge(KeyType key);
 
+    bool getPress(KeyType key);
+
   private:
     // 构造函数设为私有
     KeyBroad() = default;

@@ -41,17 +41,17 @@ void Dr16::UpdateStatus()
     auto &part1 alignas(uint64_t) = *reinterpret_cast<Dr16DataPart1 *>(&data_part1_);
     auto channel_to_double = [](uint16_t value) { return (static_cast<int32_t>(value) - 1024) / 660.0; };
 
-    joystick_right_.y = channel_to_double(static_cast<uint16_t>(part1.joystick_channel1));
-    joystick_right_.x = channel_to_double(static_cast<uint16_t>(part1.joystick_channel0));
-    joystick_left_.y = channel_to_double(static_cast<uint16_t>(part1.joystick_channel3));
-    joystick_left_.x = channel_to_double(static_cast<uint16_t>(part1.joystick_channel2));
+    joystick_right_.y = -channel_to_double(static_cast<uint16_t>(part1.joystick_channel1));
+    joystick_right_.x = -channel_to_double(static_cast<uint16_t>(part1.joystick_channel0));
+    joystick_left_.y = -channel_to_double(static_cast<uint16_t>(part1.joystick_channel3));
+    joystick_left_.x = -channel_to_double(static_cast<uint16_t>(part1.joystick_channel2));
 
     switch_right_ = static_cast<Switch>(part1.switch_right);
     switch_left_ = static_cast<Switch>(part1.switch_left);
 
     auto &part2 alignas(uint64_t) = *reinterpret_cast<Dr16DataPart2 *>(&data_part2_);
-    mouse_vel_.x = part2.mouse_velocity_x / 32768.0;
-    mouse_vel_.y = part2.mouse_velocity_y / 32768.0;
+    mouse_vel_.x = -(part2.mouse_velocity_x / 32768.0);
+    mouse_vel_.y = -(part2.mouse_velocity_y / 32768.0);
 
     mouse_.left = part2.mouse_left;
     mouse_.right = part2.mouse_right;

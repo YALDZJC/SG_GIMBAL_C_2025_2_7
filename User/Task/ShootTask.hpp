@@ -70,6 +70,17 @@ class Class_ShootFSM : public Class_FSM
         target_Dail_torque = torque;
     }
 
+    void setNowStatus(Booster_Status state)
+    {
+        Set_Status(state);
+    }
+
+    // 设置开火标志位
+    void setFireFlag(uint8_t flag)
+    {
+        fire_flag = flag;
+    }
+
   protected:
     // 初始化相关常量
 
@@ -83,7 +94,7 @@ class Class_ShootFSM : public Class_FSM
     void CAN_Send(void);
     void HeatLimit();
 
-    //将期望发射频率转化为rpm(转轴)
+    // 将期望发射频率转化为rpm(转轴)
     float rpm_to_hz(float tar_hz);
 
   private:
@@ -93,7 +104,11 @@ class Class_ShootFSM : public Class_FSM
 
     float target_friction_omega = 6000;
     float target_dail_omega = 0;
+    float Max_dail_angle = 20.0f; // 拨盘最快频率
     Class_JammingFSM JammingFMS;
+
+    // 开火标志位
+    uint8_t fire_flag = 0;
 
     APP::Heat_Detector::Class_FSM_Heat_Limit Heat_Limit;
     // 发射机构控制模式
@@ -101,6 +116,7 @@ class Class_ShootFSM : public Class_FSM
     Adrc adrc_friction_R_vel;
     Adrc adrc_Dail_vel;
 };
+inline Class_ShootFSM shoot_fsm;
 } // namespace TASK::Shoot
 
 // 将RTOS任务引至.c文件

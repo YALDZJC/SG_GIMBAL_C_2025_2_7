@@ -46,7 +46,7 @@ class MiniRemoteController : public IRemoteController
     bool isVisionMode() const override
     {
         auto &remote = Mini::Instance();
-        return ((remote.trigger() == Mini::Switch::UP) && (Communicat::vision.getVisionReady() == true));
+        return ((remote.trigger() == Mini::Switch::UP) || (remote.mouse().right == true));
     }
 
     bool isLaunchMode() const override
@@ -58,6 +58,18 @@ class MiniRemoteController : public IRemoteController
     {
         auto &remote = Mini::Instance();
         return (remote.gear() == Mini::Gear::DOWN);
+    }
+
+    /**
+     * @brief 将开火交给视觉控制
+     * 当视觉模式启动并且左击开火时启动视觉开火
+     * @return true
+     * @return false
+     */
+    bool isVisionFireMode() const override
+    {
+        auto &remote = Mini::Instance();
+        return (isVisionMode() && remote.mouse().left == true);
     }
 
     bool isStopMode() const override
@@ -148,6 +160,18 @@ class MiniRemoteController : public IRemoteController
     {
         auto &remote = Mini::Instance();
         return remote.keyBoard();
+    }
+
+    bool getMouseKeyLeft() const override
+    {
+        auto &remote = Mini::Instance();
+        return remote.mouse().left;
+    }
+
+    bool getMouseKeyRight() const override
+    {
+        auto &remote = Mini::Instance();
+        return remote.mouse().right;
     }
 
     void update() override

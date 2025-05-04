@@ -96,6 +96,11 @@ class SimpleKey
         return fallingEdge;
     }
 
+    bool getPress() const
+    {
+        return nowKey;
+    }
+
   private:
     // 按键按下时的处理
     void onKeyPress()

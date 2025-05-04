@@ -1,5 +1,5 @@
 #include "../Task/ShootTask.hpp"
-// #include "../Task/CommunicationTask.hpp"
+#include "../Task/CommunicationTask.hpp"
 
 #include "../APP/Mod/RemoteModeManager.hpp"
 
@@ -10,14 +10,14 @@
 #include "cmsis_os2.h"
 float hz_send;
 
-TASK::Shoot::Class_ShootFSM shoot_fsm;
 void ShootTask(void *argument)
 {
     for (;;)
     {
-//        hz_send += 0.001;
-//        Communicat::Vision_Data.time_demo();
-        shoot_fsm.Control();
+        hz_send += 0.001;
+        Communicat::vision.time_demo();
+
+        TASK::Shoot::shoot_fsm.Control();
         osDelay(1);
     }
 }
@@ -88,21 +88,53 @@ void Class_ShootFSM::UpState()
         // 如何失能状态，拨盘力矩为0，摩擦轮期望值为0
         adrc_friction_L_vel.setTarget(0.0f);
         adrc_friction_R_vel.setTarget(0.0f);
-
-        target_Dail_torque = 0.0f;
-        break;
-    }
-    case (Booster_Status::STOP): {
-        // 停止状态，拨盘期望值为0
-        //        adrc_friction_L_vel.setTarget(target_friction_omega);
-        //        adrc_friction_R_vel.setTarget(-target_friction_omega);
-
-        adrc_Dail_vel.setTarget(0);
-
+        adrc_Dail_vel.setTarget(0.0f);
         break;
     }
     case (Booster_Status::ONLY): {
         // 单发模式
+        // 设置摩擦轮速度，与连发模式相同
+        adrc_friction_L_vel.setTarget(target_friction_omega);
+        adrc_friction_R_vel.setTarget(-target_friction_omega);
+
+        // 检测触发条件(使用开火标志位)
+        static bool fired = false;
+        static uint32_t fire_time = 0;
+
+        if (fire_flag == 1)
+        {
+            if (!fired)
+            {
+                // 未发射过，设置单发速度
+                target_dail_omega = Max_dail_angle;
+                target_dail_omega = rpm_to_hz(target_dail_omega);
+
+                // 热量限制
+                HeatLimit();
+                target_dail_omega = Heat_Limit.getNowFire();
+
+                adrc_Dail_vel.setTarget(-target_dail_omega); // 方向相反
+                fired = true;
+                fire_time = Status[Now_Status_Serial].Count_Time;
+            }
+        }
+        else
+        {
+            // 重置发射状态
+            fired = false;
+        }
+
+        // 发射一定时间后停止
+        if (fired && Status[Now_Status_Serial].Count_Time - fire_time > 50)
+        {
+            if (Heat_Limit.getFireNum())
+            {
+                adrc_Dail_vel.setTarget(0.0f);
+            }
+            // 自动复位开火标志位
+            fire_flag = 0;
+        }
+
         break;
     }
     case (Booster_Status::AUTO): {
@@ -112,12 +144,17 @@ void Class_ShootFSM::UpState()
 
         auto *remote = Mode::RemoteModeManager::Instance().getActiveController();
 
-        target_dail_omega = remote->getSw() * 20.0f;      // 单位为20hz发弹频率
-        target_dail_omega = rpm_to_hz(target_dail_omega); // 转换单位这里的单位是转轴转一圈的rpm
+        target_dail_omega = remote->getSw() * Max_dail_angle; // 单位为20hz发弹频率
 
+        if (remote->isKeyboardMode())
+        {
+            target_dail_omega = remote->getMouseKeyLeft() * Max_dail_angle;
+        }
+
+        target_dail_omega = rpm_to_hz(target_dail_omega); // 转换单位这里的单位是转轴转一圈的rpm
         HeatLimit();
         target_dail_omega = Heat_Limit.getNowFire();
-        adrc_Dail_vel.setTarget(target_dail_omega);
+        adrc_Dail_vel.setTarget(-target_dail_omega); // 方向相反
 
         break;
     }
@@ -126,35 +163,18 @@ void Class_ShootFSM::UpState()
 
 void Class_ShootFSM::Control(void)
 {
-    auto *remote = Mode::RemoteModeManager::Instance().getActiveController();
-
     auto velL = BSP::Motor::Dji::Motor3508.getVelocityRpm(1);
     auto velR = BSP::Motor::Dji::Motor3508.getVelocityRpm(2);
     auto DailVel = BSP::Motor::Dji::Motor2006.getVelocityRpm(1);
 
-    if (remote->isLaunchMode())
-    {
-        Now_Status_Serial = Booster_Status::AUTO;
-    }
-    else
-    {
-        Now_Status_Serial = Booster_Status::STOP;
-    }
-
-    if (remote->isStopMode())
-    {
-        Now_Status_Serial = Booster_Status::DISABLE;
-    }
-
-
+    UpState();
     // 控制摩擦轮
     adrc_friction_L_vel.UpData(velL);
     adrc_friction_R_vel.UpData(velR);
     adrc_Dail_vel.UpData(DailVel);
 
     target_Dail_torque = adrc_Dail_vel.getU();
-    
-    UpState();
+
     JammingFMS.UpState();
 
     // 拨盘发送
@@ -211,5 +231,11 @@ float Class_ShootFSM::rpm_to_hz(float tar_hz)
     double rpm = rotations_per_second * seconds_per_minute;
 
     return rpm;
+}
+
+// 添加设置开火标志位的方法
+void Class_ShootFSM::setFireFlag(uint8_t flag)
+{
+    fire_flag = flag;
 }
 } // namespace TASK::Shoot

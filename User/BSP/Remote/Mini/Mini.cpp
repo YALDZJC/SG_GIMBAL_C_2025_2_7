@@ -10,8 +10,8 @@ void init()
 namespace BSP::Remote
 {
 // 定义并初始化静态成员变量为 nullptr
-Mini* Mini::instance_ = nullptr;
-	
+Mini *Mini::instance_ = nullptr;
+
 void Mini::Init()
 {
     HAL_UARTEx_ReceiveToIdle_DMA(&MiniClickerHuart, pData, sizeof(pData));
@@ -49,12 +49,12 @@ void Mini::UpdateStatus()
     auto channel_to_double = [](uint16_t value) { return (static_cast<int32_t>(value) - 1024) / 660.0; };
 
     joystick_right_.x = -channel_to_double(static_cast<uint16_t>(part1_.joystick_channel0));
-    joystick_right_.y = channel_to_double(static_cast<uint16_t>(part1_.joystick_channel1));
+    joystick_right_.y = -channel_to_double(static_cast<uint16_t>(part1_.joystick_channel1));
     joystick_left_.x = -channel_to_double(static_cast<uint16_t>(part1_.joystick_channel2));
-    joystick_left_.y = channel_to_double(static_cast<uint16_t>(part1_.joystick_channel3));
+    joystick_left_.y = -channel_to_double(static_cast<uint16_t>(part1_.joystick_channel3));
 
     // 拨杆值
-    sw_.x = channel_to_double(static_cast<uint16_t>(part1_.sw));
+    sw_.x = -channel_to_double(static_cast<uint16_t>(part1_.sw));
     // 挡位开关
     gear_ = static_cast<Gear>(part1_.gear);
     // 暂停按键
@@ -66,8 +66,8 @@ void Mini::UpdateStatus()
     trigger_ = static_cast<Switch>(part1_.trigger);
 
     // 鼠标速度
-    mouse_vel_.x = part2_.mouse_velocity_x / 32768.0;
-    mouse_vel_.y = part2_.mouse_velocity_y / 32768.0;
+    mouse_vel_.x = -(part2_.mouse_velocity_x / 32768.0);
+    mouse_vel_.y = -(part2_.mouse_velocity_y / 32768.0);
     // 鼠标按键
     mouse_key_.left = part2_.mouse_left;
     mouse_key_.right = part2_.mouse_right;
