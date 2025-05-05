@@ -1,9 +1,10 @@
 #pragma once
 
 #include "../APP/Heat_Detector/Heat_Detector.hpp"
-#include "../BSP/SimpleKey/SimpleKey.hpp"
 #include "../Algorithm/FSM/alg_fsm.hpp"
 #include "../Algorithm/LADRC/Adrc.hpp"
+#include "../BSP/SimpleKey/SimpleKey.hpp"
+#include "../User/Algorithm/PID.hpp"
 
 namespace TASK::Shoot
 {
@@ -40,14 +41,20 @@ class Class_JammingFSM : public Class_FSM
     // 堵转力矩
     static constexpr float stall_torque = 0.5f;
     // 堵转时间阈值，超过则为堵转
-    static constexpr uint32_t stall_time = 500;
+    static constexpr uint32_t stall_time = 200;
     // 从堵转停止时间阈值，超过则停止堵转
-    static constexpr uint32_t stall_stop = 500;
+    static constexpr uint32_t stall_stop = 200;
 
     Class_ShootFSM *Booster = nullptr; // 任务指针
 
   public:
     void UpState(void);
+
+    // 添加设置Booster指针的方法
+    void setBooster(Class_ShootFSM *booster)
+    {
+        Booster = booster;
+    }
 };
 
 /**
@@ -117,8 +124,11 @@ class Class_ShootFSM : public Class_FSM
     Adrc adrc_friction_R_vel;
     Adrc adrc_Dail_vel;
 
-    //用于单发检测，获取上升沿判断是否击发子弹
-    BSP::Key::SimpleKey key_fire;
+    PID pid_Dail_pos;
+    Kpid_t Kpid_Dail_pos;
+    float Dail_target_pos;
+    // 用于单发检测，获取上升沿判断是否击发子弹
+    // BSP::Key::SimpleKey key_fire;
 };
 inline Class_ShootFSM shoot_fsm;
 } // namespace TASK::Shoot

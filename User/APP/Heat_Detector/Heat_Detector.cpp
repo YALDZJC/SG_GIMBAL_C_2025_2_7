@@ -14,13 +14,13 @@ void Class_FSM_Heat_Limit::UpData()
     case Heat_Detector_Status::DISABLE: {
         /* code */
 
-        if (vel > cur_vel_Threshold * 0.98)
+        if (vel > cur_vel_Threshold * 0.99)
         {
-            // 摩擦轮电机速度大于0，进入使能状态
-            if (Status[Now_Status_Serial].Count_Time > 500)
-            {
-                Set_Status(Heat_Detector_Status::ENABLE);
-            }
+            // // 摩擦轮电机速度大于0，进入使能状态
+            // if (Status[Now_Status_Serial].Count_Time > 20)
+            // {
+            Set_Status(Heat_Detector_Status::ENABLE);
+            // }
         }
         break;
     }

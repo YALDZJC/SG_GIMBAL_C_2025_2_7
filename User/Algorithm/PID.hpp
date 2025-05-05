@@ -77,12 +77,23 @@ class PID
     {
         return this->pid.cin;
     }
+
+    void setFeedBack(float feedback)
+    {
+        this->pid.feedback = feedback;
+    }
+
+    void setTarget(float target)
+    {
+        this->pid.cin = target;
+    }
 };
 
 // 前馈控制器抽象基类
-class FeedForward {
-protected:
-    float k;          // 前馈系数
+class FeedForward
+{
+  protected:
+    float k; // 前馈系数
     // 输出限幅
     float max_cout;
 

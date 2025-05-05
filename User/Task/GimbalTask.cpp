@@ -53,9 +53,11 @@ void Gimbal::UpState()
     using namespace APP::Data;
 
     auto *remote = Mode::RemoteModeManager::Instance().getActiveController();
-	
+
     auto remote_rx = remote->getRightX();
     auto remote_ry = remote->getRightY();
+
+    DM_state.update(Now_Status_Serial == GIMBAL::DISABLE);
 
     switch (Now_Status_Serial)
     {
@@ -63,6 +65,14 @@ void Gimbal::UpState()
         // 如果失能则让期望值等于实际值
         filter_tar_yaw = BSP::IMU::imu.getGyroZ();
         filter_tar_pitch += BSP::Motor::DM::Motor4310.getAddAngleDeg(1);
+
+        // 检测状态变化的上升沿（进入DISABLE状态）
+        if (DM_state.getRisingEdge())
+        {
+            BSP::Motor::DM::Motor4310.On(&hcan2, 1);
+            osDelay(1);
+        }
+
         break;
     }
     case (GIMBAL::VISION): {
@@ -137,15 +147,14 @@ void Gimbal::yawControl()
     }
 
     // Tools.vofaSend(adrc_yaw_vel.getZ1(), cur_vel, pid_yaw_angle.getOut(), cur_angle, gimbal_data.getTarYaw(), 0);
-    Tools.vofaSend(BSP::Motor::Dji::Motor6020.getAddAngleDeg(1), BSP::Motor::Dji::Motor6020.getRunTime(1),
-                   pid_yaw_angle.getOut(), cur_angle, gimbal_data.getTarYaw(), 0);
+    //    Tools.vofaSend(BSP::Motor::Dji::Motor6020.getAddAngleDeg(1), BSP::Motor::Dji::Motor6020.getRunTime(1),
+    //                   pid_yaw_angle.getOut(), cur_angle, gimbal_data.getTarYaw(), 0);
 }
 
 void Gimbal::pitchControl()
 {
     using namespace APP::Data;
 
-		
     BSP::Motor::DM::Motor4310.ctrl_Motor(&hcan2, 1, tar_pitch.x1 * 0.0174532f, 0, 100, 3, 0);
 }
 

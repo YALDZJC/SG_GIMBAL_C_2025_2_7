@@ -5,6 +5,9 @@
 #include "../User/Task/CommunicationTask.hpp"
 #include "../User/Task/GimbalTask.hpp"
 #include "../User/Task/ShootTask.hpp"
+
+#include "../User/BSP/Remote/Mini/Mini.hpp"
+
 #include "cmsis_os2.h"
 
 /**
@@ -16,6 +19,8 @@ void keyBoradUpdata();
 void BoosterUpState();
 void GimbalUpState();
 
+float retote_LX;
+
 void RemoteSwitchTask(void *argument)
 {
     for (;;)
@@ -24,11 +29,13 @@ void RemoteSwitchTask(void *argument)
         auto *remote = Mode::RemoteModeManager::Instance().getActiveController();
         remote->update();
 
+        auto &mini = BSP::Remote::Mini::Instance();
+        retote_LX = mini.remoteRight().x;
         // 更新按键状态
         APP::Key::KeyBroad::Instance().Update(remote->getKeybroad());
         keyBoradUpdata();
         BoosterUpState();
-				GimbalUpState();
+        GimbalUpState();
 
         osDelay(14); // 遥控器更新频率为70hz
     }
@@ -111,9 +118,13 @@ void BoosterUpState()
 {
     auto *remote = Mode::RemoteModeManager::Instance().getActiveController();
 
-    if (remote->isLaunchMode())
+    if (remote->isStopMode())
     {
-        TASK::Shoot::shoot_fsm.setNowStatus(TASK::Shoot::Booster_Status::AUTO);
+        TASK::Shoot::shoot_fsm.setNowStatus(TASK::Shoot::Booster_Status::DISABLE);
+    }
+    else if (remote->isLaunchMode())
+    {
+        TASK::Shoot::shoot_fsm.setNowStatus(TASK::Shoot::Booster_Status::ONLY);
     }
     else if (remote->isVisionFireMode())
     {
@@ -121,12 +132,7 @@ void BoosterUpState()
     }
     else
     {
-        TASK::Shoot::shoot_fsm.setNowStatus(TASK::Shoot::Booster_Status::STOP);
-    }
-
-    if (remote->isStopMode())
-    {
-        TASK::Shoot::shoot_fsm.setNowStatus(TASK::Shoot::Booster_Status::STOP);
+        TASK::Shoot::shoot_fsm.setNowStatus(TASK::Shoot::Booster_Status::DISABLE);
     }
 }
 

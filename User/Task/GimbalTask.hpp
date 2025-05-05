@@ -5,6 +5,8 @@
 
 #include "../Algorithm/FSM/alg_fsm.hpp"
 #include "../Algorithm/LADRC/Adrc.hpp"
+#include "../User/BSP/SimpleKey/SimpleKey.hpp"
+
 #include "../Algorithm/PID.hpp"
 
 namespace TASK::GIMBAL
@@ -52,6 +54,8 @@ class Gimbal : public Class_FSM
     PID pid_yaw_angle; // yaw轴pid计算
 
     Alg::LADRC::Adrc adrc_yaw_vel; // adrc的速度环
+
+    BSP::Key::SimpleKey DM_state;
 
   public:
     void setNowStatus(Gimbal_Status state)

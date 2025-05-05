@@ -32,7 +32,7 @@ void EventTask(void *argument)
 
         Dir_Event.UpEvent();
 
-        osDelay(5);
+        osDelay(1);
     }
 }
 
