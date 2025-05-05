@@ -29,24 +29,24 @@ bool Buzzer::Update()
 {
     Dir *dir = static_cast<Dir *>(sub);
 
-//    if (dir->get_Init_Flag() && buzzerInit == false)
-//    {
-//        SYSTEM_START();
+    if (dir->get_Init_Flag() && buzzerInit == false)
+    {
+        SYSTEM_START();
 
-//        buzzerInit = true;
-//    }
+        buzzerInit = true;
+    }
 
-//    if (dir->getDir_Yaw())
-//    {
-//        Buzzer::B_();
-//        return false;
-//    }
+    if (dir->getDir_Yaw())
+    {
+        Buzzer::B_();
+        return false;
+    }
 
-//    if(dir->getDir_IMU())
-//    {
-//        Buzzer::B_();
-//        return false;
-//    }
+    if(dir->getDir_IMU())
+    {
+        Buzzer::B_();
+        return false;
+    }
 
     return true;
 }

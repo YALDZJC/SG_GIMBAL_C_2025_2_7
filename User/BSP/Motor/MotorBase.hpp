@@ -158,5 +158,10 @@ template <uint8_t N> class MotorBase
     {
         return this->runTime_[id - 1].Dir_Flag;
     }
+
+    uint32_t getRunTime(uint8_t id)
+    {
+        return this->runTime_[id - 1].dirTime.lastTime;
+    }
 };
 } // namespace BSP::Motor

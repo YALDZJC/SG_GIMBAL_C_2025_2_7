@@ -181,7 +181,7 @@ void Class_ShootFSM::Control(void)
     //                adrc_friction_R_vel.getZ1(), adrc_friction_R_vel.getTarget(), adrc_friction_R_vel.getFeedback());
 
     // 火控
-    Tools.vofaSend(Heat_Limit.getFireNum(), Heat_Limit.getNowHeat(), Heat_Limit.getMaxHeat(), 0, 0, 0);
+//    Tools.vofaSend(Heat_Limit.getFireNum(), Heat_Limit.getNowHeat(), Heat_Limit.getMaxHeat(), 0, 0, 0);
 
     CAN_Send();
 }

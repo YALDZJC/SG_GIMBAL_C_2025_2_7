@@ -3,6 +3,7 @@
 #include "../User/APP/KeyBorad/KeyBroad.hpp"
 #include "../User/APP/Mod/RemoteModeManager.hpp"
 #include "../User/Task/CommunicationTask.hpp"
+#include "../User/Task/GimbalTask.hpp"
 #include "../User/Task/ShootTask.hpp"
 #include "cmsis_os2.h"
 
@@ -13,6 +14,8 @@
  */
 void keyBoradUpdata();
 void BoosterUpState();
+void GimbalUpState();
+
 void RemoteSwitchTask(void *argument)
 {
     for (;;)
@@ -25,6 +28,7 @@ void RemoteSwitchTask(void *argument)
         APP::Key::KeyBroad::Instance().Update(remote->getKeybroad());
         keyBoradUpdata();
         BoosterUpState();
+				GimbalUpState();
 
         osDelay(14); // 遥控器更新频率为70hz
     }
@@ -103,7 +107,7 @@ void keyBoradUpdata()
         TASK::Shoot::shoot_fsm.setNowStatus(TASK::Shoot::Booster_Status::DISABLE);
 }
 
-void BoosterState()
+void BoosterUpState()
 {
     auto *remote = Mode::RemoteModeManager::Instance().getActiveController();
 
@@ -130,5 +134,20 @@ void GimbalUpState()
 {
     auto *remote = Mode::RemoteModeManager::Instance().getActiveController();
 
-    // if(remote->is)
+    if (remote->isStopMode())
+    {
+        TASK::GIMBAL::gimbal.setNowStatus(TASK::GIMBAL::DISABLE);
+    }
+    else if (remote->isVisionMode())
+    {
+        TASK::GIMBAL::gimbal.setNowStatus(TASK::GIMBAL::VISION);
+    }
+    else if (remote->isKeyboardMode())
+    {
+        TASK::GIMBAL::gimbal.setNowStatus(TASK::GIMBAL::KEYBOARD);
+    }
+    else
+    {
+        TASK::GIMBAL::gimbal.setNowStatus(TASK::GIMBAL::NORMOL);
+    }
 }

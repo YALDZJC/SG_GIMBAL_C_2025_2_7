@@ -52,7 +52,16 @@ class Gimbal : public Class_FSM
     PID pid_yaw_angle; // yaw轴pid计算
 
     Alg::LADRC::Adrc adrc_yaw_vel; // adrc的速度环
+
+  public:
+    void setNowStatus(Gimbal_Status state)
+    {
+        Set_Status(state);
+    }
 };
+
+inline Gimbal gimbal;
+
 } // namespace TASK::GIMBAL
 // 将RTOS任务引至.c文件
 #ifdef __cplusplus

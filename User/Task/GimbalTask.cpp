@@ -14,13 +14,11 @@
 #include "can.h"
 #include "cmsis_os2.h"
 
-TASK::GIMBAL::Gimbal gimbal;
-
 void GimbalTask(void *argument)
 {
     for (;;)
     {
-        gimbal.upDate();
+        TASK::GIMBAL::gimbal.upDate();
         osDelay(5);
     }
 }
@@ -29,7 +27,7 @@ namespace TASK::GIMBAL
 {
 // 构造函数定义，使用初始化列表
 Gimbal::Gimbal()
-    : adrc_yaw_vel(Alg::LADRC::TDquadratic(100, 0.005), 12, 40, 0.15, 0.005, 16384),
+    : adrc_yaw_vel(Alg::LADRC::TDquadratic(100, 0.005), 10, 40, 0.15, 0.005, 16384),
       // 速度pid的积分
       pid_yaw_angle{0, 0},
       // pid的k值
@@ -63,8 +61,8 @@ void Gimbal::UpState()
     {
     case (GIMBAL::DISABLE): {
         // 如果失能则让期望值等于实际值
-        filter_tar_yaw = BSP::IMU::imu.getAddYaw();
-        filter_tar_pitch = BSP::Motor::DM::Motor4310.getAddAngleDeg(1);
+        filter_tar_yaw = BSP::IMU::imu.getGyroZ();
+        filter_tar_pitch += BSP::Motor::DM::Motor4310.getAddAngleDeg(1);
         break;
     }
     case (GIMBAL::VISION): {
@@ -75,13 +73,13 @@ void Gimbal::UpState()
     }
     case (GIMBAL::KEYBOARD): {
         // 键鼠模式
-        filter_tar_yaw += remote->getMouseVelX() * 100;
-        filter_tar_pitch += remote->getMouseVelY() * 100;
+        filter_tar_yaw = remote->getMouseVelX() * 100000;
+        filter_tar_pitch += remote->getMouseVelY() * 1000;
         break;
     }
     case (GIMBAL::NORMOL): {
         // 正常状态
-        filter_tar_yaw += remote_rx;
+        filter_tar_yaw = remote_rx * 150;
         filter_tar_pitch += remote_ry * 0.1f;
         break;
     }
@@ -120,34 +118,37 @@ void Gimbal::yawControl()
     auto cur_angle = BSP::IMU::imu.getAddYaw();
     auto cur_vel = BSP::IMU::imu.getGyroZ();
 
-    if (remote->isStopMode())
+    // 根据模式选择控制策略
+    if (Now_Status_Serial == GIMBAL::VISION)
     {
-        filter_tar_yaw = BSP::IMU::imu.getAddYaw();
-        filter_tar_pitch = BSP::Motor::DM::Motor4310.getAddAngleDeg(1);
+        // 视觉模式：使用角度PID控制
+        pid_yaw_angle.GetPidPos(kpid_yaw_angle, gimbal_data.getTarYaw(), cur_angle, 16384.0f);
+        float feedford = tar_yaw.x2 * yaw_feedford;
+
+        // ADRC更新
+        adrc_yaw_vel.setTarget(pid_yaw_angle.getOut() + feedford); // 设置目标值
+        adrc_yaw_vel.UpData(cur_vel);                              // 更新adrc
     }
-
-    // PID更新
-    pid_yaw_angle.GetPidPos(kpid_yaw_angle, gimbal_data.getTarYaw(), cur_angle, 16384.0f);
-    float feedford = tar_yaw.x2 * yaw_feedford;
-    // ADRC更新
-    adrc_yaw_vel.setTarget(pid_yaw_angle.getOut() + feedford); // 设置目标值
-    adrc_yaw_vel.UpData(cur_vel);                              // 更新adrc
-
-        // Tools.vofaSend(adrc_yaw_vel.getZ1(), cur_vel, pid_yaw_angle.getOut(), cur_angle, gimbal_data.getTarYaw(), 0);
+    else
+    {
+        // 直接设置ADRC目标
+        adrc_yaw_vel.setTarget(gimbal_data.getTarYaw());
+        adrc_yaw_vel.UpData(cur_vel);
+    }
+    // 直接设置ADRC目标
+    adrc_yaw_vel.setTarget(gimbal_data.getTarYaw());
+    adrc_yaw_vel.UpData(cur_vel);
+    // Tools.vofaSend(adrc_yaw_vel.getZ1(), cur_vel, pid_yaw_angle.getOut(), cur_angle, gimbal_data.getTarYaw(), 0);
+    Tools.vofaSend(BSP::Motor::Dji::Motor6020.getAddAngleDeg(1), BSP::Motor::Dji::Motor6020.getRunTime(1),
+                   pid_yaw_angle.getOut(), cur_angle, gimbal_data.getTarYaw(), 0);
 }
 
 void Gimbal::pitchControl()
 {
     using namespace APP::Data;
 
-    auto *remote = Mode::RemoteModeManager::Instance().getActiveController();
-    if (remote->isStopMode())
-    {
-    }
-    else
-    {
-        BSP::Motor::DM::Motor4310.ctrl_Motor(&hcan2, 1, tar_pitch.x1 * 0.0174532f, 0, 100, 3, 0);
-    }
+		
+    BSP::Motor::DM::Motor4310.ctrl_Motor(&hcan2, 1, tar_pitch.x1 * 0.0174532f, 0, 100, 3, 0);
 }
 
 void Gimbal::sendCan()
