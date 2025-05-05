@@ -58,7 +58,7 @@ class PID
         this->pid.td_e.r = 100;
     }
     // 位置式pid获取
-    double GetPidPos(Kpid_t kpid, double cin, double feedback, double max);
+    double GetPidPos(Kpid_t kpid, double feedback, double max);
     // 清除pid
     void clearPID();
     // 清除增量

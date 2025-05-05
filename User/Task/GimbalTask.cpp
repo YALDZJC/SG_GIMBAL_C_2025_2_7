@@ -132,7 +132,9 @@ void Gimbal::yawControl()
     if (Now_Status_Serial == GIMBAL::VISION)
     {
         // 视觉模式：使用角度PID控制
-        pid_yaw_angle.GetPidPos(kpid_yaw_angle, gimbal_data.getTarYaw(), cur_angle, 16384.0f);
+        pid_yaw_angle.setTarget(gimbal_data.getTarYaw());
+        pid_yaw_angle.GetPidPos(kpid_yaw_angle, cur_angle, 16384.0f);
+        
         float feedford = tar_yaw.x2 * yaw_feedford;
 
         // ADRC更新

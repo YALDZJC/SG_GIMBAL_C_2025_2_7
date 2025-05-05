@@ -7,25 +7,25 @@ void TD::Calc(float u)
     this->x2 += (-2.0f * this->r * this->x2 - this->r * this->r * (this->x1 - this->u)) * this->h;
 }
 
-double PID::GetPidPos(Kpid_t kpid, double cin, double feedback, double max)
+double PID::GetPidPos(Kpid_t kpid, double feedback, double max)
 {
     // 输入
-    this->pid.cin = cin;
+    // this->pid.cin = cin;
     // 反馈
     this->pid.feedback = feedback;
     // 跟踪误差
-    this->pid.td_e.Calc(cin - feedback);
+    this->pid.td_e.Calc(this->pid.cin - feedback);
     // 输入误差
-    this->pid.now_e = cin - feedback;
+    this->pid.now_e = this->pid.cin - feedback;
     // p值
     this->pid.p = kpid.kp * this->pid.now_e;
 
     // 积分隔离
     if (fabs(pid.now_e) < pid.Break_I)
-		{
+    {
         pid.Di += pid.now_e; // 累积积分
     }
-	
+
     // 积分计算
     this->pid.i = this->pid.Di * kpid.ki;
 
@@ -47,7 +47,6 @@ double PID::GetPidPos(Kpid_t kpid, double cin, double feedback, double max)
 
     // 输出值
     this->pid.cout = this->pid.p + this->pid.i + this->pid.d;
-
 
     // pid限幅
     if (this->pid.cout > max)

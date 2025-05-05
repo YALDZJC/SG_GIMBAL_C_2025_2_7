@@ -36,7 +36,12 @@ namespace TASK::Shoot
 Class_ShootFSM::Class_ShootFSM()
     : adrc_friction_L_vel(Alg::LADRC::TDquadratic(200, 0.001), 10, 25, 1, 0.001, 16384),
       adrc_friction_R_vel(Alg::LADRC::TDquadratic(200, 0.001), 10, 25, 1, 0.001, 16384),
-      adrc_Dail_vel(Alg::LADRC::TDquadratic(200, 0.001), 5, 40, 0.9, 0.001, 16384), Kpid_Dail_pos(0, 0, 0),
+      adrc_Dail_vel(Alg::LADRC::TDquadratic(200, 0.001), 5, 40, 0.9, 0.001, 16384),
+      // 位置pid增益
+      Kpid_Dail_pos(2, 0, 0),
+      // 速度pid增益
+      Kpid_Dail_vel(60, 0, 0),
+      // 热量限制初始化
       Heat_Limit(100, 65.0f) // 示例参数：窗口大小50，阈值10.0
 {
     // 初始化卡弹检测状态机
@@ -115,7 +120,6 @@ void Class_ShootFSM::UpState()
         target_dail_omega = rpm_to_hz(target_dail_omega);
 
         static bool fired = false;
-        static float start_angle = 0.0f;
 
         // 获取当前角度
         float current_angle = BSP::Motor::Dji::Motor2006.getAddAngleDeg(1);
@@ -124,27 +128,17 @@ void Class_ShootFSM::UpState()
         {
             if (!fired)
             {
-                // 记录起始角度
-                start_angle = current_angle;
                 // 设置目标位置
-                Dail_target_pos = start_angle + 20.0f;
-                // 使用速度控制
-                adrc_Dail_vel.setTarget(-target_dail_omega); // 方向相反
+                Dail_target_pos = current_angle - 40.0f;
                 fired = true;
             }
             else
             {
-                // 检查是否已经达到目标角度
-                float angle_diff = fabs(current_angle - start_angle);
-                if (angle_diff >= 20.0f || (current_angle > Dail_target_pos))
-                {
-                    // 已完成一发子弹的角度，停止拨盘
-                    adrc_Dail_vel.setTarget(0.0f);
-                    // 自动复位开火标志位
-                    fire_flag = 0;
-                }
+                // 自动复位开火标志位
+                fire_flag = 0;
             }
         }
+
         else
         {
             // 重置发射状态
@@ -170,8 +164,7 @@ void Class_ShootFSM::UpState()
         HeatLimit();
         target_dail_omega = Heat_Limit.getNowFire();
         target_dail_omega = rpm_to_hz(target_dail_omega); // 转换单位这里的单位是转轴转一圈的rpm
-        adrc_Dail_vel.setTarget(-target_dail_omega);      // 方向相反
-
+        pid_Dail_vel.setTarget(-target_dail_omega);
         break;
     }
     }
@@ -189,10 +182,22 @@ void Class_ShootFSM::Control(void)
     adrc_friction_L_vel.UpData(velL);
     adrc_friction_R_vel.UpData(velR);
 
-    // 拨盘速度控制
-    adrc_Dail_vel.UpData(DailVel);
+    if (Now_Status_Serial == ONLY)
+    {
+        pid_Dail_pos.setTarget(Dail_target_pos);
+        pid_Dail_pos.GetPidPos(Kpid_Dail_pos, Dail_pos, 16384.0f);
 
-    target_Dail_torque = adrc_Dail_vel.getU();
+        pid_Dail_vel.setTarget(pid_Dail_pos.getOut());
+        pid_Dail_vel.GetPidPos(Kpid_Dail_vel, DailVel, 16384.0f);
+    }
+    else
+    {
+        // 拨盘速度控制
+        pid_Dail_vel.GetPidPos(Kpid_Dail_vel, DailVel, 16384.0f);
+        Dail_target_pos = Dail_pos;
+    }
+
+    target_Dail_torque = pid_Dail_vel.getOut();
 
     // 更新卡弹检测状态
     JammingFMS.UpState();

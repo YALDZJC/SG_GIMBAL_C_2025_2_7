@@ -124,8 +124,12 @@ class Class_ShootFSM : public Class_FSM
     Adrc adrc_friction_R_vel;
     Adrc adrc_Dail_vel;
 
-    PID pid_Dail_pos;
     Kpid_t Kpid_Dail_pos;
+    Kpid_t Kpid_Dail_vel;
+
+    PID pid_Dail_pos;
+    PID pid_Dail_vel;
+
     float Dail_target_pos;
     // 用于单发检测，获取上升沿判断是否击发子弹
     // BSP::Key::SimpleKey key_fire;
