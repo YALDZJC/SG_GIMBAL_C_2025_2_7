@@ -27,7 +27,7 @@ namespace TASK::GIMBAL
 {
 // 构造函数定义，使用初始化列表
 Gimbal::Gimbal()
-    : adrc_yaw_vel(Alg::LADRC::TDquadratic(100, 0.005), 10, 40, 0.15, 0.005, 16384),
+    : adrc_yaw_vel(Alg::LADRC::TDquadratic(100, 0.005), 10, 40, 0.1, 0.005, 16384),
       // 速度pid的积分
       pid_yaw_angle{0, 0},
       // pid的k值
@@ -135,9 +135,7 @@ void Gimbal::yawControl()
         adrc_yaw_vel.setTarget(gimbal_data.getTarYaw());
         adrc_yaw_vel.UpData(cur_vel);
     }
-    // 直接设置ADRC目标
-    adrc_yaw_vel.setTarget(gimbal_data.getTarYaw());
-    adrc_yaw_vel.UpData(cur_vel);
+
     // Tools.vofaSend(adrc_yaw_vel.getZ1(), cur_vel, pid_yaw_angle.getOut(), cur_angle, gimbal_data.getTarYaw(), 0);
     Tools.vofaSend(BSP::Motor::Dji::Motor6020.getAddAngleDeg(1), BSP::Motor::Dji::Motor6020.getRunTime(1),
                    pid_yaw_angle.getOut(), cur_angle, gimbal_data.getTarYaw(), 0);
