@@ -80,14 +80,14 @@ osThreadId_t shootTaskHandle;
 const osThreadAttr_t shootTask_attributes = {
   .name = "shootTask",
   .stack_size = 1024 * 4,
-  .priority = (osPriority_t) osPriorityLow,
+  .priority = (osPriority_t) osPriorityNormal,
 };
 /* Definitions for remoteSwitch */
 osThreadId_t remoteSwitchHandle;
 const osThreadAttr_t remoteSwitch_attributes = {
   .name = "remoteSwitch",
   .stack_size = 128 * 4,
-  .priority = (osPriority_t) osPriorityLow,
+  .priority = (osPriority_t) osPriorityNormal,
 };
 
 /* Private function prototypes -----------------------------------------------*/

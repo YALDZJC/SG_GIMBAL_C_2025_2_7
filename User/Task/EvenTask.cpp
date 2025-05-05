@@ -62,7 +62,7 @@ bool Dir::Dir_Pitch()
     if (Dir == true)
     {
         BSP::Motor::DM::Motor4310.On(&hcan2, 1);
-        osDelay(10);
+        osDelay(1);
     }
     return Dir;
 }

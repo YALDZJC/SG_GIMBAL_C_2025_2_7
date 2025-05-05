@@ -53,7 +53,7 @@ void Gimbal::UpState()
     using namespace APP::Data;
 
     auto *remote = Mode::RemoteModeManager::Instance().getActiveController();
-
+	
     auto remote_rx = remote->getRightX();
     auto remote_ry = remote->getRightY();
 

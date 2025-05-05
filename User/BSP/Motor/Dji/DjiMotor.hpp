@@ -202,7 +202,7 @@ template <uint8_t N> class DjiMotorBase : public MotorBase<N>
         bool is_dir = false;
         for (uint8_t i = 0; i < N; i++)
         {
-            is_dir |= this->runTime_[i].Dir_Flag = this->runTime_[i].dirTime.ISDir(100);
+            is_dir |= this->runTime_[i].Dir_Flag = this->runTime_[i].dirTime.ISDir(1000);
             this->runTime_[i].Dir_Flag = is_dir;
         }
 

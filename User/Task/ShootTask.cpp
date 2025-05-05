@@ -16,6 +16,7 @@ void ShootTask(void *argument)
     {
         hz_send += 0.001;
         Communicat::vision.time_demo();
+				BSP::Motor::Dji::Motor6020.ISDir();
 
         TASK::Shoot::shoot_fsm.Control();
         osDelay(1);
@@ -200,6 +201,8 @@ void Class_ShootFSM::HeatLimit()
     Heat_Limit.setTargetFire(target_dail_omega);
 
     Heat_Limit.UpData();
+	
+	
 }
 
 void Class_ShootFSM::CAN_Send(void)
