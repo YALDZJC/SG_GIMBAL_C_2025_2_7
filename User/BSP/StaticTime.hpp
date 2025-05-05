@@ -19,8 +19,6 @@ public:
 inline void RM_StaticTime::UpLastTime()
 {
 	this->lastTime = HAL_GetTick();
-
-    lastTime++;
 }
 
 inline bool RM_StaticTime::ISOne(uint32_t targetTime)
