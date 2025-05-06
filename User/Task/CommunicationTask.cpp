@@ -122,6 +122,25 @@ void Gimbal_to_Chassis::Data_send()
     HAL_UART_Transmit_DMA(&huart6, buffer, len);
 }
 
+void Gimbal_to_Chassis::Receive()
+{
+    HAL_UART_Receive_DMA(&huart6, rx_buffer, len);
+
+    if (rx_buffer[0] != 0x21 && rx_buffer[1] != 0x12)
+        return;
+
+    // 使用临时指针将数据拷贝到缓冲区
+    auto temp_ptr = buffer;
+    // 跳过帧头
+    temp_ptr += 2;
+    const auto memcpy_safe = [&](const auto &data) {
+        std::memcpy(temp_ptr, &data, sizeof(data));
+        temp_ptr += sizeof(data);
+    };
+
+    memcpy_safe(rx_refree); // 序列化方向数据
+}
+
 float Gimbal_to_Chassis::CalcuGimbalToChassisAngle()
 {
 

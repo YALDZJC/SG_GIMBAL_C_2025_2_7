@@ -10,6 +10,8 @@ class Gimbal_to_Chassis
   public:
     void Data_send();
 
+    void Receive();
+
   private:
     float CalcuGimbalToChassisAngle();
 
@@ -53,9 +55,11 @@ class Gimbal_to_Chassis
     {
         uint16_t booster_heat_cd;
         uint16_t booster_heat_max;
+        uint16_t booster_now_heat;
     };
 
     uint8_t buffer[20];
+    uint8_t rx_buffer[8];
 
     Direction direction;
     ChassisMode chassis_mode;
@@ -205,8 +209,6 @@ class Vision
     {
         tx_other.vision_mode = mode;
     }
-
-
 
     uint8_t getAimX()
     {
