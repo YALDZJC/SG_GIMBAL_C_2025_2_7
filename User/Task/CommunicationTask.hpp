@@ -141,6 +141,7 @@ class Vision
 
     bool fire_flag;
     uint32_t fire_num;
+	uint32_t fire_tick;
 
   public:
     void Data_send();
@@ -162,7 +163,7 @@ class Vision
     {
         if (rx_other.fire == 1 && fire_flag == false)
         {
-            *tar -= 80.0f;
+            *tar -= 40.0f;
             fire_flag = true;
         }
         else if (rx_other.fire == 0)
@@ -186,6 +187,11 @@ class Vision
     {
         return rx_other.aim_y;
     }
+	
+	bool getVisionReady()
+	{
+		return rx_other.vision_ready;
+	}
 };
 
 inline void Gimbal_to_Chassis::set_LX(double LX)

@@ -9,6 +9,7 @@
 #include "../BSP/Motor/Dji/DjiMotor.hpp"
 #include "../BSP/Remote/Dbus.hpp"
 #include "../Task/CommunicationTask.hpp"
+#include "math.h"
 
 #include "cmsis_os2.h"
 
@@ -56,7 +57,7 @@ class GimbalData
     float B;
 
     float ff_value = 0;
-    float ff_k = 0.4;
+    float ff_k = 0.8;
     float Yaw_final_out;
 
     float pitch_gravity_ff = -1.2; // pitch重力前馈
@@ -155,12 +156,12 @@ class Gimbal_Task::VisionHandler : public StateHandler
         gimbal_data.tar_pitch -= BSP::Remote::dr16.remoteRight().y * 0.1;
         gimbal_data.tar_pitch = Tools.clamp(gimbal_data.tar_pitch, gimbal_data.pitch_limit, -25);
 
-        auto vision_target = Communicat::Vision_Data.rx_target;
-        if (fabs(vision_target.pitch_angle) > 0 && fabs(vision_target.yaw_angle) > 0)
+        auto vision_target = Communicat::Vision_Data;
+        if (fabs(vision_target.pitch_angle_) > 0 && fabs(vision_target.yaw_angle_) > 0)
         {
-            gimbal_data.tar_pitch =
-                (Communicat::Vision_Data.rx_target.pitch_angle + BSP::Motor::DM::Motor4310.getAngleDeg(1));
-            gimbal_data.tar_yaw = Communicat::Vision_Data.rx_target.yaw_angle + BSP::IMU::imu.getAddYaw();
+            gimbal_data.tar_pitch = Communicat::Vision_Data.get_vision_pitch();
+            gimbal_data.tar_yaw = Communicat::Vision_Data.get_vision_yaw();
+            //			gimbal_data.err =  tar_pitch.x1 - BSP::Motor::DM::Motor4310.getAngleDeg(1);
 
             if (BSP::Remote::dr16.sw() >= 0.6 && gimbal_data.is_Launch == true)
                 Communicat::Vision_Data.get_fire_num(&gimbal_data.tar_Dail_angle);
@@ -232,7 +233,7 @@ class Gimbal_Task::KeyBoardHandler : public StateHandler
             gimbal_data.tar_yaw -= 180.0f;
         }
 
-        if (mouse_key.right)
+        if (mouse_key.right && Communicat::Vision_Data.getVisionReady() == true)
         {
             //			auto Vision = Communicat::Vision_Data;
             gimbal_data.tar_pitch = Communicat::Vision_Data.get_vision_pitch();
@@ -546,7 +547,7 @@ static void blocking_check()
     if (fabs(pid_Dial_pos.GetErr()) > 120)
     {
         // 未在退弹过程中，每200ms检测一次是否卡弹
-        if ((HAL_GetTick() - time1) > 100 && blocking_flag == 0)
+        if ((HAL_GetTick() - time1) > 200 && blocking_flag == 0)
         {
             //
             if (fabs(angle - angle_sum_prev) < 120)
@@ -646,9 +647,16 @@ void Gimbal_Task::CanSend()
     //    gimbal_data.tar_yaw,
     //                   BSP::IMU::imu.getAddYaw(), tar_yaw.x1);
 
-    // Pitch调参
-    Tools.vofaSend(gimbal_data.tar_pitch, adrc_yaw_vel.getFeedback(), BSP::Motor::DM::Motor4310.getAddAngleDeg(1), 0, 0,
-                   0);
+//    // Pitch调参
+//    Tools.vofaSend(gimbal_data.tar_pitch, adrc_yaw_vel.getFeedback(), BSP::Motor::DM::Motor4310.getAddAngleDeg(1), 0, 0,
+//                   0);
+
+//        Tools.vofaSend(gimbal_data.tar_yaw, 
+//						BSP::IMU::imu.getAddYaw(), 
+//						gimbal_data.tar_pitch,
+//						BSP::Motor::DM::Motor4310.getAddAngleDeg(1),
+//						tar_yaw.x1,
+//						tar_pitch.x1);
 }
 
 void Gimbal_Task::Stop()

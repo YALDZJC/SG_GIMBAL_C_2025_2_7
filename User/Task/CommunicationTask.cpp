@@ -212,34 +212,40 @@ void Vision::dataReceive()
     if (Rx_pData[0] == 0x39 && Rx_pData[1] == 0x39)
     {
         rx_other.vision_ready = Rx_pData[10];
-        rx_other.fire = (Rx_pData[11]);
+		
+//		if(HAL_GetTick() - fire_tick)
+//		{
+			rx_other.fire = (Rx_pData[11]);
+			fire_tick = HAL_GetTick();
+//		}
         rx_other.tail = Rx_pData[12];
         rx_other.aim_x = Rx_pData[17];
         rx_other.aim_y = Rx_pData[18];
 
-		
 		pitch_angle_ = (Rx_pData[2] << 24 | Rx_pData[3] << 16 | Rx_pData[4] << 8 | Rx_pData[5]) / 100.0;
-        rx_target.pitch_angle = pitch_angle_ - BSP::Motor::DM::Motor4310.getAngleDeg(1);
-
 		yaw_angle_ = (Rx_pData[6] << 24 | Rx_pData[7] << 16 | Rx_pData[8] << 8 | Rx_pData[9]) / 100.0;
-        rx_target.yaw_angle = yaw_angle_ + BSP::IMU::imu.getAddYaw();
 
-        if (fabs(rx_target.yaw_angle) > 25.0) // 超过25°置零（异常值）
+		if (fabs(pitch_angle_) > 25.0) // 超过25°置零（异常值）
         {
             pitch_angle_ = 0;
         }
-        if (fabs(rx_target.pitch_angle) > 25.0) // 超过25°置零（异常值）
+        if (fabs(yaw_angle_) > 25.0) // 超过25°置零（异常值）
         {
             yaw_angle_ = 0;
         }
 
-        rx_target.pitch_angle *= -1.0; // 每台方向不同
-
-        if (rx_other.vision_ready != 1)
+		if (rx_other.vision_ready != 1)
         {
-            rx_target.yaw_angle = 0;
-            rx_target.pitch_angle = 0;
+            pitch_angle_ = 0;
+            yaw_angle_ = 0;
         }
+		
+        rx_target.pitch_angle = pitch_angle_ - BSP::Motor::DM::Motor4310.getAngleDeg(1);
+		rx_target.pitch_angle *= -1.0; // 每台方向不同
+
+        rx_target.yaw_angle = yaw_angle_ + BSP::IMU::imu.getAddYaw();
+
+
 
         //		if(rx_target.pitch_angle * 100 > 2500)
         //		{
