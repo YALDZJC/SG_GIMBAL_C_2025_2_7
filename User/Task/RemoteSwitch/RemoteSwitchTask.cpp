@@ -75,9 +75,9 @@ void keyBoradUpdata()
 
     // 左右
     if (A)
-        Gimbal_to_Chassis_Data.set_LX(1);
-    else if (D)
         Gimbal_to_Chassis_Data.set_LX(-1);
+    else if (D)
+        Gimbal_to_Chassis_Data.set_LX(1);
     else
         Gimbal_to_Chassis_Data.set_LX(0);
 

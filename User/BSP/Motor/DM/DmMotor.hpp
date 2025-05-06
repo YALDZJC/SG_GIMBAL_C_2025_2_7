@@ -363,7 +363,7 @@ template <uint8_t N> class J4310 : public DMMotorBase<N>
      * @param ids 电机ID列表
      */
     J4310(uint16_t Init_id, const uint8_t (&ids)[N], const uint32_t (&send_idxs_)[N])
-        : DMMotorBase<N>(Init_id, ids, send_idxs_, Parameters(-12.56, 12.56, -30, 30, -10, 10, 0.0, 500, 0.0, 5.0))
+        : DMMotorBase<N>(Init_id, ids, send_idxs_, Parameters(-12.56, 12.56, -30, 30, -3, 3, 0.0, 500, 0.0, 5.0))
     {
     }
 };
