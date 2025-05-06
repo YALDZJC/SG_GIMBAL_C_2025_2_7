@@ -14,6 +14,16 @@ class TD
 
     void Calc(float u);
 
+    float getX1()
+    {
+        return x1;
+    };
+
+    float getX2()
+    {
+        return x2;
+    };
+
   private:
 };
 

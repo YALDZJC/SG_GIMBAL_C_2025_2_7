@@ -19,8 +19,6 @@ void keyBoradUpdata();
 void BoosterUpState();
 void GimbalUpState();
 
-float retote_LX;
-
 void RemoteSwitchTask(void *argument)
 {
     for (;;)
@@ -30,17 +28,17 @@ void RemoteSwitchTask(void *argument)
         remote->update();
 
         auto &mini = BSP::Remote::Mini::Instance();
-        retote_LX = mini.remoteRight().x;
         // 更新按键状态
         APP::Key::KeyBroad::Instance().Update(remote->getKeybroad());
+
         keyBoradUpdata();
         BoosterUpState();
         GimbalUpState();
 
-        osDelay(14); // 遥控器更新频率为70hz
+        osDelay(5); // 遥控器更新频率为70hz
     }
 }
-
+int8_t shift;
 void keyBoradUpdata()
 {
     using namespace APP::Key;
@@ -56,7 +54,7 @@ void keyBoradUpdata()
 
     // 按住shift
     auto SHITF = KeyBroad::Instance().getPress(KeyBroad::KEY_SHIFT);
-
+    shift = KeyBroad::Instance().getPress(KeyBroad::KEY_SHIFT);
     // 下降沿加减功率
     auto F = KeyBroad::Instance().getFallingEdge(KeyBroad::KEY_F);
     auto V = KeyBroad::Instance().getFallingEdge(KeyBroad::KEY_V);
@@ -64,11 +62,10 @@ void keyBoradUpdata()
     // 点击刷新
     auto CTRL = KeyBroad::Instance().getKeyClick(KeyBroad::KEY_CTRL);
 
-    // 点击开启发射机构
-    auto G = KeyBroad::Instance().getKeyClick(KeyBroad::KEY_G);
-    auto B = KeyBroad::Instance().getKeyClick(KeyBroad::KEY_B);
+    // 点击切换视觉模式
+    auto Vision = KeyBroad::Instance().getKeyClick(KeyBroad::KEY_C);
 
-    //  前进后退
+    //   前进后退
     if (W)
         Gimbal_to_Chassis_Data.set_LY(1);
     else if (S)
@@ -90,9 +87,8 @@ void keyBoradUpdata()
     else
         Gimbal_to_Chassis_Data.set_Rotating_vel(0);
 
-    // 冲刺
-    if (SHITF)
-        Gimbal_to_Chassis_Data.set_Shift(SHITF);
+    // 按住就是shitf不是长按，不需要if
+    Gimbal_to_Chassis_Data.set_Shift(SHITF);
 
     // 增加功率
     if (F)
@@ -106,33 +102,53 @@ void keyBoradUpdata()
     if (CTRL)
         Gimbal_to_Chassis_Data.set_UIF5(CTRL);
 
-    // 云台逻辑
-    if (G)
-        TASK::Shoot::shoot_fsm.setNowStatus(TASK::Shoot::Booster_Status::AUTO);
-
-    if (B)
-        TASK::Shoot::shoot_fsm.setNowStatus(TASK::Shoot::Booster_Status::DISABLE);
+    static uint8_t vision_mode = 1;
+    if (Vision)
+    {
+        vision_mode++;
+    }
+    else if (vision_mode > 3)
+    {
+        vision_mode = 1;
+    }
+    Communicat::vision.setVisionMode(vision_mode);
+    Gimbal_to_Chassis_Data.setVisionMode(vision_mode);
 }
 
 void BoosterUpState()
 {
+    using namespace APP::Key;
+
     auto *remote = Mode::RemoteModeManager::Instance().getActiveController();
 
-    if (remote->isStopMode())
+    // 点击开启发射机构
+    auto G = KeyBroad::Instance().getKeyClick(KeyBroad::KEY_G);
+    auto B = KeyBroad::Instance().getKeyClick(KeyBroad::KEY_B);
+
+    static bool booster_enabled = false;
+
+    // 按G键开启，按B键关闭
+    if (G || remote->isLaunchMode())
+        booster_enabled = true;
+    if (B || remote->isStopMode())
+        booster_enabled = false;
+
+    // 如果未启用或处于停止模式，则禁用
+    if (!booster_enabled || remote->isStopMode())
     {
         TASK::Shoot::shoot_fsm.setNowStatus(TASK::Shoot::Booster_Status::DISABLE);
-    }
-    else if (remote->isLaunchMode())
-    {
-        TASK::Shoot::shoot_fsm.setNowStatus(TASK::Shoot::Booster_Status::ONLY);
     }
     else if (remote->isVisionFireMode())
     {
         TASK::Shoot::shoot_fsm.setNowStatus(TASK::Shoot::Booster_Status::ONLY);
     }
+    else if (remote->isLaunchMode())
+    {
+        TASK::Shoot::shoot_fsm.setNowStatus(TASK::Shoot::Booster_Status::AUTO);
+    }
     else
     {
-        TASK::Shoot::shoot_fsm.setNowStatus(TASK::Shoot::Booster_Status::DISABLE);
+        TASK::Shoot::shoot_fsm.setNowStatus(TASK::Shoot::Booster_Status::AUTO);
     }
 }
 
@@ -144,7 +160,7 @@ void GimbalUpState()
     {
         TASK::GIMBAL::gimbal.setNowStatus(TASK::GIMBAL::DISABLE);
     }
-    else if (remote->isVisionMode())
+    else if (remote->isVisionMode() && Communicat::vision.getVisionFlag())
     {
         TASK::GIMBAL::gimbal.setNowStatus(TASK::GIMBAL::VISION);
     }

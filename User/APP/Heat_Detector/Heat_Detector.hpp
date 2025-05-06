@@ -4,6 +4,8 @@
 
 #include "../User/Algorithm/SlidingWindow/SlidingWindow.hpp"
 
+#include "../User/BSP/DWT/DWT.hpp"
+
 namespace APP::Heat_Detector
 {
 enum Heat_Detector_Status
@@ -36,6 +38,9 @@ class Class_FSM_Heat_Limit : public Class_FSM
     float heat_limit_stop = 20.0f;    // 停火阈值，超过会直接停止射击
 
     static constexpr float cur_vel_Threshold = 6000; // 使能检测的阈值，摩擦轮超过这个速度则判断为使能
+
+    uint32_t booster_time;
+    float dt;
 
   public:
     /**

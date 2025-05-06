@@ -43,8 +43,8 @@ void Dr16::UpdateStatus()
 
     joystick_right_.y = -channel_to_double(static_cast<uint16_t>(part1.joystick_channel1));
     joystick_right_.x = -channel_to_double(static_cast<uint16_t>(part1.joystick_channel0));
-    joystick_left_.y = -channel_to_double(static_cast<uint16_t>(part1.joystick_channel3));
-    joystick_left_.x = -channel_to_double(static_cast<uint16_t>(part1.joystick_channel2));
+    joystick_left_.y = channel_to_double(static_cast<uint16_t>(part1.joystick_channel3));
+    joystick_left_.x = channel_to_double(static_cast<uint16_t>(part1.joystick_channel2));
 
     switch_right_ = static_cast<Switch>(part1.switch_right);
     switch_left_ = static_cast<Switch>(part1.switch_left);

@@ -27,7 +27,7 @@ namespace TASK::GIMBAL
 {
 // 构造函数定义，使用初始化列表
 Gimbal::Gimbal()
-    : adrc_yaw_vel(Alg::LADRC::TDquadratic(100, 0.005), 10, 40, 0.1, 0.005, 16384),
+    : adrc_yaw_vel(Alg::LADRC::TDquadratic(100, 0.005), 9, 40, 0.1, 0.005, 16384),
       // 速度pid的积分
       pid_yaw_angle{0, 0},
       // pid的k值
@@ -62,7 +62,8 @@ void Gimbal::UpState()
     switch (Now_Status_Serial)
     {
     case (GIMBAL::DISABLE): {
-        // 如果失能则让期望值等于实际值
+
+        // 如果失能则让期望值等于实际值pp
         filter_tar_yaw = BSP::IMU::imu.getGyroZ();
         filter_tar_pitch += BSP::Motor::DM::Motor4310.getAddAngleDeg(1);
 
@@ -131,10 +132,13 @@ void Gimbal::yawControl()
     // 根据模式选择控制策略
     if (Now_Status_Serial == GIMBAL::VISION)
     {
+        // 视觉值滤波
+        tar_yaw.Calc(filter_tar_yaw);
+
         // 视觉模式：使用角度PID控制
-        pid_yaw_angle.setTarget(gimbal_data.getTarYaw());
+        pid_yaw_angle.setTarget(tar_yaw.getX1());
         pid_yaw_angle.GetPidPos(kpid_yaw_angle, cur_angle, 16384.0f);
-        
+
         float feedford = tar_yaw.x2 * yaw_feedford;
 
         // ADRC更新
@@ -143,14 +147,15 @@ void Gimbal::yawControl()
     }
     else
     {
-        // 直接设置ADRC目标
-        adrc_yaw_vel.setTarget(gimbal_data.getTarYaw());
+        // 直接设置ADRC目标,速度模式不给期望值滤波，跟手就行
+        adrc_yaw_vel.setTarget(filter_tar_yaw);
         adrc_yaw_vel.UpData(cur_vel);
     }
 
-    // Tools.vofaSend(adrc_yaw_vel.getZ1(), cur_vel, pid_yaw_angle.getOut(), cur_angle, gimbal_data.getTarYaw(), 0);
-    //    Tools.vofaSend(BSP::Motor::Dji::Motor6020.getAddAngleDeg(1), BSP::Motor::Dji::Motor6020.getRunTime(1),
-    //                   pid_yaw_angle.getOut(), cur_angle, gimbal_data.getTarYaw(), 0);
+    //    Tools.vofaSend(adrc_yaw_vel.getZ1(), cur_vel, pid_yaw_angle.getOut(), cur_angle, gimbal_data.getTarYaw(),
+    //                   tar_yaw.x2);
+    Tools.vofaSend(cur_angle, filter_tar_yaw, Now_Status_Serial, Communicat::vision.getVisionYaw(),
+                   Communicat::vision.getVisionFlag(), Communicat::vision.getTarYaw());
 }
 
 void Gimbal::pitchControl()

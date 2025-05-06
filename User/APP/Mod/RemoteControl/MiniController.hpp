@@ -69,7 +69,7 @@ class MiniRemoteController : public IRemoteController
     bool isVisionFireMode() const override
     {
         auto &remote = Mini::Instance();
-        return (isVisionMode() && remote.mouse().left == true);
+        return (remote.mouse().right && remote.mouse().left == true);
     }
 
     bool isStopMode() const override

@@ -14,8 +14,8 @@ class Gimbal_to_Chassis
     float CalcuGimbalToChassisAngle();
 
     uint8_t head = 0xA5; // 帧头
-
-    int16_t Init_Angle = 134.0f;
+    uint8_t len;
+    int16_t Init_Angle = 190.0f;
     int16_t target_offset_angle = 0;
 
     struct __attribute__((packed)) Direction // 方向结构体
@@ -52,6 +52,7 @@ class Gimbal_to_Chassis
     struct __attribute__((packed)) RxRefree // 云台数据
     {
         uint16_t booster_heat_cd;
+        uint16_t booster_heat_max;
     };
 
     uint8_t buffer[20];
@@ -77,6 +78,7 @@ class Gimbal_to_Chassis
     }
     void setPower(int8_t power)
     {
+        power = Tools.clamp(power, 60, -60);
         direction.Power += power;
         direction.Power = Tools.clamp(direction.Power, 100, -100);
     }
@@ -179,29 +181,32 @@ class Vision
         return pitch_angle_;
     }
 
+    float getVisionYaw()
+    {
+        return rx_target.yaw_angle;
+    }
+
+    float getVisionPitch()
+    {
+        return rx_target.pitch_angle;
+    }
+
     bool getVisionReady()
     {
         return rx_other.vision_ready;
     }
 
-    void get_fire_num(int32_t *tar)
+    bool get_fire_num()
     {
-        if (rx_other.fire == 1 && fire_flag == false)
-        {
-            *tar -= 80.0f;
-            fire_flag = true;
-        }
-        else if (rx_other.fire == 0)
-        {
-            fire_num = 0;
-            fire_flag = false;
-        }
+        return rx_other.fire;
     }
 
     void setVisionMode(uint8_t mode)
     {
         tx_other.vision_mode = mode;
     }
+
+
 
     uint8_t getAimX()
     {

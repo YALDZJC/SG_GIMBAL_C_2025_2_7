@@ -22,8 +22,8 @@ class DR16RemoteController : public IRemoteController
 
     bool isVisionMode() const override
     {
-        return (dr16.switchLeft() != Dr16::Switch::MIDDLE) && (dr16.switchRight() == Dr16::Switch::MIDDLE) &&
-               (Communicat::vision.getVisionReady() == true);
+        return ((dr16.switchLeft() != Dr16::Switch::MIDDLE) && (dr16.switchRight() == Dr16::Switch::MIDDLE)) ||
+               (dr16.mouse().right == true);
     }
 
     bool isLaunchMode() const override
@@ -44,7 +44,7 @@ class DR16RemoteController : public IRemoteController
      */
     bool isVisionFireMode() const override
     {
-        return isVisionMode() && dr16.mouse().left;
+        return (dr16.mouse().right == true) && (dr16.mouse().left == true);
     }
 
     bool isStopMode() const override
@@ -105,7 +105,7 @@ class DR16RemoteController : public IRemoteController
 
     bool getMouseKeyLeft() const override
     {
-        return dr16.mouse().right;
+        return dr16.mouse().left;
     }
 
     bool getMouseKeyRight() const override

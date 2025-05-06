@@ -38,7 +38,10 @@ void Class_FSM_Heat_Limit::UpData()
         }
 
         // 运行频率1000hz
-        now_heat -= static_cast<float>(booster_heat_cd) * 0.001;
+        auto &timer = BSP::DWTimer::GetInstance(168); // 获取 DWTimer 实例，CPU 频率为 168 MHz
+        dt = timer.GetDeltaT(&booster_time);
+				
+        now_heat -= static_cast<float>(booster_heat_cd) * dt;
         if (now_heat < 0.0f)
             now_heat = 0.0f;
 

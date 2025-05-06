@@ -6,6 +6,8 @@
 #include "../BSP/SimpleKey/SimpleKey.hpp"
 #include "../User/Algorithm/PID.hpp"
 
+#include "../User/BSP/DWT/DWT.hpp"
+
 namespace TASK::Shoot
 {
 using namespace Alg::LADRC;
@@ -39,7 +41,7 @@ class Class_JammingFSM : public Class_FSM
 {
   private:
     // 堵转力矩
-    static constexpr float stall_torque = 0.5f;
+    float stall_torque = 0.5f;
     // 堵转时间阈值，超过则为堵转
     static constexpr uint32_t stall_time = 200;
     // 从堵转停止时间阈值，超过则停止堵转
@@ -131,6 +133,8 @@ class Class_ShootFSM : public Class_FSM
     PID pid_Dail_vel;
 
     float Dail_target_pos;
+
+
     // 用于单发检测，获取上升沿判断是否击发子弹
     // BSP::Key::SimpleKey key_fire;
 };
