@@ -215,14 +215,18 @@ void Vision::dataReceive()
         rx_target.yaw_angle = (Rx_pData[6] << 24 | Rx_pData[7] << 16 | Rx_pData[8] << 8 | Rx_pData[9]) / 100.0;
         rx_target.pitch_angle *= -1.0; // 每台方向不同
 
-        if ((fabs(rx_target.yaw_angle) > 25 && fabs(rx_target.pitch_angle) > 25) || (rx_other.vision_ready == false))
+        if ((fabs(rx_target.yaw_angle) > 25 && fabs(rx_target.pitch_angle) > 25))
         {
-            vision_flag = false;
             rx_target.yaw_angle = 0;
             rx_target.pitch_angle = 0;
         }
-        else
-            vision_flag = true;
+		
+		if((rx_other.vision_ready == false))
+			vision_flag = false;
+		else
+			vision_flag = true;
+
+
 
         yaw_angle_ = rx_target.yaw_angle + BSP::IMU::imu.getAddYaw();
         pitch_angle_ = (rx_target.pitch_angle - BSP::Motor::DM::Motor4310.getAngleDeg(1));

@@ -29,7 +29,6 @@ void EventTask(void *argument)
 
     for (;;)
     {
-
         Dir_Event.UpEvent();
 
         osDelay(1);
