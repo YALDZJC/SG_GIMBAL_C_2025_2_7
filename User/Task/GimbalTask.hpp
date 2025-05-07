@@ -45,8 +45,11 @@ class Gimbal : public Class_FSM
     float sin_val;
     float sin_hz;
     float b;
-    float yaw_feedford = 0.12;
+    float yaw_feedford = 0.1;
 
+	float DM_Kp = 120;
+	float DM_Kd = 2.8;
+  
     uint32_t task_tick;
 
     Kpid_t kpid_yaw_angle; // yaw轴pid增益

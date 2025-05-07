@@ -56,14 +56,7 @@ double PID::GetPidPos(Kpid_t kpid, double feedback, double max)
 
     return this->pid.cout;
 }
-void PID::clearPID()
-{
-    this->pid.p = 0;
-    this->pid.i = 0;
-    this->pid.d = 0;
 
-    this->pid.cout = 0;
-}
 double FeedTar::UpData(float feedback)
 {
     new_target = feedback;

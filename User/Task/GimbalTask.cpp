@@ -27,11 +27,11 @@ namespace TASK::GIMBAL
 {
 // 构造函数定义，使用初始化列表
 Gimbal::Gimbal()
-    : adrc_yaw_vel(Alg::LADRC::TDquadratic(100, 0.005), 9, 40, 0.1, 0.005, 16384),
+    : adrc_yaw_vel(Alg::LADRC::TDquadratic(100, 0.005), 8, 40, 0.1, 0.005, 16384),
       // 速度pid的积分
       pid_yaw_angle{0, 0},
       // pid的k值
-      kpid_yaw_angle{5, 0, 0}
+      kpid_yaw_angle{8, 0, 0}
 {
     // 其他初始化逻辑（如果有）
 }
@@ -59,10 +59,10 @@ void Gimbal::UpState()
 
     // 获取当前角度值
     auto cur_angle = BSP::IMU::imu.getAddYaw();
-	
+
     DM_state.update(Now_Status_Serial == GIMBAL::DISABLE);
-	vision_state.update(Now_Status_Serial == GIMBAL::VISION);
-	
+    vision_state.update(Now_Status_Serial == GIMBAL::VISION);
+
     switch (Now_Status_Serial)
     {
     case (GIMBAL::DISABLE): {
@@ -81,18 +81,18 @@ void Gimbal::UpState()
         break;
     }
     case (GIMBAL::VISION): {
-		
-		// 检测状态变化的上升沿（进入视觉状态）
-		// 主要是防止进入视觉时的偏移问题
-		if(vision_state.getRisingEdge())
-		{
-			filter_tar_yaw = cur_angle;
-		}
-		else
-		{        
-			filter_tar_yaw = Communicat::vision.getTarYaw();
-		}
-		
+
+        // 检测状态变化的上升沿（进入视觉状态）
+        // 主要是防止进入视觉时的偏移问题
+        if (vision_state.getRisingEdge())
+        {
+            filter_tar_yaw = cur_angle;
+        }
+        else
+        {
+            filter_tar_yaw = Communicat::vision.getTarYaw();
+        }
+
         // 视觉模式
         filter_tar_pitch = Communicat::vision.getTarPitch();
         break;
@@ -162,22 +162,25 @@ void Gimbal::yawControl()
     }
     else
     {
+        pid_yaw_angle.clearPID();
         // 直接设置ADRC目标,速度模式不给期望值滤波，跟手就行
         adrc_yaw_vel.setTarget(filter_tar_yaw);
         adrc_yaw_vel.UpData(cur_vel);
     }
 
-    //    Tools.vofaSend(adrc_yaw_vel.getZ1(), cur_vel, pid_yaw_angle.getOut(), cur_angle, gimbal_data.getTarYaw(),
-    //                   tar_yaw.x2);
-        Tools.vofaSend(cur_angle, filter_tar_yaw, Now_Status_Serial, Communicat::vision.getVisionYaw(),
-                       Communicat::vision.getVisionFlag(), Communicat::vision.getTarYaw());
+    //        Tools.vofaSend(adrc_yaw_vel.getZ1(), cur_vel, pid_yaw_angle.getOut(), cur_angle, gimbal_data.getTarYaw(),
+    //                       tar_yaw.x2);
+    //        Tools.vofaSend(cur_angle, filter_tar_yaw, Now_Status_Serial, Communicat::vision.getVisionYaw(),
+    //                       Communicat::vision.getVisionFlag(), Communicat::vision.getTarYaw());
+    //    Tools.vofaSend(filter_tar_pitch, BSP::Motor::DM::Motor4310.getAngleDeg(1), cur_angle, filter_tar_yaw, 0,
+    //                   0);
 }
 
 void Gimbal::pitchControl()
 {
     using namespace APP::Data;
 
-    BSP::Motor::DM::Motor4310.ctrl_Motor(&hcan2, 1, filter_tar_pitch * 0.0174532f, 0, 100, 3, 0);
+    BSP::Motor::DM::Motor4310.ctrl_Motor(&hcan2, 1, filter_tar_pitch * 0.0174532f, 0, DM_Kp, DM_Kd, 0);
 }
 
 void Gimbal::sendCan()

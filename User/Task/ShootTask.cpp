@@ -49,7 +49,7 @@ Class_ShootFSM::Class_ShootFSM()
       adrc_friction_R_vel(Alg::LADRC::TDquadratic(200, 0.001), 10, 25, 1, 0.001, 16384),
       adrc_Dail_vel(Alg::LADRC::TDquadratic(200, 0.001), 5, 40, 0.9, 0.001, 16384),
       // 位置pid增益
-      Kpid_Dail_pos(2, 0, 0),
+      Kpid_Dail_pos(8, 0, 0),
       // 速度pid增益
       Kpid_Dail_vel(60, 0, 0),
       // 热量限制初始化
@@ -245,7 +245,7 @@ void Class_ShootFSM::HeatLimit()
     auto velL = BSP::Motor::Dji::Motor3508.getVelocityRpm(1);
     auto velR = BSP::Motor::Dji::Motor3508.getVelocityRpm(2);
 
-    Heat_Limit.setBoosterHeat(120, 40);
+    Heat_Limit.setBoosterHeat(240, 40);
     Heat_Limit.setFrictionCurrent(CurL, CurR);
     Heat_Limit.setFrictionVel(velL, velR);
     // Heat_Limit.setTargetFire(20.0);
