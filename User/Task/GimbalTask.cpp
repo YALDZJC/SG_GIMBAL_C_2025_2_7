@@ -57,8 +57,12 @@ void Gimbal::UpState()
     auto remote_rx = remote->getRightX();
     auto remote_ry = remote->getRightY();
 
+    // 获取当前角度值
+    auto cur_angle = BSP::IMU::imu.getAddYaw();
+	
     DM_state.update(Now_Status_Serial == GIMBAL::DISABLE);
-
+	vision_state.update(Now_Status_Serial == GIMBAL::VISION);
+	
     switch (Now_Status_Serial)
     {
     case (GIMBAL::DISABLE): {
@@ -77,8 +81,19 @@ void Gimbal::UpState()
         break;
     }
     case (GIMBAL::VISION): {
+		
+		// 检测状态变化的上升沿（进入视觉状态）
+		// 主要是防止进入视觉时的偏移问题
+		if(vision_state.getRisingEdge())
+		{
+			filter_tar_yaw = cur_angle;
+		}
+		else
+		{        
+			filter_tar_yaw = Communicat::vision.getTarYaw();
+		}
+		
         // 视觉模式
-        filter_tar_yaw = Communicat::vision.getTarYaw();
         filter_tar_pitch = Communicat::vision.getTarPitch();
         break;
     }
@@ -108,7 +123,7 @@ void Gimbal::UpState()
     }
 
     // pitch轴限幅
-    filter_tar_pitch = Tools.clamp(filter_tar_pitch, 19.0f, -13.0f);
+    filter_tar_pitch = Tools.clamp(filter_tar_pitch, 25.0f, -25.0f);
 
     // 期望值滤波
     tar_yaw.Calc(filter_tar_yaw);
@@ -136,7 +151,7 @@ void Gimbal::yawControl()
         tar_yaw.Calc(filter_tar_yaw);
 
         // 视觉模式：使用角度PID控制
-        pid_yaw_angle.setTarget(tar_yaw.getX1());
+        pid_yaw_angle.setTarget(filter_tar_yaw);
         pid_yaw_angle.GetPidPos(kpid_yaw_angle, cur_angle, 16384.0f);
 
         float feedford = tar_yaw.x2 * yaw_feedford;
@@ -154,15 +169,15 @@ void Gimbal::yawControl()
 
     //    Tools.vofaSend(adrc_yaw_vel.getZ1(), cur_vel, pid_yaw_angle.getOut(), cur_angle, gimbal_data.getTarYaw(),
     //                   tar_yaw.x2);
-    //    Tools.vofaSend(cur_angle, filter_tar_yaw, Now_Status_Serial, Communicat::vision.getVisionYaw(),
-    //                   Communicat::vision.getVisionFlag(), Communicat::vision.getTarYaw());
+        Tools.vofaSend(cur_angle, filter_tar_yaw, Now_Status_Serial, Communicat::vision.getVisionYaw(),
+                       Communicat::vision.getVisionFlag(), Communicat::vision.getTarYaw());
 }
 
 void Gimbal::pitchControl()
 {
     using namespace APP::Data;
 
-    BSP::Motor::DM::Motor4310.ctrl_Motor(&hcan2, 1, tar_pitch.x1 * 0.0174532f, 0, 100, 3, 0);
+    BSP::Motor::DM::Motor4310.ctrl_Motor(&hcan2, 1, filter_tar_pitch * 0.0174532f, 0, 100, 3, 0);
 }
 
 void Gimbal::sendCan()

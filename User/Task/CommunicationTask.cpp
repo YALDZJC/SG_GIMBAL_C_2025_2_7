@@ -33,8 +33,8 @@ void CommunicationTask(void *argument)
     {
         Communicat::vision.Data_send();
         Communicat::vision.dataReceive();
-        Gimbal_to_Chassis_Data.Data_send();
-        Gimbal_to_Chassis_Data.Receive();
+//        Gimbal_to_Chassis_Data.Data_send();
+//        Gimbal_to_Chassis_Data.Receive();
 
         osDelay(int_time);
     }
@@ -213,23 +213,27 @@ void Vision::dataReceive()
     {
         rx_target.pitch_angle = (Rx_pData[2] << 24 | Rx_pData[3] << 16 | Rx_pData[4] << 8 | Rx_pData[5]) / 100.0;
         rx_target.yaw_angle = (Rx_pData[6] << 24 | Rx_pData[7] << 16 | Rx_pData[8] << 8 | Rx_pData[9]) / 100.0;
-        rx_target.pitch_angle *= -1.0; // 每台方向不同
 
-        if ((fabs(rx_target.yaw_angle) > 25 && fabs(rx_target.pitch_angle) > 25))
+        if ((fabs(rx_target.yaw_angle) > 25 && fabs(rx_target.pitch_angle) > 25) || rx_other.vision_ready == false)
         {
+			vision_flag = false;
             rx_target.yaw_angle = 0;
             rx_target.pitch_angle = 0;
         }
-		
-		if((rx_other.vision_ready == false))
-			vision_flag = false;
 		else
+		{
 			vision_flag = true;
-
-
+		}
+		
+//		if((rx_other.vision_ready == false))
+//			vision_flag = false;
+//		else
+//			vision_flag = true;
 
         yaw_angle_ = rx_target.yaw_angle + BSP::IMU::imu.getAddYaw();
         pitch_angle_ = (rx_target.pitch_angle - BSP::Motor::DM::Motor4310.getAngleDeg(1));
+		pitch_angle_ *= -1.0; // 每台方向不同
+
 
         rx_other.vision_ready = Rx_pData[10];
         rx_other.fire = (Rx_pData[11]);

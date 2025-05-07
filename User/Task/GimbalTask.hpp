@@ -56,6 +56,8 @@ class Gimbal : public Class_FSM
     Alg::LADRC::Adrc adrc_yaw_vel; // adrc的速度环
 
     BSP::Key::SimpleKey DM_state;
+	BSP::Key::SimpleKey vision_state;
+
 
   public:
     void setNowStatus(Gimbal_Status state)
