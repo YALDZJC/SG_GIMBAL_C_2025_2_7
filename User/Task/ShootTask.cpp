@@ -22,18 +22,18 @@ void ShootTask(void *argument)
         Communicat::vision.time_demo();
 
         // 设置视觉开火位
-					TASK::Shoot::shoot_fsm.setFireFlag(Communicat::vision.get_fire_num());
-//        firetime++;
-//        if (firetime > fireHz)
-//        {
-//            firenum = 1;
-//            firetime = 0;
-//        }
-//        else
-//        {
-//            firenum = 0;
-//        }
-//        TASK::Shoot::shoot_fsm.setFireFlag(firenum);
+        TASK::Shoot::shoot_fsm.setFireFlag(Communicat::vision.get_fire_num());
+        //        firetime++;
+        //        if (firetime > fireHz)
+        //        {
+        //            firenum = 1;
+        //            firetime = 0;
+        //        }
+        //        else
+        //        {
+        //            firenum = 0;
+        //        }
+        //        TASK::Shoot::shoot_fsm.setFireFlag(firenum);
 
         TASK::Shoot::shoot_fsm.Control();
 

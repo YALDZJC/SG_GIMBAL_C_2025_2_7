@@ -154,8 +154,8 @@ void Gimbal::yawControl()
 
     //    Tools.vofaSend(adrc_yaw_vel.getZ1(), cur_vel, pid_yaw_angle.getOut(), cur_angle, gimbal_data.getTarYaw(),
     //                   tar_yaw.x2);
-//    Tools.vofaSend(cur_angle, filter_tar_yaw, Now_Status_Serial, Communicat::vision.getVisionYaw(),
-//                   Communicat::vision.getVisionFlag(), Communicat::vision.getTarYaw());
+    //    Tools.vofaSend(cur_angle, filter_tar_yaw, Now_Status_Serial, Communicat::vision.getVisionYaw(),
+    //                   Communicat::vision.getVisionFlag(), Communicat::vision.getTarYaw());
 }
 
 void Gimbal::pitchControl()
