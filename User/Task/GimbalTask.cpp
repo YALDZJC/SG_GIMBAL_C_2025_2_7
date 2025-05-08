@@ -68,7 +68,9 @@ void Gimbal::UpState()
     case (GIMBAL::DISABLE): {
 
         // 如果失能则让期望值等于实际值pp
-        filter_tar_yaw = BSP::IMU::imu.getGyroZ();
+        filter_tar_yaw_pos = BSP::IMU::imu.getAddYaw();
+        filter_tar_yaw_vel = BSP::IMU::imu.getGyroZ();
+
         filter_tar_pitch += BSP::Motor::DM::Motor4310.getAddAngleDeg(1);
 
         // 检测状态变化的上升沿（进入DISABLE状态）
@@ -81,31 +83,21 @@ void Gimbal::UpState()
         break;
     }
     case (GIMBAL::VISION): {
-
-        // 检测状态变化的上升沿（进入视觉状态）
-        // 主要是防止进入视觉时的偏移问题
-        if (vision_state.getRisingEdge())
-        {
-            filter_tar_yaw = cur_angle;
-        }
-        else
-        {
-            filter_tar_yaw = Communicat::vision.getTarYaw();
-        }
-
         // 视觉模式
+        filter_tar_yaw_pos = Communicat::vision.getTarYaw();
+
         filter_tar_pitch = Communicat::vision.getTarPitch();
         break;
     }
     case (GIMBAL::KEYBOARD): {
         // 键鼠模式
-        filter_tar_yaw = remote->getMouseVelX() * 100000;
+        filter_tar_yaw_vel = remote->getMouseVelX() * 100000;
         filter_tar_pitch += remote->getMouseVelY() * 1000;
         break;
     }
     case (GIMBAL::NORMOL): {
         // 正常状态
-        filter_tar_yaw = remote_rx * 150;
+        filter_tar_yaw_vel = remote_rx * 150;
         filter_tar_pitch += remote_ry * 0.1f;
         break;
     }
@@ -119,14 +111,14 @@ void Gimbal::UpState()
     {
         sin_val = sinf(2 * 3.1415926f * HAL_GetTick() / 500.0f * sin_hz) * b;
 
-        filter_tar_yaw = sin_val;
+        filter_tar_yaw_pos = sin_val;
     }
 
     // pitch轴限幅
     filter_tar_pitch = Tools.clamp(filter_tar_pitch, 25.0f, -25.0f);
 
     // 期望值滤波
-    tar_yaw.Calc(filter_tar_yaw);
+    tar_yaw.Calc(filter_tar_yaw_pos);
     tar_pitch.Calc(filter_tar_pitch);
 
     // 设置云台期望值
@@ -147,11 +139,8 @@ void Gimbal::yawControl()
     // 根据模式选择控制策略
     if (Now_Status_Serial == GIMBAL::VISION)
     {
-        // 视觉值滤波
-        tar_yaw.Calc(filter_tar_yaw);
-
         // 视觉模式：使用角度PID控制
-        pid_yaw_angle.setTarget(filter_tar_yaw);
+        pid_yaw_angle.setTarget(filter_tar_yaw_pos);
         pid_yaw_angle.GetPidPos(kpid_yaw_angle, cur_angle, 16384.0f);
 
         float feedford = tar_yaw.x2 * yaw_feedford;
@@ -162,9 +151,9 @@ void Gimbal::yawControl()
     }
     else
     {
-        pid_yaw_angle.clearPID();
+        filter_tar_yaw_pos = cur_angle;
         // 直接设置ADRC目标,速度模式不给期望值滤波，跟手就行
-        adrc_yaw_vel.setTarget(filter_tar_yaw);
+        adrc_yaw_vel.setTarget(filter_tar_yaw_vel);
         adrc_yaw_vel.UpData(cur_vel);
     }
 

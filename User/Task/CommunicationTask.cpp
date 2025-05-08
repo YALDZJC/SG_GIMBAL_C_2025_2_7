@@ -125,15 +125,14 @@ void Gimbal_to_Chassis::Data_send()
 
 void Gimbal_to_Chassis::Receive()
 {
-    HAL_UART_Receive_DMA(&huart6, rx_buffer, len);
+    HAL_UART_Receive_DMA(&huart6, rx_buffer, 8);
 
     if (rx_buffer[0] != 0x21 && rx_buffer[1] != 0x12)
         return;
 
     // 使用临时指针将数据拷贝到缓冲区
-    auto temp_ptr = buffer;
-    // 跳过帧头
-    temp_ptr += 2;
+    auto temp_ptr = rx_buffer;
+
     const auto memcpy_safe = [&](const auto &data) {
         std::memcpy(temp_ptr, &data, sizeof(data));
         temp_ptr += sizeof(data);

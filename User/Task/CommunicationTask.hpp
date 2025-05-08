@@ -53,6 +53,9 @@ class Gimbal_to_Chassis
 
     struct __attribute__((packed)) RxRefree // 云台数据
     {
+        uint8_t heat_one;
+        uint8_t heat_two;
+
         uint16_t booster_heat_cd;
         uint16_t booster_heat_max;
         uint16_t booster_now_heat;

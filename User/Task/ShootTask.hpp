@@ -107,6 +107,9 @@ class Class_ShootFSM : public Class_FSM
     // 将期望发射频率转化为rpm(转轴)
     float rpm_to_hz(float tar_hz);
 
+    //  将期望频率转化为角度
+    float hz_to_angle(float fire_hz);
+
   private:
     float target_Dail_torque = 0;
     float target_friction_L_torque = 0;
@@ -133,7 +136,6 @@ class Class_ShootFSM : public Class_FSM
     PID pid_Dail_vel;
 
     float Dail_target_pos;
-
 
     // 用于单发检测，获取上升沿判断是否击发子弹
     // BSP::Key::SimpleKey key_fire;

@@ -167,17 +167,29 @@ void Class_ShootFSM::UpState()
 
         auto *remote = Mode::RemoteModeManager::Instance().getActiveController();
 
-        target_dail_omega = remote->getSw() * Max_dail_angle; // 单位为20hz发弹频率
+        // 获取目标发射频率（Hz）
+        float target_fire_hz = remote->getSw() * 20.0f; // 最大20Hz
 
         if (remote->isKeyboardMode())
         {
-            target_dail_omega = remote->getMouseKeyLeft() * Max_dail_angle;
+            target_fire_hz = remote->getMouseKeyLeft() * 20.0f;
         }
 
+        // 热量限制
         HeatLimit();
-        target_dail_omega = Tools.clamp(target_dail_omega, Heat_Limit.getNowFire(), 0);
-        target_dail_omega = rpm_to_hz(target_dail_omega); // 转换单位这里的单位是转轴转一圈的rpm
-        pid_Dail_vel.setTarget(-target_dail_omega);
+
+        // 应用热量限制
+        target_fire_hz = Heat_Limit.getNowFire();
+
+        // 获取当前角度
+        float current_angle = BSP::Motor::Dji::Motor2006.getAddAngleDeg(1);
+
+        // 计算角度变化
+        float angle_per_frame = hz_to_angle(target_fire_hz);
+
+        // 更新目标位置
+        Dail_target_pos = current_angle - angle_per_frame;
+
         break;
     }
     }
@@ -195,24 +207,17 @@ void Class_ShootFSM::Control(void)
     adrc_friction_L_vel.UpData(velL);
     adrc_friction_R_vel.UpData(velR);
 
-    if (Now_Status_Serial == ONLY)
-    {
-        // 如果卡弹就让期望等于反馈
-        if (JammingFMS.Get_Now_Status_Serial() == Jamming_Status::PROCESSING)
-            Dail_target_pos = Dail_pos;
-
-        pid_Dail_pos.setTarget(Dail_target_pos);
-        pid_Dail_pos.GetPidPos(Kpid_Dail_pos, Dail_pos, 16384.0f);
-
-        pid_Dail_vel.setTarget(pid_Dail_pos.getOut());
-        pid_Dail_vel.GetPidPos(Kpid_Dail_vel, DailVel, 16384.0f);
-    }
-    else
-    {
-        // 拨盘速度控制
-        pid_Dail_vel.GetPidPos(Kpid_Dail_vel, DailVel, 16384.0f);
+    // 如果卡弹就让期望等于反馈
+    if (JammingFMS.Get_Now_Status_Serial() == Jamming_Status::PROCESSING)
         Dail_target_pos = Dail_pos;
-    }
+
+    // 更新角度pid
+    pid_Dail_pos.setTarget(Dail_target_pos);
+    pid_Dail_pos.GetPidPos(Kpid_Dail_pos, Dail_pos, 16384.0f);
+
+    // 更新速度pid
+    pid_Dail_vel.setTarget(pid_Dail_pos.getOut());
+    pid_Dail_vel.GetPidPos(Kpid_Dail_vel, DailVel, 16384.0f);
 
     target_Dail_torque = pid_Dail_vel.getOut();
 
@@ -279,6 +284,20 @@ float Class_ShootFSM::rpm_to_hz(float tar_hz)
     double rpm = rotations_per_second * seconds_per_minute;
 
     return rpm;
+}
+
+// 添加一个新函数，将Hz转换为角度增量，保持线性关系
+float Class_ShootFSM::hz_to_angle(float fire_hz)
+{
+    const int slots_per_rotation = 9;                         // 拨盘每转一圈的槽位数
+    const float angle_per_slot = 360.0f / slots_per_rotation; // 每个槽位对应的角度
+    const float control_period = 0.001f;                      // 控制周期1ms
+
+    // 计算每帧需要转动的角度
+    // (目标频率 * 每发角度) / 控制周期
+    float angle_per_frame = (fire_hz * angle_per_slot) / control_period;
+
+    return angle_per_frame;
 }
 
 } // namespace TASK::Shoot

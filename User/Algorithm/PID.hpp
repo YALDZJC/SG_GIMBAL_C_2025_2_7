@@ -72,14 +72,12 @@ class PID
     // 清除pid
     void clearPID()
     {
-        pid.cin = 0;
         pid.cout = 0;
-        pid.feedback = 0;
         pid.now_e = 0;
-		
-		this->pid.p = 0;
-		this->pid.i = 0;
-		this->pid.d = 0;
+
+        pid.p = 0;
+        pid.i = 0;
+        pid.d = 0;
     }
     // 清除增量
     void PidRstDelta();

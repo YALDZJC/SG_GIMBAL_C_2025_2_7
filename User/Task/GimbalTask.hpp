@@ -38,7 +38,9 @@ class Gimbal : public Class_FSM
 
     void sendCan();
 
-    float filter_tar_yaw;
+    float filter_tar_yaw_vel;
+    float filter_tar_yaw_pos;
+
     float filter_tar_pitch;
 
     uint8_t is_sin;
@@ -47,9 +49,9 @@ class Gimbal : public Class_FSM
     float b;
     float yaw_feedford = 0.1;
 
-	float DM_Kp = 120;
-	float DM_Kd = 2.8;
-  
+    float DM_Kp = 120;
+    float DM_Kd = 2.8;
+
     uint32_t task_tick;
 
     Kpid_t kpid_yaw_angle; // yaw轴pid增益
@@ -59,8 +61,7 @@ class Gimbal : public Class_FSM
     Alg::LADRC::Adrc adrc_yaw_vel; // adrc的速度环
 
     BSP::Key::SimpleKey DM_state;
-	BSP::Key::SimpleKey vision_state;
-
+    BSP::Key::SimpleKey vision_state;
 
   public:
     void setNowStatus(Gimbal_Status state)
