@@ -93,12 +93,14 @@ void Gimbal::UpState()
         // 键鼠模式
         filter_tar_yaw_vel = remote->getMouseVelX() * 100000;
         filter_tar_pitch += remote->getMouseVelY() * 1000;
+        // 一键掉头
+        TurnAround();
         break;
     }
     case (GIMBAL::NORMOL): {
         // 正常状态
         filter_tar_yaw_vel = remote_rx * 150;
-        filter_tar_pitch += remote_ry * 0.1f;
+        filter_tar_pitch += remote_ry * 0.5f;
         break;
     }
     }
@@ -168,8 +170,14 @@ void Gimbal::yawControl()
 void Gimbal::pitchControl()
 {
     using namespace APP::Data;
-
-    BSP::Motor::DM::Motor4310.ctrl_Motor(&hcan2, 1, filter_tar_pitch * 0.0174532f, 0, DM_Kp, DM_Kd, 0);
+    if (Now_Status_Serial == GIMBAL::DISABLE)
+    {
+        BSP::Motor::DM::Motor4310.ctrl_Motor(&hcan2, 1, 0, 0, 0, 0, 0);
+    }
+    else
+    {
+        BSP::Motor::DM::Motor4310.ctrl_Motor(&hcan2, 1, filter_tar_pitch * 0.0174532f, 0, DM_Kp, DM_Kd, 0);
+    }
 }
 
 void Gimbal::sendCan()
@@ -184,4 +192,20 @@ void Gimbal::sendCan()
     BSP::Motor::Dji::Motor6020.setCAN(adrc_yaw_vel.getU(), 1); // 设置电机扭矩
     BSP::Motor::Dji::Motor6020.sendCAN(&hcan1, 0);             // 发送数据
 }
+void Gimbal::TurnAround()
+{
+    if (is_true_around == true)
+    {
+        // 360 deg/s为180度
+        filter_tar_yaw_vel = 360.0f; // 可以根据需要调整速度大小
+
+        // 如果旋转时间超过500ms，重置状态
+        if (HAL_GetTick() - true_around_time > 500)
+        {
+            is_true_around = false;
+            filter_tar_yaw_vel = 0;
+        }
+    }
+}
+
 } // namespace TASK::GIMBAL

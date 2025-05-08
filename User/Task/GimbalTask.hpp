@@ -63,10 +63,21 @@ class Gimbal : public Class_FSM
     BSP::Key::SimpleKey DM_state;
     BSP::Key::SimpleKey vision_state;
 
+    bool is_true_around = false;
+    uint32_t true_around_time = 0;
+
   public:
+    void TurnAround();
+
     void setNowStatus(Gimbal_Status state)
     {
         Set_Status(state);
+    }
+
+    void setTrueAround()
+    {
+        is_true_around = true;
+        true_around_time = HAL_GetTick();
     }
 };
 

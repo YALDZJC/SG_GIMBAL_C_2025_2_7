@@ -65,6 +65,9 @@ void keyBoradUpdata()
     // 点击切换视觉模式
     auto Vision = KeyBroad::Instance().getKeyClick(KeyBroad::KEY_C);
 
+    // 一键掉头
+    auto X = KeyBroad::Instance().getKeyClick(KeyBroad::KEY_X);
+
     //   前进后退
     if (W)
         Gimbal_to_Chassis_Data.set_LY(1);
@@ -101,6 +104,11 @@ void keyBoradUpdata()
     // 刷新
     if (CTRL)
         Gimbal_to_Chassis_Data.set_UIF5(CTRL);
+
+    if (X)
+    {
+        TASK::GIMBAL::gimbal.setTrueAround();
+    }
 
     static uint8_t vision_mode = 1;
     if (Vision)

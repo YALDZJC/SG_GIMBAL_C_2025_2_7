@@ -125,20 +125,14 @@ void Gimbal_to_Chassis::Data_send()
 
 void Gimbal_to_Chassis::Receive()
 {
-    HAL_UART_Receive_DMA(&huart6, rx_buffer, 8);
+    len = sizeof(rx_refree);
+    HAL_UART_Receive_DMA(&huart6, rx_buffer, len); // +2 for frame header
 
-    if (rx_buffer[0] != 0x21 && rx_buffer[1] != 0x12)
+    if (rx_buffer[0] != 0x21 || rx_buffer[1] != 0x12)
         return;
 
-    // 使用临时指针将数据拷贝到缓冲区
-    auto temp_ptr = rx_buffer;
-
-    const auto memcpy_safe = [&](const auto &data) {
-        std::memcpy(temp_ptr, &data, sizeof(data));
-        temp_ptr += sizeof(data);
-    };
-
-    memcpy_safe(rx_refree); // 序列化方向数据
+    // 跳过帧头(2字节)，直接复制数据部分
+    std::memcpy(&rx_refree, rx_buffer, sizeof(rx_refree));
 }
 
 float Gimbal_to_Chassis::CalcuGimbalToChassisAngle()
@@ -215,24 +209,23 @@ void Vision::dataReceive()
 
         if ((fabs(rx_target.yaw_angle) > 25 && fabs(rx_target.pitch_angle) > 25) || rx_other.vision_ready == false)
         {
-			vision_flag = false;
+            vision_flag = false;
             rx_target.yaw_angle = 0;
             rx_target.pitch_angle = 0;
         }
-		else
-		{
-			vision_flag = true;
-		}
-		
-//		if((rx_other.vision_ready == false))
-//			vision_flag = false;
-//		else
-//			vision_flag = true;
+        else
+        {
+            vision_flag = true;
+        }
+
+        //		if((rx_other.vision_ready == false))
+        //			vision_flag = false;
+        //		else
+        //			vision_flag = true;
 
         yaw_angle_ = rx_target.yaw_angle + BSP::IMU::imu.getAddYaw();
         pitch_angle_ = (rx_target.pitch_angle - BSP::Motor::DM::Motor4310.getAngleDeg(1));
-		pitch_angle_ *= -1.0; // 每台方向不同
-
+        pitch_angle_ *= -1.0; // 每台方向不同
 
         rx_other.vision_ready = Rx_pData[10];
         rx_other.fire = (Rx_pData[11]);

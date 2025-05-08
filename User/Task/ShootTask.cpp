@@ -72,7 +72,7 @@ void Class_JammingFSM::UpState()
     {
     case (Jamming_Status::NORMAL): {
         // 正常状态
-        if (Motor_Dail.getTorque(1) >= stall_torque)
+        if (fabs(Motor_Dail.getTorque(1)) >= stall_torque)
         {
             // 大扭矩->卡弹嫌疑状态
             Set_Status(Jamming_Status::SUSPECT);
@@ -98,7 +98,7 @@ void Class_JammingFSM::UpState()
     }
     case (Jamming_Status::PROCESSING): {
         // 卡弹反应状态->准备卡弹处理
-        Booster->setTargetDailTorque(3000);
+        Booster->setTargetDailTorque(5000);
 
         if (Status[Now_Status_Serial].Count_Time > stall_stop)
             Set_Status(Jamming_Status::NORMAL);
@@ -168,7 +168,7 @@ void Class_ShootFSM::UpState()
         auto *remote = Mode::RemoteModeManager::Instance().getActiveController();
 
         // 获取目标发射频率（Hz）
-        float target_fire_hz = remote->getSw() * 20.0f; // 最大20Hz
+        target_fire_hz = remote->getSw() * 20.0f; // 最大20Hz
 
         if (remote->isKeyboardMode())
         {
@@ -179,7 +179,7 @@ void Class_ShootFSM::UpState()
         HeatLimit();
 
         // 应用热量限制
-        target_fire_hz = Heat_Limit.getNowFire();
+        target_fire_hz = Tools.clamp(target_fire_hz, Heat_Limit.getNowFire(), 0.0f);
 
         // 获取当前角度
         float current_angle = BSP::Motor::Dji::Motor2006.getAddAngleDeg(1);
@@ -188,7 +188,7 @@ void Class_ShootFSM::UpState()
         float angle_per_frame = hz_to_angle(target_fire_hz);
 
         // 更新目标位置
-        Dail_target_pos = current_angle - angle_per_frame;
+        Dail_target_pos -= angle_per_frame;
 
         break;
     }
@@ -221,22 +221,19 @@ void Class_ShootFSM::Control(void)
 
     target_Dail_torque = pid_Dail_vel.getOut();
 
-    // 更新卡弹检测状态
-    JammingFMS.UpState();
-
-    // 根据卡弹检测结果应用控制策略
-    // 如果堵转处理已经设置了目标力矩，这里不需要额外操作
-    // 卡弹处理已经在JammingFSM::UpState中通过setTargetDailTorque方法修改力矩值
-
+    // 卡弹检测
+    Jamming(Dail_pos, pid_Dail_pos.GetErr());
     // 拨盘发送
     //  Tools.vofaSend(adrc_Dail_vel.getZ1(), adrc_Dail_vel.getTarget(), adrc_Dail_vel.getFeedback(), 0, 0, 0);
     // 摩擦轮发送
-    // Tools.vofaSend(adrc_friction_L_vel.getZ1(), adrc_friction_L_vel.getTarget(), adrc_friction_L_vel.getFeedback(),
-    //                adrc_friction_R_vel.getZ1(), adrc_friction_R_vel.getTarget(), adrc_friction_R_vel.getFeedback());
+    // Tools.vofaSend(adrc_friction_L_vel.getZ1(), adrc_friction_L_vel.getTarget(),
+    // adrc_friction_L_vel.getFeedback(),
+    //                adrc_friction_R_vel.getZ1(), adrc_friction_R_vel.getTarget(),
+    //                adrc_friction_R_vel.getFeedback());
 
     // // 火控
-    // Tools.vofaSend(Heat_Limit.getFireNum(), Heat_Limit.getNowHeat(), Heat_Limit.getMaxHeat(), Heat_Limit.getCurSum(),
-    // 0,
+    // Tools.vofaSend(Heat_Limit.getFireNum(), Heat_Limit.getNowHeat(), Heat_Limit.getMaxHeat(),
+    // Heat_Limit.getCurSum(), 0,
     //                0);
 
     CAN_Send();
@@ -250,10 +247,12 @@ void Class_ShootFSM::HeatLimit()
     auto velL = BSP::Motor::Dji::Motor3508.getVelocityRpm(1);
     auto velR = BSP::Motor::Dji::Motor3508.getVelocityRpm(2);
 
-    Heat_Limit.setBoosterHeat(240, 40);
+    Heat_Limit.setBoosterHeat(Gimbal_to_Chassis_Data.getBoosterHeatLimit(), Gimbal_to_Chassis_Data.getBoosterHeatCd());
+    // Heat_Limit.setBoosterHeat(180, 40);
+
     Heat_Limit.setFrictionCurrent(CurL, CurR);
     Heat_Limit.setFrictionVel(velL, velR);
-    // Heat_Limit.setTargetFire(20.0);
+    // Heat_Limit.setTargetFire(target_fire_hz);
 
     Heat_Limit.UpData();
 }
@@ -295,9 +294,56 @@ float Class_ShootFSM::hz_to_angle(float fire_hz)
 
     // 计算每帧需要转动的角度
     // (目标频率 * 每发角度) / 控制周期
-    float angle_per_frame = (fire_hz * angle_per_slot) / control_period;
+    float angle_per_frame = (fire_hz * angle_per_slot) * control_period;
 
     return angle_per_frame;
+}
+
+/**
+ * @brief 通过位置控制的拨盘卡弹检测更加灵敏
+ * 
+ * @param angle 
+ * @param err 
+ */
+void Class_ShootFSM::Jamming(float angle, float err)
+{
+    static uint8_t blocking_flag;
+    static uint32_t blocking_time;
+    static uint32_t time_tick;
+    static int64_t angle_sum_prev;
+
+    // 此次转子位置大于上次转子位置两圈
+    if (fabs(err) > 120)
+    {
+        // 未在退弹过程中，每200ms检测一次是否卡弹
+        if ((HAL_GetTick() - time_tick) > 100 && blocking_flag == 0)
+        {
+            //
+            if (fabs(angle - angle_sum_prev) < 120)
+            {
+                blocking_flag = 1;
+                blocking_time = HAL_GetTick();
+            }
+            angle_sum_prev = angle;
+            time_tick = HAL_GetTick();
+        }
+    }
+    // 进行退弹
+    if (blocking_flag)
+    {
+        // 退弹已超150ms
+        if (HAL_GetTick() - blocking_time > 150)
+        {
+            blocking_flag = 0; // 清除卡弹标志
+        }
+        // 退弹过程中
+        else
+        {
+            // 实际值跟随目标值 防止恢复瞬间转大角度
+            Dail_target_pos = angle;
+            target_Dail_torque = 5000; // 反向输出
+        }
+    }
 }
 
 } // namespace TASK::Shoot

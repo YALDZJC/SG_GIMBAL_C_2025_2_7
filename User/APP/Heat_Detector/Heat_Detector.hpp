@@ -34,7 +34,7 @@ class Class_FSM_Heat_Limit : public Class_FSM
     float target_fire = 20.0f; // 期望发射量
     float now_fire = 20.0f;    // 限制后的发射量
 
-    float heat_limit_snubber = 50.0f; // 热量缓冲阈值,避免热量过快上升,超过阈值会慢慢减少发射频率
+    float heat_limit_snubber = 80.0f; // 热量缓冲阈值,避免热量过快上升,超过阈值会慢慢减少发射频率
     float heat_limit_stop = 20.0f;    // 停火阈值，超过会直接停止射击
 
     static constexpr float cur_vel_Threshold = 6000; // 使能检测的阈值，摩擦轮超过这个速度则判断为使能

@@ -83,6 +83,17 @@ class Gimbal_to_Chassis
     {
         return rx_refree.booster_heat_cd;
     }
+
+    uint16_t getBoosterHeatLimit()
+    {
+        return rx_refree.booster_heat_max;
+    }
+
+    uint16_t getBoosterNowHeat()
+    {
+        return rx_refree.booster_now_heat;
+    }
+
     void setPower(int8_t power)
     {
         power = Tools.clamp(power, 60, -60);

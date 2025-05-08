@@ -41,11 +41,11 @@ class Class_JammingFSM : public Class_FSM
 {
   private:
     // 堵转力矩
-    float stall_torque = 0.5f;
+    float stall_torque = 0.2f;
     // 堵转时间阈值，超过则为堵转
     static constexpr uint32_t stall_time = 200;
     // 从堵转停止时间阈值，超过则停止堵转
-    static constexpr uint32_t stall_stop = 200;
+    static constexpr uint32_t stall_stop = 300;
 
     Class_ShootFSM *Booster = nullptr; // 任务指针
 
@@ -109,14 +109,16 @@ class Class_ShootFSM : public Class_FSM
 
     //  将期望频率转化为角度
     float hz_to_angle(float fire_hz);
+    void Jamming(float angle, float err);
 
   private:
     float target_Dail_torque = 0;
+    float Dail_target_pos;
     float target_friction_L_torque = 0;
     float target_friction_R_torque = 0;
 
     float target_friction_omega = 6000;
-    float target_dail_omega = 0;
+    float target_fire_hz;
     float Max_dail_angle = 20.0f; // 拨盘最快频率
     Class_JammingFSM JammingFMS;
 
@@ -134,8 +136,6 @@ class Class_ShootFSM : public Class_FSM
 
     PID pid_Dail_pos;
     PID pid_Dail_vel;
-
-    float Dail_target_pos;
 
     // 用于单发检测，获取上升沿判断是否击发子弹
     // BSP::Key::SimpleKey key_fire;
