@@ -247,8 +247,8 @@ void Class_ShootFSM::HeatLimit()
     auto velL = BSP::Motor::Dji::Motor3508.getVelocityRpm(1);
     auto velR = BSP::Motor::Dji::Motor3508.getVelocityRpm(2);
 
-    Heat_Limit.setBoosterHeat(Gimbal_to_Chassis_Data.getBoosterHeatLimit(), Gimbal_to_Chassis_Data.getBoosterHeatCd());
-    // Heat_Limit.setBoosterHeat(180, 40);
+//    Heat_Limit.setBoosterHeat(Gimbal_to_Chassis_Data.getBoosterHeatLimit(), Gimbal_to_Chassis_Data.getBoosterHeatCd());
+    Heat_Limit.setBoosterHeat(180, 40);
 
     Heat_Limit.setFrictionCurrent(CurL, CurR);
     Heat_Limit.setFrictionVel(velL, velR);
