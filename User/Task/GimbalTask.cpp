@@ -85,7 +85,6 @@ void Gimbal::UpState()
     case (GIMBAL::VISION): {
         // 视觉模式
         filter_tar_yaw_pos = Communicat::vision.getTarYaw();
-
         filter_tar_pitch = Communicat::vision.getTarPitch();
         break;
     }
@@ -192,6 +191,7 @@ void Gimbal::sendCan()
     BSP::Motor::Dji::Motor6020.setCAN(adrc_yaw_vel.getU(), 1); // 设置电机扭矩
     BSP::Motor::Dji::Motor6020.sendCAN(&hcan1, 0);             // 发送数据
 }
+
 void Gimbal::TurnAround()
 {
     if (is_true_around == true)
