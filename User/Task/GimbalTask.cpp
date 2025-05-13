@@ -161,10 +161,10 @@ void Gimbal::yawControl()
 
     //        Tools.vofaSend(adrc_yaw_vel.getZ1(), cur_vel, pid_yaw_angle.getOut(), cur_angle, gimbal_data.getTarYaw(),
     //                       tar_yaw.x2);
-    //        Tools.vofaSend(cur_angle, filter_tar_yaw, Now_Status_Serial, Communicat::vision.getVisionYaw(),
-    //                       Communicat::vision.getVisionFlag(), Communicat::vision.getTarYaw());
-    //    Tools.vofaSend(filter_tar_pitch, BSP::Motor::DM::Motor4310.getAngleDeg(1), cur_angle, filter_tar_yaw, 0,
-    //                   0);
+//            Tools.vofaSend(cur_angle, filter_tar_yaw_pos, Communicat::vision.getVisionYaw(),
+//                           Communicat::vision.getVisionFlag(), Communicat::vision.getTarYaw());
+//        Tools.vofaSend(filter_tar_pitch, BSP::Motor::DM::Motor4310.getAngleDeg(1), cur_angle, filter_tar_yaw_pos, 0,
+//                       0);
 }
 
 void Gimbal::pitchControl()

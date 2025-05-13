@@ -68,6 +68,9 @@ void keyBoradUpdata()
     // 一键掉头
     auto X = KeyBroad::Instance().getKeyClick(KeyBroad::KEY_X);
 
+	auto C = KeyBroad::Instance().getKeyClick(KeyBroad::KEY_C);
+
+
     //   前进后退
     if (W)
         Gimbal_to_Chassis_Data.set_LY(1);
@@ -100,10 +103,16 @@ void keyBoradUpdata()
     // 减功率
     if (V)
         Gimbal_to_Chassis_Data.setPower(-10);
-
+	
+	if(C)
+		Gimbal_to_Chassis_Data.setFly(100);
+	
     // 刷新
     if (CTRL)
+	{
         Gimbal_to_Chassis_Data.set_UIF5(CTRL);
+		Gimbal_to_Chassis_Data.setFly(0);
+	}
 
     if (X)
     {
@@ -159,11 +168,11 @@ void BoosterUpState()
         TASK::Shoot::shoot_fsm.setNowStatus(TASK::Shoot::Booster_Status::AUTO);
     }
 }
-
+uint8_t is_connected;
 void GimbalUpState()
 {
     auto *remote = Mode::RemoteModeManager::Instance().getActiveController();
-
+	is_connected = remote->isConnected();
     if (remote->isStopMode())
     {
         TASK::GIMBAL::gimbal.setNowStatus(TASK::GIMBAL::DISABLE);

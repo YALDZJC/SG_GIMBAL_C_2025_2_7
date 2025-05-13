@@ -26,8 +26,8 @@ class Class_FSM_Heat_Limit : public Class_FSM
     float friction_R_current; // 摩擦轮右电机电流
 
     float now_heat;           // 自己统计的热量/裁判系统发送的当前热量（裁判系统反馈慢，不建议）
-    float heat_limit;         // 裁判系统发送的最大热量
-    uint16_t booster_heat_cd; // 裁判系统发送的当前冷却CD
+    float heat_limit = 240;         // 裁判系统发送的最大热量
+    uint16_t booster_heat_cd = 40; // 裁判系统发送的当前冷却CD
 
     uint32_t fire_num; // 发射次数
 
@@ -37,7 +37,7 @@ class Class_FSM_Heat_Limit : public Class_FSM
     float heat_limit_snubber = 80.0f; // 热量缓冲阈值,避免热量过快上升,超过阈值会慢慢减少发射频率
     float heat_limit_stop = 20.0f;    // 停火阈值，超过会直接停止射击
 
-    static constexpr float cur_vel_Threshold = 6000; // 使能检测的阈值，摩擦轮超过这个速度则判断为使能
+    static constexpr float cur_vel_Threshold = 6350; // 使能检测的阈值，摩擦轮超过这个速度则判断为使能
 
     uint32_t booster_time;
     float dt;

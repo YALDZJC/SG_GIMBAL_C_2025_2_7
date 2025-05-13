@@ -10,9 +10,9 @@
 #include "cmsis_os2.h"
 float hz_send;
 
-uint8_t firetime;
+uint32_t firetime;
 uint8_t firenum;
-uint8_t fireHz;
+uint32_t fireMS;
 
 void ShootTask(void *argument)
 {
@@ -23,17 +23,17 @@ void ShootTask(void *argument)
 
         // 设置视觉开火位
         TASK::Shoot::shoot_fsm.setFireFlag(Communicat::vision.get_fire_num());
-        //        firetime++;
-        //        if (firetime > fireHz)
-        //        {
-        //            firenum = 1;
-        //            firetime = 0;
-        //        }
-        //        else
-        //        {
-        //            firenum = 0;
-        //        }
-        //        TASK::Shoot::shoot_fsm.setFireFlag(firenum);
+//                firetime++;
+//                if (firetime > fireMS)
+//                {
+//                    firenum = 1;
+//                    firetime = 0;
+//                }
+//                else
+//                {
+//                    firenum = 0;
+//                }
+//                TASK::Shoot::shoot_fsm.setFireFlag(firenum);
 
         TASK::Shoot::shoot_fsm.Control();
 
@@ -49,11 +49,11 @@ Class_ShootFSM::Class_ShootFSM()
       adrc_friction_R_vel(Alg::LADRC::TDquadratic(200, 0.001), 10, 25, 1, 0.001, 16384),
       adrc_Dail_vel(Alg::LADRC::TDquadratic(200, 0.001), 5, 40, 0.9, 0.001, 16384),
       // 位置pid增益
-      Kpid_Dail_pos(8, 0, 0),
+      Kpid_Dail_pos(10, 0, 0),
       // 速度pid增益
-      Kpid_Dail_vel(60, 0, 0),
+      Kpid_Dail_vel(200, 0, 0),
       // 热量限制初始化
-      Heat_Limit(100, 50.0f) // 示例参数：窗口大小50，阈值10.0
+      Heat_Limit(100, 55.0f) // 示例参数：窗口大小50，阈值10.0
 {
     // 初始化卡弹检测状态机
     JammingFMS.Set_Status(Jamming_Status::NORMAL);
@@ -116,7 +116,9 @@ void Class_ShootFSM::UpState()
         // 如何失能状态，拨盘力矩为0，摩擦轮期望值为0
         adrc_friction_L_vel.setTarget(0.0f);
         adrc_friction_R_vel.setTarget(0.0f);
-        adrc_Dail_vel.setTarget(0.0f);
+		float current_angle = BSP::Motor::Dji::Motor2006.getAddAngleDeg(1);
+
+        adrc_Dail_vel.setTarget(current_angle);
         break;
     }
     case (Booster_Status::ONLY): {
@@ -143,7 +145,7 @@ void Class_ShootFSM::UpState()
             if (!fired)
             {
                 // 设置目标位置
-                Dail_target_pos = current_angle - 40.0f;
+                Dail_target_pos -= 40.0f;
                 fired = true;
             }
             else
@@ -224,7 +226,7 @@ void Class_ShootFSM::Control(void)
     // 卡弹检测
     Jamming(Dail_pos, pid_Dail_pos.GetErr());
     // 拨盘发送
-    //  Tools.vofaSend(adrc_Dail_vel.getZ1(), adrc_Dail_vel.getTarget(), adrc_Dail_vel.getFeedback(), 0, 0, 0);
+//    Tools.vofaSend(Dail_target_pos, Dail_pos, fire_flag, Heat_Limit.getFireNum(), 0, 0);
     // 摩擦轮发送
     // Tools.vofaSend(adrc_friction_L_vel.getZ1(), adrc_friction_L_vel.getTarget(),
     // adrc_friction_L_vel.getFeedback(),
@@ -247,8 +249,10 @@ void Class_ShootFSM::HeatLimit()
     auto velL = BSP::Motor::Dji::Motor3508.getVelocityRpm(1);
     auto velR = BSP::Motor::Dji::Motor3508.getVelocityRpm(2);
 
-//    Heat_Limit.setBoosterHeat(Gimbal_to_Chassis_Data.getBoosterHeatLimit(), Gimbal_to_Chassis_Data.getBoosterHeatCd());
-    Heat_Limit.setBoosterHeat(180, 40);
+	//如果发0则为断连
+	if(Gimbal_to_Chassis_Data.getBoosterHeatLimit() > 0)
+		Heat_Limit.setBoosterHeat(Gimbal_to_Chassis_Data.getBoosterHeatLimit(), Gimbal_to_Chassis_Data.getBoosterHeatCd());
+//    Heat_Limit.setBoosterHeat(180, 40);
 
     Heat_Limit.setFrictionCurrent(CurL, CurR);
     Heat_Limit.setFrictionVel(velL, velR);
@@ -315,8 +319,8 @@ void Class_ShootFSM::Jamming(float angle, float err)
     // 此次转子位置大于上次转子位置两圈
     if (fabs(err) > 120)
     {
-        // 未在退弹过程中，每200ms检测一次是否卡弹
-        if ((HAL_GetTick() - time_tick) > 100 && blocking_flag == 0)
+        // 未在退弹过程中，每300ms检测一次是否卡弹
+        if ((HAL_GetTick() - time_tick) > 300 && blocking_flag == 0)
         {
             //
             if (fabs(angle - angle_sum_prev) < 120)

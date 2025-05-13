@@ -70,8 +70,8 @@ void Gimbal_to_Chassis::Data_send()
     // 初始化结构体数据
     if (remote->isKeyboardMode() == true)
     {
-        direction.LX = channel_to_uint8(direction.LX);
-        direction.LY = channel_to_uint8(direction.LY);
+        direction.LX = channel_to_uint8(-direction.LX);
+        direction.LY = channel_to_uint8(-direction.LY);
     }
     else
     {
@@ -218,6 +218,12 @@ void Vision::dataReceive()
             vision_flag = true;
         }
 
+		//如果视觉时间戳差值大于100ms，判断为断连
+		if(vision_flag == true && send_time - rx_target.time > 100)
+		{
+			vision_flag = false;
+		}
+		
         //		if((rx_other.vision_ready == false))
         //			vision_flag = false;
         //		else

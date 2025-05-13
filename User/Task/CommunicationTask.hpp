@@ -17,7 +17,7 @@ class Gimbal_to_Chassis
 
     uint8_t head = 0xA5; // 帧头
     uint8_t len;
-    int16_t Init_Angle = 132.0f;
+    int16_t Init_Angle = 43.0f;
     int16_t target_offset_angle = 0;
 
     struct __attribute__((packed)) Direction // 方向结构体
@@ -96,9 +96,14 @@ class Gimbal_to_Chassis
 
     void setPower(int8_t power)
     {
-        power = Tools.clamp(power, 60, -60);
+        power = Tools.clamp(power, 120, -60);
         direction.Power += power;
-        direction.Power = Tools.clamp(direction.Power, 100, -100);
+        direction.Power = Tools.clamp(direction.Power, 120, -100);
+    }
+	
+	void setFly(int8_t power)
+    {
+        direction.Power = power;
     }
 
     void setVisionMode(int8_t mode)

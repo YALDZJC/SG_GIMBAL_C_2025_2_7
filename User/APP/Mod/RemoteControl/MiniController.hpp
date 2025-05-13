@@ -32,7 +32,7 @@ class MiniRemoteController : public IRemoteController
         // 由于Mini类没有直接的连接状态检测方法，这里使用一个简单的检查
         // 检查gear是否为未知状态，如果不是未知状态，则认为遥控器已连接
         auto &remote = Mini::Instance();
-        return remote.gear() != Mini::Gear::UNKNOWN;
+        return 1;
     }
 
     /**
@@ -89,7 +89,7 @@ class MiniRemoteController : public IRemoteController
         }
 
         // 返回当前停止模式状态
-        return stop_mode_active;
+        return stop_mode_active || isConnected();
     }
 
     bool isUniversalMode() const override
