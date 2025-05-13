@@ -73,17 +73,17 @@ void keyBoradUpdata()
 
     //   前进后退
     if (W)
-        Gimbal_to_Chassis_Data.set_LY(1);
-    else if (S)
         Gimbal_to_Chassis_Data.set_LY(-1);
+    else if (S)
+        Gimbal_to_Chassis_Data.set_LY(1);
     else
         Gimbal_to_Chassis_Data.set_LY(0);
 
     // 左右
     if (A)
-        Gimbal_to_Chassis_Data.set_LX(-1);
-    else if (D)
         Gimbal_to_Chassis_Data.set_LX(1);
+    else if (D)
+        Gimbal_to_Chassis_Data.set_LX(-1);
     else
         Gimbal_to_Chassis_Data.set_LX(0);
 
