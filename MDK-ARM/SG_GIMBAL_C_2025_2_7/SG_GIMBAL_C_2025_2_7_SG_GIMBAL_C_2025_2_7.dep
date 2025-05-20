@@ -1841,7 +1841,7 @@ I (D:\Keil5\ARM\ARMCLANG\include\libcxx\bit)(0x5E0BB2B8)
 I (..\User\APP\..\Algorithm\LADRC\Adrc.hpp)(0x681B5911)
 I (D:\Keil5\ARM\ARMCLANG\include\libcxx\cmath)(0x5E0BB2B8)
 F (..\User\APP\Heat_Detector\Heat_Detector.cpp)(0x681E85CB)(-xc++ -std=c++17 --target=arm-arm-none-eabi -mcpu=cortex-m4 -mfpu=fpv4-sp-d16 -mfloat-abi=hard -c-fno-rtti -funsigned-char -fno-exceptions-gdwarf-3 -O1 -ffunction-sections -Wno-packed -Wno-missing-variable-declarations -Wno-missing-prototypes -Wno-missing-noreturn -Wno-sign-conversion -Wno-nonportable-include-path -Wno-reserved-id-macro -Wno-unused-macros -Wno-documentation-unknown-command -Wno-documentation -Wno-license-management -Wno-parentheses-equality -I ../Core/Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I ../Middlewares/Third_Party/FreeRTOS/Source/include -I ../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2 -I ../Middlewares/Third_Party/FreeRTOS/Source/portable/RVDS/ARM_CM4F -I ../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I ../Drivers/CMSIS/Include -I ../User -I ../USB_DEVICE/App -I ../USB_DEVICE/Target -I ../Middlewares/ST/STM32_USB_Device_Library/Core/Inc -I ../Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Inc-I./RTE/_SG_GIMBAL_C_2025_2_7-ID:/Keil5/ARM/CMSIS/5.7.0/CMSIS/Core/Include-ID:/Keil5/Keil/STM32F4xx_DFP/2.17.1/Drivers/CMSIS/Device/ST/STM32F4xx/Include-D__UVISION_VERSION="532" -D_RTE_ -DSTM32F407xx -D_RTE_ -DUSE_HAL_DRIVER -DSTM32F407xx-o sg_gimbal_c_2025_2_7/heat_detector.o -MD)
-I (..\User\..\User\APP\Heat_Detector\Heat_Detector.hpp)(0x682025A3)
+I (..\User\..\User\APP\Heat_Detector\Heat_Detector.hpp)(0x6823BCCB)
 I (..\User\..\User\Algorithm\FSM\alg_fsm.hpp)(0x6800619B)
 I (D:\Keil5\ARM\ARMCLANG\include\libcxx\stdint.h)(0x5E0BB2B8)
 I (D:\Keil5\ARM\ARMCLANG\include\libcxx\__config)(0x5E3336D2)
@@ -2403,8 +2403,8 @@ I (..\User\Task\..\BSP\Motor\Dji\..\MotorBase.hpp)(0x681B5911)
 I (..\Middlewares\Third_Party\FreeRTOS\Source\CMSIS_RTOS_V2\cmsis_os2.h)(0x66FB9AB4)
 I (..\Core\Inc\tim.h)(0x680D03F2)
 F (..\User\Task\ShootTask.cpp)(0x6822BEC7)(-xc++ -std=c++17 --target=arm-arm-none-eabi -mcpu=cortex-m4 -mfpu=fpv4-sp-d16 -mfloat-abi=hard -c-fno-rtti -funsigned-char -fno-exceptions-gdwarf-3 -O1 -ffunction-sections -Wno-packed -Wno-missing-variable-declarations -Wno-missing-prototypes -Wno-missing-noreturn -Wno-sign-conversion -Wno-nonportable-include-path -Wno-reserved-id-macro -Wno-unused-macros -Wno-documentation-unknown-command -Wno-documentation -Wno-license-management -Wno-parentheses-equality -I ../Core/Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I ../Middlewares/Third_Party/FreeRTOS/Source/include -I ../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2 -I ../Middlewares/Third_Party/FreeRTOS/Source/portable/RVDS/ARM_CM4F -I ../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I ../Drivers/CMSIS/Include -I ../User -I ../USB_DEVICE/App -I ../USB_DEVICE/Target -I ../Middlewares/ST/STM32_USB_Device_Library/Core/Inc -I ../Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Inc-I./RTE/_SG_GIMBAL_C_2025_2_7-ID:/Keil5/ARM/CMSIS/5.7.0/CMSIS/Core/Include-ID:/Keil5/Keil/STM32F4xx_DFP/2.17.1/Drivers/CMSIS/Device/ST/STM32F4xx/Include-D__UVISION_VERSION="532" -D_RTE_ -DSTM32F407xx -D_RTE_ -DUSE_HAL_DRIVER -DSTM32F407xx-o sg_gimbal_c_2025_2_7/shoottask.o -MD)
-I (..\User\Task\..\Task\ShootTask.hpp)(0x6821CDEB)
-I (..\User\Task\..\APP\Heat_Detector\Heat_Detector.hpp)(0x682025A3)
+I (..\User\Task\..\Task\ShootTask.hpp)(0x6823BCD7)
+I (..\User\Task\..\APP\Heat_Detector\Heat_Detector.hpp)(0x6823BCCB)
 I (..\User\..\User\Algorithm\FSM\alg_fsm.hpp)(0x6800619B)
 I (D:\Keil5\ARM\ARMCLANG\include\libcxx\stdint.h)(0x5E0BB2B8)
 I (D:\Keil5\ARM\ARMCLANG\include\libcxx\__config)(0x5E3336D2)
@@ -2638,8 +2638,8 @@ I (D:\Keil5\ARM\ARMCLANG\include\libcxx\cmath)(0x5E0BB2B8)
 I (..\User\..\User\BSP\SimpleKey\SimpleKey.hpp)(0x681B5911)
 I (..\User\..\User\Task\..\Algorithm\PID.hpp)(0x681D302C)
 I (..\User\..\User\Task\..\Algorithm\..\BSP\stdxxx.hpp)(0x678CD51C)
-I (..\User\..\User\Task\ShootTask.hpp)(0x6821CDEB)
-I (..\User\..\User\Task\..\APP\Heat_Detector\Heat_Detector.hpp)(0x682025A3)
+I (..\User\..\User\Task\ShootTask.hpp)(0x6823BCD7)
+I (..\User\..\User\Task\..\APP\Heat_Detector\Heat_Detector.hpp)(0x6823BCCB)
 I (..\User\..\User\Algorithm\FSM\alg_fsm.hpp)(0x6800619B)
 I (..\User\..\User\Algorithm\SlidingWindow\SlidingWindow.hpp)(0x681B5911)
 I (..\User\..\User\BSP\DWT\DWT.hpp)(0x681326C4)
