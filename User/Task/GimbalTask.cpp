@@ -60,14 +60,11 @@ void Gimbal::UpState()
     // 获取当前角度值
     auto cur_angle = BSP::IMU::imu.getAddYaw();
 
-    DM_state.update(Now_Status_Serial == GIMBAL::DISABLE);
-    vision_state.update(Now_Status_Serial == GIMBAL::VISION);
-
     switch (Now_Status_Serial)
     {
     case (GIMBAL::DISABLE): {
 
-        // 如果失能则让期望值等于实际值pp
+        // 如果失能则让期望值等于实际值
         filter_tar_yaw_pos = BSP::IMU::imu.getAddYaw();
         filter_tar_yaw_vel = BSP::IMU::imu.getGyroZ();
 
@@ -160,15 +157,17 @@ void Gimbal::yawControl()
 
     //        Tools.vofaSend(adrc_yaw_vel.getZ1(), cur_vel, pid_yaw_angle.getOut(), cur_angle, gimbal_data.getTarYaw(),
     //                       tar_yaw.x2);
-//            Tools.vofaSend(cur_angle, filter_tar_yaw_pos, Communicat::vision.getVisionYaw(),
-//                           Communicat::vision.getVisionFlag(), Communicat::vision.getTarYaw());
-//        Tools.vofaSend(filter_tar_pitch, BSP::Motor::DM::Motor4310.getAngleDeg(1), cur_angle, filter_tar_yaw_pos, 0,
-//                       0);
+    //            Tools.vofaSend(cur_angle, filter_tar_yaw_pos, Communicat::vision.getVisionYaw(),
+    //                           Communicat::vision.getVisionFlag(), Communicat::vision.getTarYaw());
+    //        Tools.vofaSend(filter_tar_pitch, BSP::Motor::DM::Motor4310.getAngleDeg(1), cur_angle, filter_tar_yaw_pos,
+    //        0,
+    //                       0);
 }
 
 void Gimbal::pitchControl()
 {
     using namespace APP::Data;
+
     if (Now_Status_Serial == GIMBAL::DISABLE)
     {
         BSP::Motor::DM::Motor4310.ctrl_Motor(&hcan2, 1, 0, 0, 0, 0, 0);

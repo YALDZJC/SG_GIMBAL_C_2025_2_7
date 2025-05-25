@@ -27,15 +27,14 @@ void RemoteSwitchTask(void *argument)
         auto *remote = Mode::RemoteModeManager::Instance().getActiveController();
         remote->update();
 
-        auto &mini = BSP::Remote::Mini::Instance();
-        // 更新按键状态
+        // 更新键盘状态
         APP::Key::KeyBroad::Instance().Update(remote->getKeybroad());
 
         keyBoradUpdata();
         BoosterUpState();
         GimbalUpState();
 
-        osDelay(5); // 遥控器更新频率为70hz
+        osDelay(5);
     }
 }
 int8_t shift;
@@ -68,8 +67,7 @@ void keyBoradUpdata()
     // 一键掉头
     auto X = KeyBroad::Instance().getKeyClick(KeyBroad::KEY_X);
 
-	auto C = KeyBroad::Instance().getKeyClick(KeyBroad::KEY_C);
-
+    auto C = KeyBroad::Instance().getKeyClick(KeyBroad::KEY_C);
 
     //   前进后退
     if (W)
@@ -103,16 +101,16 @@ void keyBoradUpdata()
     // 减功率
     if (V)
         Gimbal_to_Chassis_Data.setPower(-10);
-	
-	if(C)
-		Gimbal_to_Chassis_Data.setFly(100);
-	
+
+    if (C)
+        Gimbal_to_Chassis_Data.setFly(100);
+
     // 刷新
     if (CTRL)
-	{
+    {
         Gimbal_to_Chassis_Data.set_UIF5(CTRL);
-		Gimbal_to_Chassis_Data.setFly(0);
-	}
+        Gimbal_to_Chassis_Data.setFly(0);
+    }
 
     if (X)
     {
@@ -168,11 +166,9 @@ void BoosterUpState()
         TASK::Shoot::shoot_fsm.setNowStatus(TASK::Shoot::Booster_Status::AUTO);
     }
 }
-uint8_t is_connected;
 void GimbalUpState()
 {
     auto *remote = Mode::RemoteModeManager::Instance().getActiveController();
-	is_connected = remote->isConnected();
     if (remote->isStopMode())
     {
         TASK::GIMBAL::gimbal.setNowStatus(TASK::GIMBAL::DISABLE);

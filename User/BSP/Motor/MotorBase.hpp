@@ -14,7 +14,7 @@ template <uint8_t N> class MotorBase
         double angle_Deg; // 单位度角度
         double angle_Rad; // 单位弧度角度
 
-        double velocity_Rad; // 单位弧度速度
+        double velocity_Rad; // 单位弧度
         double velocity_Rpm; // 单位rpm
 
         double current_A;     // 单位安培

@@ -103,6 +103,21 @@ class SimpleKey
     }
 
   private:
+    static constexpr uint32_t LONG_PRESS_THRESHOLD = 500; // 长按判定阈值(ms)
+
+    // 按键基本状态
+    bool nowKey;        // 当前按键状态
+    bool lastKey;       // 上一次按键状态
+    uint32_t pressTime; // 按下时刻
+
+    // 功能状态
+    bool isLongPressDetected; // 长按检测标志
+    bool toggleState;         // 开关状态
+    bool isClick;             // 点击标志（内部使用）
+    bool clickState;          // 点击状态（外部读取）
+    bool risingEdge;          // 上升沿
+    bool fallingEdge;         // 下降沿
+
     // 按键按下时的处理
     void onKeyPress()
     {
@@ -131,22 +146,6 @@ class SimpleKey
             isLongPressDetected = true;
         }
     }
-
-  private:
-    static constexpr uint32_t LONG_PRESS_THRESHOLD = 500; // 长按判定阈值(ms)
-
-    // 按键基本状态
-    bool nowKey;        // 当前按键状态
-    bool lastKey;       // 上一次按键状态
-    uint32_t pressTime; // 按下时刻
-
-    // 功能状态
-    bool isLongPressDetected; // 长按检测标志
-    bool toggleState;         // 开关状态
-    bool isClick;             // 点击标志（内部使用）
-    bool clickState;          // 点击状态（外部读取）
-    bool risingEdge;          // 上升沿
-    bool fallingEdge;         // 下降沿
 };
 
 } // namespace BSP::Key
